@@ -1,10 +1,12 @@
 import React from 'react';
-import { Image, Text, View } from 'react-native'
-import { Col, Row, Grid } from "react-native-easy-grid";
+import { Image, Text } from 'react-native'
+import { Col, Row } from "react-native-easy-grid";
 import { Card } from 'react-native-elements'
 import CircularImage from '../Images/CircularImage';
 import { getMoment } from '../utils'
 const profile_default_image = require('../../assets/images/default.png');
+import Icon from 'react-native-vector-icons/FontAwesome'
+
 
 
 export default function PostItem({ post }) {
@@ -39,14 +41,26 @@ export default function PostItem({ post }) {
                     <CircularImage style={null} image={profile_default_image} size="xsmall" />
 
                     <Text style={{ margin: 6, fontWeight: 'bold' }}>Irfan Irfi</Text>
+                    <Icon name="user-plus" color="skyblue" size={14} style={{ alignSelf: 'center', marginLeft: 6 }} />
                 </Col>
 
             </Row>
+
+
+
 
             <Row>
                 <Col>
                     <Text style={{ margin: 6, color: 'gray' }}>{"2020-12-04 15:52:00"}</Text>
                 </Col>
+            </Row>
+
+            <Row>
+                <Col style={{ flexDirection: 'row', marginVertical: 8 }}>
+                    <Icon name="heart" color="gray" size={20} style={{ alignSelf: 'center', marginLeft: 6 }} />
+                    <Icon name="comments" color="gray" size={23} style={{ alignSelf: 'center', marginLeft: 26, marginBottom: 3 }} />
+                </Col>
+
             </Row>
         </Card>
     )
