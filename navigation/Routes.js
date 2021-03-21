@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, TouchableOpacity } from 'react-native';
 const Tab = createBottomTabNavigator();
 import Home from '../screens/Home';
+import BooksTab from '../screens/BooksTab';
 import Settings from '../screens/Settings';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import colors from '../constants/colors'
@@ -50,7 +51,9 @@ function BottomNavigation() {
       <Tab.Screen name="Feed" component={Home} options={{
         tabBarIcon: ({ color }) => <Icon name="home" color={color} size={28} />,
       }} />
-      {/* <Tab.Screen name="Swaps" component={() => <Text>swaps</Text>} /> */}
+      <Tab.Screen name="Books" component={BooksTab} options={{
+        tabBarIcon: ({ color }) => <Icon name="book" color={color} size={28} />,
+      }} />
       <Tab.Screen name="Create" component={Settings} options={{
         tabBarIcon: ({ color }) => <Icon name="plus" color={color} size={28} />,
       }} />
