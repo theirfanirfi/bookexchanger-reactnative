@@ -2,14 +2,11 @@ import React from 'react';
 import { Image, Text } from 'react-native'
 import { Col, Row } from "react-native-easy-grid";
 import { Card, Button } from 'react-native-elements'
-import CircularImage from '../Images/CircularImage';
-import { getMoment } from '../utils'
-const profile_default_image = require('../../assets/images/default.png');
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 
 
-export default function BookItem({ book }) {
+export default function BookItem({ book, isApiCall = false }) {
     return (
         <Card containerStyle={{ borderWidth: 0.4, borderColor: 'white', margin: 2 }}>
             <Row>
@@ -38,17 +35,74 @@ export default function BookItem({ book }) {
 
                     <Row>
                         <Col>
-                            <Button
-                                title="Add to list" icon={
-                                    <Icon
-                                        name="plus-circle"
-                                        size={20}
-                                        color="skyblue"
-                                        style={{ marginHorizontal: 8 }}
-                                    />
-                                }
-                                type="outline"
-                                containerStyle={{ marginHorizontal: 12 }} />
+                            <Row>
+                                <Col>
+                                    <Button
+                                        title="Add to list" icon={
+                                            <Icon
+                                                name="plus-circle"
+                                                size={20}
+                                                color="skyblue"
+                                                style={{ marginHorizontal: 4 }}
+                                            />
+                                        }
+                                        type="outline"
+                                        containerStyle={{ marginHorizontal: 2 }} />
+                                </Col>
+                            </Row>
+
+                            {isApiCall ? (
+
+
+                                <Row>
+
+                                    <Col>
+                                        <Button
+                                            title="Add" icon={
+                                                <Icon
+                                                    name="plus-circle"
+                                                    size={20}
+                                                    color="skyblue"
+                                                    style={{ marginHorizontal: 4 }}
+                                                />
+                                            }
+                                            type="outline"
+                                            containerStyle={{ marginHorizontal: 2 }} />
+                                    </Col>
+                                </Row>
+
+                            ) : (
+                                <Row style={{ marginVertical: 4 }}>
+                                    <Col>
+                                        <Button
+                                            title="Exchange" icon={
+                                                <Icon
+                                                    name="retweet"
+                                                    size={20}
+                                                    color="skyblue"
+                                                    style={{ marginHorizontal: 4 }}
+                                                />
+                                            }
+                                            type="outline"
+                                            containerStyle={{ marginHorizontal: 2 }} />
+                                    </Col>
+                                    <Col>
+                                        <Button
+                                            title="Delete" icon={
+                                                <Icon
+                                                    name="trash"
+                                                    size={20}
+                                                    color="skyblue"
+                                                    style={{ marginHorizontal: 4 }}
+                                                />
+                                            }
+                                            type="outline"
+                                            containerStyle={{ marginHorizontal: 2 }} />
+                                    </Col>
+                                </Row>
+
+                            )}
+
                         </Col>
 
                     </Row>

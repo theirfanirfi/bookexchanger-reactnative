@@ -3,7 +3,6 @@ import { View, FlatList } from 'react-native';
 import colors from '../constants/colors'
 import BookItem from '../components/Books/BookItem'
 import { Input } from 'react-native-elements'
-import { FloatingAction } from "react-native-floating-action";
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 
@@ -45,18 +44,10 @@ const data = [
     }
 ];
 
-const actions = [
-    {
-        text: "Add Book",
-        icon: <Icon name="plus" color="white" />,
-        name: "add_book",
-        position: 1
-    },
-];
 
 
 
-class BooksTab extends React.Component {
+class AddBook extends React.Component {
 
     listHeader = () => {
         return (
@@ -70,23 +61,11 @@ class BooksTab extends React.Component {
                     data={data}
                     ListHeaderComponent={this.listHeader}
                     keyExtractor={(item) => { return item.id }}
-                    renderItem={({ item }) => <BookItem book={item} isApiCall={false} />}
+                    renderItem={({ item }) => <BookItem book={item} isApiCall={true} />}
 
-                />
-
-                <FloatingAction
-                    actions={actions}
-                    onPressItem={name => {
-                        switch (name) {
-                            case 'add_book':
-                                this.props.navigation.navigate('addbook');
-                                break;
-                        }
-                        console.log(`selected button: ${name}`);
-                    }}
                 />
             </View>
         );
     }
 }
-export default BooksTab;
+export default AddBook;

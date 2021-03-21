@@ -3,4 +3,5 @@ export default {
     secondary: '#fff',
     screenBackgroundColor: '#fff',
     headerTextColor: '#3e3b3b'
+
 }

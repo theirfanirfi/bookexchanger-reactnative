@@ -38,7 +38,7 @@ export default function PostItem({ post }) {
 
             <Row>
                 <Col style={{ flexDirection: 'row', marginVertical: 8 }}>
-                    <CircularImage style={null} image={profile_default_image} size="xsmall" />
+                    <CircularImage style={null} image={null} size="xsmall" />
 
                     <Text style={{ margin: 6, fontWeight: 'bold' }}>Irfan Irfi</Text>
                     <Icon name="user-plus" color="skyblue" size={14} style={{ alignSelf: 'center', marginLeft: 6 }} />

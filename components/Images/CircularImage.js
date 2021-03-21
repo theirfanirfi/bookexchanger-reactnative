@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image } from 'react-native'
+const profile_default_image = require('../../assets/images/default.png');
 
 export default function CircularImage({ image, style, size }) {
     const getSize = (style, size) => {
@@ -24,7 +25,15 @@ export default function CircularImage({ image, style, size }) {
             return style;
         }
     }
+
+    const getImage = (img) => {
+        if (img == null) {
+            return profile_default_image;
+        } else {
+            return { "uri": img }
+        }
+    }
     return (
-        <Image source={image} style={getSize(style, size)} />
+        <Image source={getImage(image)} style={getSize(style, size)} />
     )
 }

@@ -2,9 +2,15 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, TouchableOpacity } from 'react-native';
 const Tab = createBottomTabNavigator();
+
+
 import Home from '../screens/Home';
 import BooksTab from '../screens/BooksTab';
+import ListsTab from '../screens/ListsTab';
+import AddBook from '../screens/AddBook';
 import Settings from '../screens/Settings';
+
+
 import Icon from 'react-native-vector-icons/FontAwesome'
 import colors from '../constants/colors'
 import LogoText from '../components/header/LogoText'
@@ -13,47 +19,42 @@ const profile_default_image = require('../assets/images/default.png');
 
 
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
+import HeaderLeft from '../components/header/HeaderLeft';
+import HeaderRight from '../components/header/HeaderRight';
 
 function BottomNavigation() {
   return (
-    <Tab.Navigator initialRouteName="Feed" tabBarOptions={{
+    <Tab.Navigator lazy={true} initialRouteName="Feed" tabBarOptions={{
       activeTintColor: '#fff',
       inactiveTintColor: 'gray',
       style: { backgroundColor: colors.headerTextColor },
-
-    }} screenOptions={{
-      gestureEnabled: true,
-      gestureDirection: 'horizontal',
-      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-      headerTitleStyle: { color: 'white' },
-      headerStyle: { backgroundColor: colors.secondary },
-      headerBackTitleStyle: { color: 'white' },
-      headerTintColor: 'white',
-      headerLeft: () => (
-        <Text>Working</Text>
-      ),
-      headerRight: () => (
-        <View style={{ flexDirection: 'row' }}>
-          {/* <Bell navigation={navigator.navigation} /> */}
-          <Icon
-            onPress={() => {
-              navigator.navigation.navigate('EditProfile')
-            }}
-            name="user-circle-o"
-            color="white"
-            size={30}
-            style={{ marginRight: 14 }}
+      headerLeft: () => {
+        return (
+          <CircularImage image={null}
+            style={null}
+            size="small"
           />
-        </View>
-      )
+        )
+      },
     }}
+      screenOptions={{
+        gestureEnabled: true,
+        gestureDirection: 'horizontal',
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      }}
     >
-      <Tab.Screen name="Feed" component={Home} options={{
+      <Tab.Screen name="Feed" component={HomePostNavigator} options={{
         tabBarIcon: ({ color }) => <Icon name="home" color={color} size={28} />,
       }} />
-      <Tab.Screen name="Books" component={BooksTab} options={{
+      <Tab.Screen name="Books" component={BooksNavigator} options={{
         tabBarIcon: ({ color }) => <Icon name="book" color={color} size={28} />,
       }} />
+
+      <Tab.Screen name="Lists" component={ListNavigator} options={{
+        tabBarIcon: ({ color }) => <Icon name="list" color={color} size={28} />,
+      }} />
+
+
       <Tab.Screen name="Create" component={Settings} options={{
         tabBarIcon: ({ color }) => <Icon name="plus" color={color} size={28} />,
       }} />
@@ -76,9 +77,9 @@ function AuthNavigator() {
   )
 }
 
-export default function RootNavigator() {
+function HomePostNavigator(navigator) {
   return (
-    <Stack.Navigator initialRouteName="root" screenOptions={{
+    <Stack.Navigator initialRouteName="home" screenOptions={{
       headerStyle: { elevation: 0, shadowOpacity: 0, },
       headerTitleStyle: { alignSelf: 'center' },
       headerTitle: () => {
@@ -86,15 +87,8 @@ export default function RootNavigator() {
           <LogoText />
         )
       },
-      headerLeft: () => {
-        return (
-          <CircularImage image={profile_default_image}
-            style={null}
-            size="small"
-          />
-        )
-      },
-      headerRight: () => {
+      headerLeft: (nav) => <HeaderLeft nav={nav} navigator={navigator} />,
+      headerRight: (nav) => {
         return (
           <TouchableOpacity style={{ marginRight: 12 }}>
             <Icon name="search" size={25} color="#3e3b3b" />
@@ -103,6 +97,67 @@ export default function RootNavigator() {
         )
       },
     }}>
+      <Stack.Screen name="home" component={Home} />
+    </Stack.Navigator>
+  )
+}
+
+function ListNavigator(navigator) {
+  return (
+    <Stack.Navigator initialRouteName="list" screenOptions={{
+      headerStyle: { elevation: 0, shadowOpacity: 0, },
+      headerTitleStyle: { alignSelf: 'center' },
+      headerTitle: () => {
+        return (
+          <LogoText />
+        )
+      },
+      headerLeft: (nav) => <HeaderLeft nav={nav} navigator={navigator} />,
+      headerRight: (nav) => {
+        return (
+          <TouchableOpacity style={{ marginRight: 12 }}>
+            <Icon name="search" size={25} color="#3e3b3b" />
+
+          </TouchableOpacity>
+        )
+      },
+    }}>
+      <Stack.Screen name="list" component={ListsTab} />
+    </Stack.Navigator>
+  )
+}
+
+
+function BooksNavigator(navigator) {
+  return (
+    <Stack.Navigator initialRouteName="books" screenOptions={{
+      headerStyle: { elevation: 0, shadowOpacity: 0, },
+      headerTitleStyle: { alignSelf: 'center' },
+      headerTitle: () => {
+        return (
+          <LogoText />
+        )
+      },
+
+      headerRight: () => {
+        return (
+          <TouchableOpacity style={{ marginRight: 12 }}>
+            <Icon name="search" size={25} color="#3e3b3b" />
+
+          </TouchableOpacity>
+        )
+      },
+      headerLeft: (nav) => <HeaderLeft nav={nav} navigator={navigator} />
+    }}>
+      <Stack.Screen name="books" component={BooksTab} />
+      <Stack.Screen name="addbook" component={AddBook} />
+    </Stack.Navigator>
+  )
+}
+
+export default function RootNavigator() {
+  return (
+    <Stack.Navigator initialRouteName="root" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="splash" component={Home} options={{ headerShown: false }} />
       <Stack.Screen name="root" component={BottomNavigation} />
       <Stack.Screen name="auth" component={AuthNavigator} />
