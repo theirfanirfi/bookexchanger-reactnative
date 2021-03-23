@@ -9,6 +9,7 @@ import BooksTab from '../screens/BooksTab';
 import ListsTab from '../screens/ListsTab';
 import AddBook from '../screens/AddBook';
 import Settings from '../screens/Settings';
+import CreatePost from '../screens/CreatePost';
 
 
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -21,6 +22,29 @@ const profile_default_image = require('../assets/images/default.png');
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import HeaderLeft from '../components/header/HeaderLeft';
 import HeaderRight from '../components/header/HeaderRight';
+
+function headerOptions(navigator) {
+  return (
+    {
+      headerStyle: { elevation: 0, shadowOpacity: 0, },
+      headerTitleStyle: { alignSelf: 'center' },
+      headerTitle: () => {
+        return (
+          <LogoText />
+        )
+      },
+      headerLeft: (nav) => <HeaderLeft nav={nav} navigator={navigator} />,
+      headerRight: (nav) => {
+        return (
+          <TouchableOpacity style={{ marginRight: 12 }}>
+            <Icon name="search" size={25} color="#3e3b3b" />
+
+          </TouchableOpacity>
+        )
+      },
+    }
+  )
+}
 
 function BottomNavigation() {
   return (
@@ -55,7 +79,7 @@ function BottomNavigation() {
       }} />
 
 
-      <Tab.Screen name="Create" component={Settings} options={{
+      <Tab.Screen name="Create" component={CreatePostNavigator} options={{
         tabBarIcon: ({ color }) => <Icon name="plus" color={color} size={28} />,
       }} />
       {/*<Tab.Screen name="Clubs" component={Settings} />*/}
@@ -77,26 +101,18 @@ function AuthNavigator() {
   )
 }
 
+
+function CreatePostNavigator(navigator) {
+  return (
+    <Stack.Navigator initialRouteName="create" screenOptions={headerOptions(navigator)}>
+      <Stack.Screen name="create" component={CreatePost} />
+    </Stack.Navigator>
+  )
+}
+
 function HomePostNavigator(navigator) {
   return (
-    <Stack.Navigator initialRouteName="home" screenOptions={{
-      headerStyle: { elevation: 0, shadowOpacity: 0, },
-      headerTitleStyle: { alignSelf: 'center' },
-      headerTitle: () => {
-        return (
-          <LogoText />
-        )
-      },
-      headerLeft: (nav) => <HeaderLeft nav={nav} navigator={navigator} />,
-      headerRight: (nav) => {
-        return (
-          <TouchableOpacity style={{ marginRight: 12 }}>
-            <Icon name="search" size={25} color="#3e3b3b" />
-
-          </TouchableOpacity>
-        )
-      },
-    }}>
+    <Stack.Navigator initialRouteName="home" screenOptions={headerOptions(navigator)}>
       <Stack.Screen name="home" component={Home} />
     </Stack.Navigator>
   )
@@ -104,24 +120,7 @@ function HomePostNavigator(navigator) {
 
 function ListNavigator(navigator) {
   return (
-    <Stack.Navigator initialRouteName="list" screenOptions={{
-      headerStyle: { elevation: 0, shadowOpacity: 0, },
-      headerTitleStyle: { alignSelf: 'center' },
-      headerTitle: () => {
-        return (
-          <LogoText />
-        )
-      },
-      headerLeft: (nav) => <HeaderLeft nav={nav} navigator={navigator} />,
-      headerRight: (nav) => {
-        return (
-          <TouchableOpacity style={{ marginRight: 12 }}>
-            <Icon name="search" size={25} color="#3e3b3b" />
-
-          </TouchableOpacity>
-        )
-      },
-    }}>
+    <Stack.Navigator initialRouteName="list" screenOptions={headerOptions(navigator)}>
       <Stack.Screen name="list" component={ListsTab} />
     </Stack.Navigator>
   )
@@ -130,25 +129,7 @@ function ListNavigator(navigator) {
 
 function BooksNavigator(navigator) {
   return (
-    <Stack.Navigator initialRouteName="books" screenOptions={{
-      headerStyle: { elevation: 0, shadowOpacity: 0, },
-      headerTitleStyle: { alignSelf: 'center' },
-      headerTitle: () => {
-        return (
-          <LogoText />
-        )
-      },
-
-      headerRight: () => {
-        return (
-          <TouchableOpacity style={{ marginRight: 12 }}>
-            <Icon name="search" size={25} color="#3e3b3b" />
-
-          </TouchableOpacity>
-        )
-      },
-      headerLeft: (nav) => <HeaderLeft nav={nav} navigator={navigator} />
-    }}>
+    <Stack.Navigator initialRouteName="books" screenOptions={headerOptions(navigator)}>
       <Stack.Screen name="books" component={BooksTab} />
       <Stack.Screen name="addbook" component={AddBook} />
     </Stack.Navigator>

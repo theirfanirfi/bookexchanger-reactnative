@@ -8,26 +8,26 @@ import { Col, Row } from "react-native-easy-grid";
 
 const data = [
     {
-        "id": 1,
+        "id": '1',
         "list_name": 'My list 1',
     },
     {
-        "id": 2,
+        "id": '2',
         "list_name": 'My list 2',
 
     },
     {
-        "id": 3,
+        "id": '3',
         "list_name": 'My list 3',
 
     },
     {
-        "id": 4,
+        "id": '4',
         "list_name": 'My list 4',
 
     }
     , {
-        "id": 5,
+        "id": '5',
         "list_name": 'My list 5'
 
     }
