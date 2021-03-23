@@ -104,7 +104,7 @@ function AuthNavigator() {
 
 function CreatePostNavigator(navigator) {
   return (
-    <Stack.Navigator initialRouteName="create" screenOptions={headerOptions(navigator)}>
+    <Stack.Navigator initialRouteName="create" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="create" component={CreatePost} />
     </Stack.Navigator>
   )
