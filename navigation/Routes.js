@@ -22,6 +22,7 @@ const profile_default_image = require('../assets/images/default.png');
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import HeaderLeft from '../components/header/HeaderLeft';
 import HeaderRight from '../components/header/HeaderRight';
+import Chats from '../screens/Chats';
 
 function headerOptions(navigator) {
   return (
@@ -74,14 +75,20 @@ function BottomNavigation() {
         tabBarIcon: ({ color }) => <Icon name="book" color={color} size={28} />,
       }} />
 
+      <Tab.Screen name="Create" component={CreatePostNavigator} options={{
+        tabBarIcon: ({ color }) => <Icon name="plus" color={color} size={28} />,
+      }} />
+
       <Tab.Screen name="Lists" component={ListNavigator} options={{
         tabBarIcon: ({ color }) => <Icon name="list" color={color} size={28} />,
       }} />
 
-
-      <Tab.Screen name="Create" component={CreatePostNavigator} options={{
-        tabBarIcon: ({ color }) => <Icon name="plus" color={color} size={28} />,
+      <Tab.Screen name="chats" component={ChatsNavigator} options={{
+        tabBarIcon: ({ color }) => <Icon name="comment" color={color} size={28} />,
       }} />
+
+
+
       {/*<Tab.Screen name="Clubs" component={Settings} />*/}
       {/*<Tab.Screen name="Chat" component={Settings} />*/}
     </Tab.Navigator>
@@ -106,6 +113,14 @@ function CreatePostNavigator(navigator) {
   return (
     <Stack.Navigator initialRouteName="create" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="create" component={CreatePost} />
+    </Stack.Navigator>
+  )
+}
+
+function ChatsNavigator(navigator) {
+  return (
+    <Stack.Navigator initialRouteName="chats" screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="chats" component={Chats} />
     </Stack.Navigator>
   )
 }
