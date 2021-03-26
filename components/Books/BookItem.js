@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Text } from 'react-native'
+import { Image, Text, TouchableOpacity } from 'react-native'
 import { Col, Row } from "react-native-easy-grid";
 import { Card, Button, Icon } from 'react-native-elements'
 
@@ -32,7 +32,15 @@ export default function BookItem({ book, isApiCall = false }) {
                             <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12, marginLeft: 3 }}>Today</Text>
 
                         </Col>
+                        <Row>
+                            <Col>
+                                <TouchableOpacity>
+                                    <Icon name="repeat-outline" type="ionicon" size={26} />
+                                </TouchableOpacity>
+                            </Col>
+                        </Row>
                     </Row>
+
 
 
                 </Col>
