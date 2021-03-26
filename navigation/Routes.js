@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, Image } from 'react-native';
 const Tab = createBottomTabNavigator();
 
 
@@ -12,7 +12,7 @@ import Settings from '../screens/Settings';
 import CreatePost from '../screens/CreatePost';
 
 
-import Icon from 'react-native-vector-icons/FontAwesome'
+// import Icon from 'react-native-vector-icons/FontAwesome'
 import colors from '../constants/colors'
 import LogoText from '../components/header/LogoText'
 import CircularImage from '../components/Images/CircularImage'
@@ -21,25 +21,30 @@ const profile_default_image = require('../assets/images/default.png');
 
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import HeaderLeft from '../components/header/HeaderLeft';
+import HeaderLeftLocation from '../components/header/HeaderLeftLocation';
 import HeaderRight from '../components/header/HeaderRight';
 import Chats from '../screens/Chats';
+
+//bottomTabNav icons
+const HOME_TAB_ICON = require('../assets/icons/home.png')
+const CHAT_TAB_ICON = require('../assets/icons/chat.png')
+const STACK_TAB_ICON = require('../assets/icons/stack.png')
+const NOTIFICATION_TAB_ICON = require('../assets/icons/notification.png')
+const SEARCH_ICON = require('../assets/icons/explore.png')
+
+import { Icon } from 'react-native-elements'
 
 function headerOptions(navigator) {
   return (
     {
-      headerStyle: { elevation: 0, shadowOpacity: 0, },
+      headerStyle: { elevation: 0, shadowOpacity: 0, backgroundColor: '#7D4DFF', height: 60, },
       headerTitleStyle: { alignSelf: 'center' },
-      headerTitle: () => {
-        return (
-          <LogoText />
-        )
-      },
-      headerLeft: (nav) => <HeaderLeft nav={nav} navigator={navigator} />,
+      headerTitle: null,
+      headerLeft: (nav) => <HeaderLeftLocation nav={nav} navigator={navigator} />,
       headerRight: (nav) => {
         return (
           <TouchableOpacity style={{ marginRight: 12 }}>
-            <Icon name="search" size={25} color="#3e3b3b" />
-
+            <Icon name="notifications-outline" type="ionicon" color="white" size={28} />
           </TouchableOpacity>
         )
       },
@@ -47,12 +52,17 @@ function headerOptions(navigator) {
   )
 }
 
+function getTabIcon(icon) {
+  return <Image style={{ width: '30%', height: '75%' }} source={icon} />
+}
+
 function BottomNavigation() {
   return (
     <Tab.Navigator lazy={true} initialRouteName="Feed" tabBarOptions={{
-      activeTintColor: '#fff',
+      activeTintColor: '#7D4DFF',
       inactiveTintColor: 'gray',
-      style: { backgroundColor: colors.headerTextColor },
+
+      style: { backgroundColor: '#fff' },
       headerLeft: () => {
         return (
           <CircularImage image={null}
@@ -68,23 +78,23 @@ function BottomNavigation() {
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
-      <Tab.Screen name="Feed" component={HomePostNavigator} options={{
-        tabBarIcon: ({ color }) => <Icon name="home" color={color} size={28} />,
+      <Tab.Screen name="Home" component={HomePostNavigator} options={{
+        tabBarIcon: ({ color }) => <Icon name="home-outline" type='ionicon' color={color} size={25} />,
       }} />
-      <Tab.Screen name="Books" component={BooksNavigator} options={{
-        tabBarIcon: ({ color }) => <Icon name="book" color={color} size={28} />,
+      <Tab.Screen name="Explore" component={BooksNavigator} options={{
+        tabBarIcon: ({ color }) => <Icon name="book-outline" type='ionicon' color={color} size={28} />,
       }} />
 
       <Tab.Screen name="Create" component={CreatePostNavigator} options={{
-        tabBarIcon: ({ color }) => <Icon name="plus" color={color} size={28} />,
+        tabBarIcon: ({ color }) => <Icon name="pencil" type='evilicon' color={color} size={28} />,
       }} />
 
       <Tab.Screen name="Lists" component={ListNavigator} options={{
-        tabBarIcon: ({ color }) => <Icon name="list" color={color} size={28} />,
+        tabBarIcon: ({ color }) => <Icon name="file-tray-stacked-outline" type='ionicon' color={color} size={25} />,
       }} />
 
       <Tab.Screen name="chats" component={ChatsNavigator} options={{
-        tabBarIcon: ({ color }) => <Icon name="comment" color={color} size={28} />,
+        tabBarIcon: ({ color }) => <Icon name="comment" type='evilicon' color={color} size={28} />,
       }} />
 
 
@@ -119,7 +129,7 @@ function CreatePostNavigator(navigator) {
 
 function ChatsNavigator(navigator) {
   return (
-    <Stack.Navigator initialRouteName="chats" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="chats" screenOptions={{ headerStyle: { backgroundColor: '#7D4DFF' }, headerTitle: 'Chat', headerTitleStyle: { color: 'white' } }}>
       <Stack.Screen name="chats" component={Chats} />
     </Stack.Navigator>
   )

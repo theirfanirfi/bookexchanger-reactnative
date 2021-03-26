@@ -97,11 +97,8 @@ export default class Chats extends React.Component {
                     keyExtractor={(item) => { return item.id; }}
                     renderItem={({ item }) => (
                         <View style={{
-                            flex: 1, shadowColor: 'black', shadowOpacity: 0.3, padding: 10, borderRadius: 2,
-                            flexDirection: 'row', elevation: 3,
-                            marginHorizontal: 8, marginVertical: 8,
-                            borderColor: 'darkgray',
-                            borderWidth: Platform.OS == "ios" ? 0.3 : 0
+                            flex: 1, padding: 10,
+                            flexDirection: 'row',
                         }}>
 
                             <View style={{ flexDirection: 'column' }}>
@@ -140,18 +137,18 @@ export default class Chats extends React.Component {
 const styles = StyleSheet.create({
 
     image: {
-        width: 80,
-        height: 80,
+        width: 50,
+        height: 50,
         margin: 4,
-        borderRadius: 120
+        borderRadius: 50
 
     },
 
     title: {
-        fontSize: 15,
+        fontSize: 14,
         color: "#000",
-        fontWeight: 'bold',
-        marginTop: 20,
+        fontFamily: 'Roboto-Regular',
+        marginTop: 16,
     },
     description: {
         fontSize: 15,

@@ -1,8 +1,7 @@
 import React from 'react';
 import { Image, Text } from 'react-native'
 import { Col, Row } from "react-native-easy-grid";
-import { Card, Button } from 'react-native-elements'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import { Card, Button, Icon } from 'react-native-elements'
 
 
 
@@ -10,102 +9,31 @@ export default function BookItem({ book, isApiCall = false }) {
     return (
         <Card containerStyle={{ borderWidth: 0.4, borderColor: 'white', margin: 2 }}>
             <Row>
-                <Col style={{ width: 130 }}>
-                    <Image style={{ height: 150 }} source={{ uri: book.post_image }} />
+                <Col style={{ width: 100 }}>
+                    <Image style={{ height: 110, marginRight: 12 }} source={{ uri: book.post_image }} />
                 </Col>
 
                 <Col>
                     <Row>
                         <Col>
-                            <Text style={{ fontSize: 18, fontFamily: 'Roboto-Medium', margin: 6 }}>{book.post_title}</Text>
-                            <Text style={{ fontSize: 14, fontFamily: 'Roboto-Medium', margin: 6, color: 'black' }}>Irfan Irfi</Text>
+                            <Text style={{ fontSize: 14, fontFamily: 'Roboto-Medium', margin: 6 }}>{book.post_title}</Text>
+                            <Text style={{ fontSize: 12, fontFamily: 'Roboto-Light', marginLeft: 6, color: 'black' }}>by Irfan Irfi</Text>
 
                         </Col>
                     </Row>
                     <Row>
-                        <Col>
-                            <Text style={{
-                                textAlign: 'justify', fontSize: 14,
-                                color: 'gray',
-                                fontFamily: 'Roboto-Regular', margin: 6
-                            }}>{book.post_description.length > 100 ? book.post_description.substr(0, 100) + '...' : book.post_description}</Text>
+                        <Col style={{ flexDirection: 'row', width: '40%' }}>
+                            <Icon name="location-outline" type="ionicon" color="#96A787" size={14} />
+                            <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12 }}>6.7 Kms away</Text>
+                        </Col>
+                        <Col style={{ flexDirection: 'row' }}>
+
+                            <Icon name="person" type="ionicon" color="#96A787" size={14} />
+                            <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12, marginLeft: 3 }}>Today</Text>
 
                         </Col>
                     </Row>
 
-                    <Row>
-                        <Col>
-                            <Row>
-                                <Col>
-                                    <Button
-                                        title="Add to list" icon={
-                                            <Icon
-                                                name="plus-circle"
-                                                size={20}
-                                                color="skyblue"
-                                                style={{ marginHorizontal: 4 }}
-                                            />
-                                        }
-                                        type="outline"
-                                        containerStyle={{ marginHorizontal: 2 }} />
-                                </Col>
-                            </Row>
-
-                            {isApiCall ? (
-
-
-                                <Row>
-
-                                    <Col>
-                                        <Button
-                                            title="Add" icon={
-                                                <Icon
-                                                    name="plus-circle"
-                                                    size={20}
-                                                    color="skyblue"
-                                                    style={{ marginHorizontal: 4 }}
-                                                />
-                                            }
-                                            type="outline"
-                                            containerStyle={{ marginHorizontal: 2 }} />
-                                    </Col>
-                                </Row>
-
-                            ) : (
-                                <Row style={{ marginVertical: 4 }}>
-                                    <Col>
-                                        <Button
-                                            title="Exchange" icon={
-                                                <Icon
-                                                    name="retweet"
-                                                    size={20}
-                                                    color="skyblue"
-                                                    style={{ marginHorizontal: 4 }}
-                                                />
-                                            }
-                                            type="outline"
-                                            containerStyle={{ marginHorizontal: 2 }} />
-                                    </Col>
-                                    <Col>
-                                        <Button
-                                            title="Delete" icon={
-                                                <Icon
-                                                    name="trash"
-                                                    size={20}
-                                                    color="skyblue"
-                                                    style={{ marginHorizontal: 4 }}
-                                                />
-                                            }
-                                            type="outline"
-                                            containerStyle={{ marginHorizontal: 2 }} />
-                                    </Col>
-                                </Row>
-
-                            )}
-
-                        </Col>
-
-                    </Row>
 
                 </Col>
             </Row>
