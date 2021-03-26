@@ -1,12 +1,15 @@
 import React from 'react'
 import { GiftedChat, Message, Bubble, SystemMessage } from 'react-native-gifted-chat'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import base64 from 'react-native-base64';
+import { Icon } from 'react-native-elements'
+
 
 
 export default class Chat extends React.Component {
+
     state = {
         isLoggedIn: false,
         user: [],
@@ -17,6 +20,7 @@ export default class Chat extends React.Component {
         chat_with_id: 0,
         token: null,
     }
+
 
     getData = async () => {
         let isLoggedIn = await AsyncStorage.getItem('user').then(item => {
@@ -30,7 +34,19 @@ export default class Chat extends React.Component {
     }
 
     async componentDidMount() {
-        const { chat_with_id } = await this.props.route.params
+        // const { chat_with_id } = await this.props.route.params
+        this.props.navigation.setOptions({
+            headerTitle: 'Updated!',
+            headerTitleStyle: { fontSize: 16, color: 'white' },
+            headerRight: () => {
+                return (
+                    <View style={{ flexDirection: 'row' }}>
+                        <Icon name="checkmark-done-outline" type="ionicon" size={20} color="white" />
+                        <Icon name="person-outline" type="ionicon" size={20} color="white" style={{ marginLeft: 12, marginRight: 12 }} />
+                    </View>
+                )
+            }
+        })
         // this.getData()
         // await this.setState({ chat_with_id: chat_with_id });
         // const response = await getChatWithUser(this);
@@ -76,8 +92,11 @@ export default class Chat extends React.Component {
                 {...props}
 
                 textStyle={{
+                    left: {
+                        color: 'white'
+                    },
                     right: {
-                        color: 'white',
+                        color: 'black',
                     },
                 }}
                 wrapperStyle={{
@@ -85,7 +104,7 @@ export default class Chat extends React.Component {
                         backgroundColor: '#7D4DFF',
                     },
                     right: {
-                        backgroundColor: '#7D4DFF',
+                        backgroundColor: '#F6F6F6',
                     },
                 }}
             />

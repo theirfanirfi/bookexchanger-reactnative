@@ -102,7 +102,7 @@ export default class Chats extends React.Component {
                         }}  >
 
                             <View style={{ flexDirection: 'column' }}>
-                                <TouchableOpacity style={{ alignSelf: 'flex-start' }} onPress={() => this.props.navigation.navigate('Chat')}>
+                                <TouchableOpacity style={{ alignSelf: 'flex-start' }} onPress={() => this.props.navigation.navigate('Chat', { 'chat_id': 'some id' })}>
                                     <Image style={styles.image} source={profile_image} />
                                 </TouchableOpacity>
                             </View>
