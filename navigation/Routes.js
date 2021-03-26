@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text, TouchableOpacity, Image } from 'react-native';
+import { Text, TouchableOpacity, Image, View } from 'react-native';
 const Tab = createBottomTabNavigator();
 
 
@@ -10,6 +10,7 @@ import ListsTab from '../screens/ListsTab';
 import AddBook from '../screens/AddBook';
 import Settings from '../screens/Settings';
 import CreatePost from '../screens/CreatePost';
+import Chat from '../screens/Chat';
 
 
 // import Icon from 'react-native-vector-icons/FontAwesome'
@@ -43,9 +44,14 @@ function headerOptions(navigator) {
       headerLeft: (nav) => <HeaderLeftLocation nav={nav} navigator={navigator} />,
       headerRight: (nav) => {
         return (
-          <TouchableOpacity style={{ marginRight: 12 }}>
-            <Icon name="notifications-outline" type="ionicon" color="white" size={28} />
-          </TouchableOpacity>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity style={{ marginRight: 12 }}>
+              <Icon name="notifications-outline" type="ionicon" color="white" size={28} />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Icon name="search-outline" type="ionicon" color="white" size={28} style={{ marginHorizontal: 12 }} />
+            </TouchableOpacity>
+          </View>
         )
       },
     }
@@ -131,6 +137,7 @@ function ChatsNavigator(navigator) {
   return (
     <Stack.Navigator initialRouteName="chats" screenOptions={{ headerStyle: { backgroundColor: '#7D4DFF' }, headerTitle: 'Chat', headerTitleStyle: { color: 'white' } }}>
       <Stack.Screen name="chats" component={Chats} />
+      <Stack.Screen name="Chat" component={Chat} />
     </Stack.Navigator>
   )
 }
