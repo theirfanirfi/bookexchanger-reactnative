@@ -13,6 +13,8 @@ import CreatePost from '../screens/CreatePost';
 import Chat from '../screens/Chat';
 import Search from '../screens/Search';
 import Notifications from '../screens/Notifications';
+import LocationPicker from '../screens/LocationPicker';
+
 
 
 // import Icon from 'react-native-vector-icons/FontAwesome'
@@ -186,6 +188,14 @@ function notificationsNavigator(navigator) {
   )
 }
 
+function locationNavigator(navigator) {
+  return (
+    <Stack.Navigator initialRouteName="location" screenOptions={{ headerStyle: { backgroundColor: '#7D4DFF' }, headerTitle: 'Pick your location', headerTintColor: 'white' }}>
+      <Stack.Screen name="location" component={LocationPicker} />
+    </Stack.Navigator>
+  )
+}
+
 export default function RootNavigator() {
   return (
     <Stack.Navigator initialRouteName="root" screenOptions={{ headerShown: false }}>
@@ -194,6 +204,7 @@ export default function RootNavigator() {
       <Stack.Screen name="auth" component={AuthNavigator} />
       <Stack.Screen name="search" component={searchNavigator} />
       <Stack.Screen name="notifications" component={notificationsNavigator} />
+      <Stack.Screen name="location" component={locationNavigator} />
     </Stack.Navigator>
   )
 }
