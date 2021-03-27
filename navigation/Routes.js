@@ -14,6 +14,7 @@ import Chat from '../screens/Chat';
 import Search from '../screens/Search';
 import Notifications from '../screens/Notifications';
 import LocationPicker from '../screens/LocationPicker';
+import Profile from '../screens/Profile';
 
 
 
@@ -55,6 +56,10 @@ function headerOptions(navigator) {
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigator.navigation.navigate('search', { screen: 'search-app', params: { term: undefined } })}>
               <Icon name="search-outline" type="ionicon" color="white" size={28} style={{ marginHorizontal: 12 }} />
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => navigator.navigation.navigate('profile')}>
+              <Icon name="person-circle-outline" type="ionicon" color="white" size={28} style={{ marginHorizontal: 12 }} />
             </TouchableOpacity>
           </View>
         )
@@ -196,6 +201,14 @@ function locationNavigator(navigator) {
   )
 }
 
+function profileNavigator(navigator) {
+  return (
+    <Stack.Navigator initialRouteName="profile" screenOptions={{ headerStyle: { backgroundColor: '#7D4DFF' }, headerTitle: 'Profile', headerTintColor: 'white' }}>
+      <Stack.Screen name="profile" component={Profile} />
+    </Stack.Navigator>
+  )
+}
+
 export default function RootNavigator() {
   return (
     <Stack.Navigator initialRouteName="root" screenOptions={{ headerShown: false }}>
@@ -205,6 +218,7 @@ export default function RootNavigator() {
       <Stack.Screen name="search" component={searchNavigator} />
       <Stack.Screen name="notifications" component={notificationsNavigator} />
       <Stack.Screen name="location" component={locationNavigator} />
+      <Stack.Screen name="profile" component={profileNavigator} />
     </Stack.Navigator>
   )
 }
