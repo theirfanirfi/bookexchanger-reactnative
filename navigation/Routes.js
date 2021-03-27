@@ -11,6 +11,7 @@ import AddBook from '../screens/AddBook';
 import Settings from '../screens/Settings';
 import CreatePost from '../screens/CreatePost';
 import Chat from '../screens/Chat';
+import Search from '../screens/Search';
 
 
 // import Icon from 'react-native-vector-icons/FontAwesome'
@@ -24,6 +25,7 @@ import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/
 import HeaderLeft from '../components/header/HeaderLeft';
 import HeaderLeftLocation from '../components/header/HeaderLeftLocation';
 import HeaderRight from '../components/header/HeaderRight';
+import AppSearchHeader from '../components/header/AppSearchHeader';
 import Chats from '../screens/Chats';
 
 //bottomTabNav icons
@@ -33,7 +35,7 @@ const STACK_TAB_ICON = require('../assets/icons/stack.png')
 const NOTIFICATION_TAB_ICON = require('../assets/icons/notification.png')
 const SEARCH_ICON = require('../assets/icons/explore.png')
 
-import { Icon } from 'react-native-elements'
+import { Icon, Input } from 'react-native-elements'
 
 function headerOptions(navigator) {
   return (
@@ -48,7 +50,7 @@ function headerOptions(navigator) {
             <TouchableOpacity style={{ marginRight: 12 }}>
               <Icon name="notifications-outline" type="ionicon" color="white" size={28} />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigator.navigation.navigate('search', { screen: 'search-app', params: { term: undefined } })}>
               <Icon name="search-outline" type="ionicon" color="white" size={28} style={{ marginHorizontal: 12 }} />
             </TouchableOpacity>
           </View>
@@ -123,7 +125,13 @@ function AuthNavigator() {
     </Stack.Navigator>
   )
 }
-
+function searchNavigator(navigator) {
+  return (
+    <Stack.Navigator initialRouteName="search-app" screenOptions={AppSearchHeader(navigator)}>
+      <Stack.Screen name="search-app" component={Search} />
+    </Stack.Navigator>
+  )
+}
 
 function CreatePostNavigator(navigator) {
   return (
@@ -146,6 +154,7 @@ function HomePostNavigator(navigator) {
   return (
     <Stack.Navigator initialRouteName="home" screenOptions={headerOptions(navigator)}>
       <Stack.Screen name="home" component={Home} />
+
     </Stack.Navigator>
   )
 }
@@ -174,6 +183,7 @@ export default function RootNavigator() {
       <Stack.Screen name="splash" component={Home} options={{ headerShown: false }} />
       <Stack.Screen name="root" component={BottomNavigation} />
       <Stack.Screen name="auth" component={AuthNavigator} />
+      <Stack.Screen name="search" component={searchNavigator} />
     </Stack.Navigator>
   )
 }
