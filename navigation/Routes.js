@@ -12,6 +12,7 @@ import Settings from '../screens/Settings';
 import CreatePost from '../screens/CreatePost';
 import Chat from '../screens/Chat';
 import Search from '../screens/Search';
+import Notifications from '../screens/Notifications';
 
 
 // import Icon from 'react-native-vector-icons/FontAwesome'
@@ -47,7 +48,7 @@ function headerOptions(navigator) {
       headerRight: (nav) => {
         return (
           <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity style={{ marginRight: 12 }}>
+            <TouchableOpacity style={{ marginRight: 12 }} onPress={() => navigator.navigation.navigate('notifications')}>
               <Icon name="notifications-outline" type="ionicon" color="white" size={28} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigator.navigation.navigate('search', { screen: 'search-app', params: { term: undefined } })}>
@@ -143,7 +144,7 @@ function CreatePostNavigator(navigator) {
 
 function ChatsNavigator(navigator) {
   return (
-    <Stack.Navigator initialRouteName="chats" screenOptions={{ headerStyle: { backgroundColor: '#7D4DFF' }, headerTitle: 'Chat', headerTitleStyle: { color: 'white' } }}>
+    <Stack.Navigator initialRouteName="chats" screenOptions={{ headerStyle: { backgroundColor: '#7D4DFF' }, headerTitle: 'Chat', headerTintColor: 'white' }}>
       <Stack.Screen name="chats" component={Chats} />
       <Stack.Screen name="Chat" component={Chat} />
     </Stack.Navigator>
@@ -177,6 +178,14 @@ function BooksNavigator(navigator) {
   )
 }
 
+function notificationsNavigator(navigator) {
+  return (
+    <Stack.Navigator initialRouteName="notifications" screenOptions={{ headerStyle: { backgroundColor: '#7D4DFF' }, headerTitle: 'Notifications', headerTintColor: 'white' }}>
+      <Stack.Screen name="notifications" component={Notifications} />
+    </Stack.Navigator>
+  )
+}
+
 export default function RootNavigator() {
   return (
     <Stack.Navigator initialRouteName="root" screenOptions={{ headerShown: false }}>
@@ -184,6 +193,7 @@ export default function RootNavigator() {
       <Stack.Screen name="root" component={BottomNavigation} />
       <Stack.Screen name="auth" component={AuthNavigator} />
       <Stack.Screen name="search" component={searchNavigator} />
+      <Stack.Screen name="notifications" component={notificationsNavigator} />
     </Stack.Navigator>
   )
 }
