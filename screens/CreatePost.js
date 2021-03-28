@@ -126,7 +126,7 @@ class CreatePost extends React.Component {
                                 inputContainerStyle={{ borderBottomWidth: 0 }}
                                 style={{
                                     padding: 8,
-                                    borderWidth: 0.5,
+                                    borderBottomWidth: 0.5,
                                     borderColor: 'lightgray',
                                     borderRadius: 12
                                 }}
@@ -142,7 +142,7 @@ class CreatePost extends React.Component {
                                 height: 150,
                                 borderRadius: 12,
                                 marginHorizontal: 8,
-                                borderWidth: 1,
+                                borderBottomWidth: 0.5,
                                 borderColor: 'lightgray',
                                 justifyContent: 'center'
                             }}>
@@ -188,7 +188,7 @@ class CreatePost extends React.Component {
                                     height: 250,
                                     borderRadius: 12,
                                     marginVertical: 12,
-                                    borderWidth: 1,
+                                    borderBottomWidth: 0.5,
                                     borderColor: 'lightgray',
                                     textAlign: 'auto'
                                 }}
