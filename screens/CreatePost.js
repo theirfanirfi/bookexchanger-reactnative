@@ -6,14 +6,18 @@ import { Input, Button } from 'react-native-elements'
 import { Col, Row } from "react-native-easy-grid";
 import Icon from 'react-native-vector-icons/FontAwesome'
 import RBSheet from "react-native-raw-bottom-sheet";
-
-
+import base64 from 'react-native-base64';
+import { postWithImages } from '../apis/index'
 
 
 class CreatePost extends React.Component {
     state = {
         isImageSelected: false,
         featured_image: null,
+        post_title: "",
+        post_description: "",
+        token: 'sometoken',
+        user: []
     }
 
 
@@ -112,6 +116,20 @@ class CreatePost extends React.Component {
                 }
 
             });
+        }
+    }
+
+    async createStatus() {
+        if (this.state.post_title == "" || this.state.post_description == "") {
+            alert("Post title and Post description  fields cannot be empty.")
+        } else {
+            let form = new FormData();
+            form.append("post_title", base64.encode(this.state.post_title))
+            form.append("description", base64.encode(this.state.post_description));
+            form.append("image", this.state.featured_image)
+
+            let response = await postWithImages(this, form);
+
         }
     }
 
