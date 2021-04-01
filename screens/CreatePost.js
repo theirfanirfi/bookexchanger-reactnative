@@ -17,7 +17,8 @@ class CreatePost extends React.Component {
         post_title: "",
         post_description: "",
         token: 'sometoken',
-        user: []
+        user: [],
+        isLoading: false,
     }
 
 
@@ -123,12 +124,19 @@ class CreatePost extends React.Component {
         if (this.state.post_title == "" || this.state.post_description == "") {
             alert("Post title and Post description  fields cannot be empty.")
         } else {
+            this.setState({ isLoading: true });
             let form = new FormData();
             form.append("post_title", base64.encode(this.state.post_title))
             form.append("description", base64.encode(this.state.post_description));
             form.append("image", this.state.featured_image)
 
-            let response = await postWithImages(this, form);
+            let response = await postWithImages(this, 'post/create', form);
+            this.setState({ isLoading: false });
+            if (response.response.isPostCreated) {
+                alert('Post created');
+            } else {
+                alert(response.response.message);
+            }
 
         }
     }
@@ -137,10 +145,19 @@ class CreatePost extends React.Component {
         return (
             <>
                 <ScrollView style={{ flex: 1, backgroundColor: colors.screenBackgroundColor, paddingTop: 12, paddingBottom: 18 }}>
+                    {this.state.isLoading &&
+                        <Row>
+                            <Col>
+                                <ActivityIndicator size="large" color="green" />
+                            </Col>
+                        </Row>
+                    }
                     <Row>
                         <Col>
                             <Input
                                 placeholder="Title"
+                                onChangeText={(text) => this.setState({ post_title: text })}
+
                                 inputContainerStyle={{ borderBottomWidth: 0 }}
                                 style={{
                                     padding: 8,
@@ -202,6 +219,7 @@ class CreatePost extends React.Component {
                                 multiline={true}
                                 placeholder="Post content"
                                 inputContainerStyle={{ borderBottomWidth: 0 }}
+                                onChangeText={(text) => this.setState({ post_description: text })}
                                 style={{
                                     height: 250,
                                     borderRadius: 12,
@@ -218,7 +236,7 @@ class CreatePost extends React.Component {
 
                     <Row>
                         <Col>
-                            <Button title="Create Post" containerStyle={{ marginBottom: 22, marginHorizontal: 50 }} />
+                            <Button onPress={() => this.createStatus()} title="Create Post" containerStyle={{ marginBottom: 22, marginHorizontal: 50 }} />
                         </Col>
                     </Row>
 

@@ -1,4 +1,4 @@
-const endpoint = "http://192.168.10.2:5000"
+const endpoint = "http://192.168.10.6:5000/api"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export const getEndPointUrl = () => {
     return endpoint
@@ -38,6 +38,87 @@ export const postWithImages = async (context, pUrl, form) => {
             headers: {
                 'Authorization': context.state.token,
                 'Content-Type': 'multipart/form-data'
+            }
+        });
+        const responseJson = await response.json()
+        // context.setState({ message: responseJson.message });
+        return {
+            response: responseJson,
+            status: true
+        };
+    } catch (err) {
+        return {
+            status: false,
+            response: err
+        }
+    }
+}
+
+export const post = async (context, pUrl, form) => {
+    await getToken(context);
+    try {
+        const url = `${endpoint}/${pUrl}/`
+        const response = await fetch(url, {
+            method: "POST",
+            body: form,
+            headers: {
+                'Authorization': context.state.token,
+            }
+        });
+        const responseJson = await response.json()
+        // context.setState({ message: responseJson.message });
+        return {
+            response: responseJson,
+            status: true
+        };
+    } catch (err) {
+        return {
+            status: false,
+            response: err
+        }
+    }
+}
+
+export const get = async (context, pUrl) => {
+    await getToken(context);
+    console.log(context.state.token)
+    try {
+        const url = `${endpoint}/${pUrl}`
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                'Authorization': context.state.token,
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': 0
+            }
+        });
+        const responseJson = await response.json()
+        // context.setState({ message: responseJson.message });
+        return {
+            response: responseJson,
+            status: true
+        };
+    } catch (err) {
+        return {
+            status: false,
+            response: err
+        }
+    }
+}
+
+export const _delete = async (context, pUrl) => {
+    await getToken(context);
+    console.log(context.state.token)
+    try {
+        const url = `${endpoint}/${pUrl}`
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                'Authorization': context.state.token,
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': 0
             }
         });
         const responseJson = await response.json()
