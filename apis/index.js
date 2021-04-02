@@ -1,7 +1,13 @@
 const endpoint = "http://192.168.10.6:5000/api"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import base64 from 'react-native-base64';
+
 export const getEndPointUrl = () => {
     return endpoint
+}
+
+export const encode = value => {
+    return base64.encode(value);
 }
 
 export const getToken = async (context) => {

@@ -15,6 +15,7 @@ import Search from '../screens/Search';
 import Notifications from '../screens/Notifications';
 import LocationPicker from '../screens/LocationPicker';
 import Profile from '../screens/Profile';
+import AddToListScreen from '../screens/AddToListScreen'
 
 
 
@@ -181,6 +182,7 @@ function BooksNavigator(navigator) {
     <Stack.Navigator initialRouteName="books" screenOptions={headerOptions(navigator)}>
       <Stack.Screen name="books" component={BooksTab} />
       <Stack.Screen name="addbook" component={AddBook} />
+      <Stack.Screen name="addtolistscreen" component={AddToListScreen} />
     </Stack.Navigator>
   )
 }

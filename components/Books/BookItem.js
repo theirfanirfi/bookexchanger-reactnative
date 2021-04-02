@@ -1,7 +1,9 @@
 import React from 'react';
-import { Image, Text, TouchableOpacity } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { Col, Row } from "react-native-easy-grid";
 import { Card, Button, Icon } from 'react-native-elements'
+import RBSheet from "react-native-raw-bottom-sheet";
+
 
 
 
@@ -43,8 +45,27 @@ export default function BookItem({ book, isApiCall = false }) {
 
 
 
+
+
                 </Col>
             </Row>
+            {isApiCall &&
+                <Row style={{ marginTop: 22 }}>
+                    <Col>
+                        <TouchableOpacity style={{ flexDirection: 'column', justifyContent: 'center' }}>
+                            <Icon name="add-outline" type="ionicon" size={26} />
+                            <Text style={{ alignSelf: 'center', fontSize: 12 }}>Add</Text>
+                        </TouchableOpacity>
+                    </Col>
+                    <Col>
+                        <TouchableOpacity style={{ flexDirection: 'column', justifyContent: 'center' }}>
+                            <Icon name="add-circle-outline" type="ionicon" size={26} />
+                            <Text style={{ alignSelf: 'center', fontSize: 12 }}>Add to list</Text>
+
+                        </TouchableOpacity>
+                    </Col>
+                </Row>
+            }
 
         </Card>
     )
