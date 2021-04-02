@@ -108,7 +108,7 @@ class ListsTab extends React.Component {
                     data={this.state.lists}
                     ListHeaderComponent={this.listHeader}
                     keyExtractor={(item) => { return item.id }}
-                    renderItem={({ item, index }) => <ListItem context={this} list={item} index={index} deleteListCallBack={this.deleteListCallBack} />}
+                    renderItem={({ item, index }) => <ListItem context={this} book_id={null} isAddToList={false} list={item} index={index} deleteListCallBack={this.deleteListCallBack} />}
 
                 />
             </View>

@@ -57,6 +57,7 @@ export default class AddToListScreen extends React.Component {
 
     async componentDidMount() {
         const { book_id } = await this.props.route.params
+        console.log('Book id: ' + book_id)
         let response = await get(this, 'list/')
         if (response.status) {
             let res = response.response
@@ -76,7 +77,7 @@ export default class AddToListScreen extends React.Component {
                 <FlatList
                     data={this.state.lists}
                     keyExtractor={(item) => { return item.id }}
-                    renderItem={({ item, index }) => <ListItem context={this} list={item} index={index} deleteListCallBack={null} />}
+                    renderItem={({ item, index }) => <ListItem context={this} book_id={this.state.book_id} isAddToList={true} list={item} index={index} deleteListCallBack={null} />}
                 />
             </View>
         );

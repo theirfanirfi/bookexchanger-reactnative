@@ -23,12 +23,14 @@ export default function BookItem(props) {
         form.append("book_cover_image", "some cover_image")
         form.append("book_added_from", "some from")
         let response = await post(props.context, 'book', form)
-        console.log(response)
+        // console.log(response)
         if (response.status) {
             let res = response.response
             if (res.isCreated) {
                 setIsAdded(true);
                 setAddedBook(res.book)
+                console.log(`${addedBook}`)
+
                 return true;
             } else {
                 return false;
@@ -58,10 +60,11 @@ export default function BookItem(props) {
 
     const addBookToList = async () => {
         setBeingAddedToList(true)
-        let isBookAdded = await addBook();
+        let isBookAdded = addBook();
         if (isBookAdded) {
             setBeingAddedToList(false)
-            props.navigation.navigate('addtolistscreen', { book_id: addedBook.book_id })
+            console.log(addedBook)
+            // props.navigation.navigate('addtolistscreen', { book_id: addedBook.book_id })
         } else {
             alert('Error occurred. Please try again')
         }

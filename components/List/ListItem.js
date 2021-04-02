@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, Text, TouchableOpacity } from 'react-native'
 import { Col, Row } from "react-native-easy-grid";
-import { Card } from 'react-native-elements'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import { _delete } from '../../apis/index'
+import { Card, Icon } from 'react-native-elements'
+import { _delete, post } from '../../apis/index'
 
 
 
 export default function ListItem(props) {
 
+    const [isAddedToList, setIsAddedToList] = useState(false)
+    const [stack, setStack] = useState([])
     const deleteList = async (list_id) => {
         let response = await _delete(props.context, `list/${list_id}/`)
         if (response.status) {
@@ -21,14 +22,48 @@ export default function ListItem(props) {
         }
     }
 
+    const addToList = async () => {
+        console.log('add')
+        let form = new FormData();
+        if (props.book_id != null) {
+            form.append("book_id", props.book_id)
+            form.append("list_id", props.list.list_id)
+            let response = await post(props.context, 'stack', form)
+            if (response.status) {
+                let res = response.response
+                if (res.isCreated) {
+                    setIsAddedToList(true);
+                    setStack(res.stack);
+                } else {
+                    alert(res.message);
+                }
+            }
+        }
+    }
+
+    const removeFromList = async () => {
+        console.log('remove')
+        let response = await _delete(props.context, `stack/${stack.stack_id}/`)
+        if (response.status) {
+            let res = response.response
+            if (res.isDeleted) {
+                setIsAddedToList(false)
+                setStack([])
+            } else {
+                alert(res.message);
+            }
+        }
+    }
+
 
     let list = props.list
+    let isAddToList = props.isAddToList
     return (
         <Card containerStyle={{ borderWidth: 0.4, borderColor: 'white', margin: 2 }} >
 
             <Row>
                 <Col>
-                    <Text style={{ fontSize: 18, fontFamily: 'Roboto-Medium', margin: 6 }} onPress={() => createBookDummyRequest()}>{list.list_title}</Text>
+                    <Text style={{ fontSize: 18, fontFamily: 'Roboto-Medium', margin: 6 }}>{list.list_title}</Text>
                 </Col>
 
             </Row>
@@ -36,9 +71,26 @@ export default function ListItem(props) {
             <Row>
                 <Col style={{ flexDirection: 'row', marginTop: 18, justifyContent: 'flex-end' }}>
                     {/* <Icon name="retweet" color="gray" size={20} style={{ alignSelf: 'center', marginLeft: 6 }} /> */}
-                    <TouchableOpacity onPress={() => deleteList(list.list_id)}>
-                        <Icon name="trash" color="red" size={23} />
-                    </TouchableOpacity>
+
+                    {isAddToList ? (
+                        <>
+                            {isAddedToList ? (
+                                <TouchableOpacity onPress={() => removeFromList()}>
+                                    <Icon type="ionicon" name="close-circle-outline" color="red" size={23} />
+                                </TouchableOpacity>
+                            ) : (
+                                <TouchableOpacity onPress={() => addToList()} >
+                                    <Icon type="ionicon" name="add-circle-outline" color="black" size={23} />
+                                </TouchableOpacity>
+                            )}
+                        </>
+
+                    ) : (
+                        <TouchableOpacity onPress={() => deleteList(list.list_id)}>
+                            <Icon type="ionicon" name="trash" color="red" size={23} />
+                        </TouchableOpacity>
+                    )}
+
 
                 </Col>
 
