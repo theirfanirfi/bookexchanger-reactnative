@@ -3,7 +3,7 @@ import { Image, Text, TouchableOpacity } from 'react-native'
 import { Col, Row } from "react-native-easy-grid";
 import { Card } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { _delete, post } from '../../apis/index'
+import { _delete } from '../../apis/index'
 
 
 
@@ -21,17 +21,6 @@ export default function ListItem(props) {
         }
     }
 
-    const createBookDummyRequest = async () => {
-        let form = new FormData();
-        form.append("book_title", "some title")
-        form.append("book_description", "some description")
-        form.append("book_isbn", "some isbn")
-        form.append("book_author", "some author")
-        form.append("book_cover_image", "some cover_image")
-        form.append("book_added_from", "some from")
-        let response = await post(props.context, 'book', form)
-        console.log(response)
-    }
 
     let list = props.list
     return (

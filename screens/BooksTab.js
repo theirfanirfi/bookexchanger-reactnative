@@ -70,7 +70,7 @@ class BooksTab extends React.Component {
                     data={data}
                     ListHeaderComponent={this.listHeader}
                     keyExtractor={(item) => { return item.id }}
-                    renderItem={({ item }) => <BookItem book={item} isApiCall={false} />}
+                    renderItem={({ item }) => <BookItem book={item} isApiCall={false} context={this} navigation={this.props.navigation} />}
 
                 />
 

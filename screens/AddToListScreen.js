@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { View, FlatList } from 'react-native';
 import colors from '../constants/colors'
-import BookItem from '../components/Books/BookItem'
 import { Input } from 'react-native-elements'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import { get, post, _delete } from '../apis/index'
+import ListItem from '../components/List/ListItem'
 
 
 const data = [
@@ -48,7 +48,23 @@ const data = [
 
 
 export default class AddToListScreen extends React.Component {
+    state = {
+        token: 'sometoken',
+        user: [],
+        lists: [],
+        book_id: 0
+    }
 
+    async componentDidMount() {
+        const { book_id } = await this.props.route.params
+        let response = await get(this, 'list/')
+        if (response.status) {
+            let res = response.response
+            this.setState({ lists: res.lists, book_id: book_id });
+        } else {
+            //alert
+        }
+    }
     listHeader = () => {
         return (
             <Input placeholder="search" leftIcon={{ type: 'font-awesome', name: 'search', color: 'lightgray' }} />
@@ -58,11 +74,9 @@ export default class AddToListScreen extends React.Component {
         return (
             <View style={{ flex: 1, backgroundColor: colors.screenBackgroundColor }}>
                 <FlatList
-                    data={data}
-                    ListHeaderComponent={this.listHeader}
+                    data={this.state.lists}
                     keyExtractor={(item) => { return item.id }}
-                    renderItem={({ item }) => <BookItem book={item} isApiCall={true} />}
-
+                    renderItem={({ item, index }) => <ListItem context={this} list={item} index={index} deleteListCallBack={null} />}
                 />
             </View>
         );

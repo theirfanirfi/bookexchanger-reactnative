@@ -48,7 +48,10 @@ const data = [
 
 
 class AddBook extends React.Component {
-
+    state = {
+        token: 'sometoken',
+        user: []
+    }
     listHeader = () => {
         return (
             <Input placeholder="search" leftIcon={{ type: 'font-awesome', name: 'search', color: 'lightgray' }} />
@@ -61,7 +64,7 @@ class AddBook extends React.Component {
                     data={data}
                     ListHeaderComponent={this.listHeader}
                     keyExtractor={(item) => { return item.id }}
-                    renderItem={({ item }) => <BookItem book={item} isApiCall={true} />}
+                    renderItem={({ item }) => <BookItem book={item} isApiCall={true} context={this} navigation={this.props.navigation} />}
 
                 />
             </View>
