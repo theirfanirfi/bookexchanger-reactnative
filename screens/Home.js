@@ -2,53 +2,36 @@ import * as React from 'react';
 import { Text, View, FlatList } from 'react-native';
 import colors from '../constants/colors'
 import PostItem from '../components/Posts/PostItem'
-
-const data = [
-  {
-    "id": 1,
-    "post_image": 'https://i.dawn.com/thumbnail/2021/03/6054e4af8f616.jpg',
-    "post_title": 'Marvel of engineering: spectacular drone shot ',
-    "post_description": "Marvel of engineering: spectacular drone shot of a three-story highway built along Tianlong Mountain in Taiyuan of North China's Shanxi province. The circular highway bridge is 30 kilometers long and spans the mountain at a height of 350 meters."
-
-  },
-  {
-    "id": 2,
-    "post_image": 'https://i.dawn.com/thumbnail/2021/03/6054e4af8f616.jpg',
-    "post_title": 'Marvel of engineering: spectacular drone shot ',
-    "post_description": "Marvel of engineering: spectacular drone shot of a three-story highway built along Tianlong Mountain in Taiyuan of North China's Shanxi province. The circular highway bridge is 30 kilometers long and spans the mountain at a height of 350 meters."
-
-  },
-  {
-    "id": 3,
-    "post_image": 'https://i.dawn.com/thumbnail/2021/03/6054e4af8f616.jpg',
-    "post_title": 'Marvel of engineering: spectacular drone shot ',
-    "post_description": "Marvel of engineering: spectacular drone shot of a three-story highway built along Tianlong Mountain in Taiyuan of North China's Shanxi province. The circular highway bridge is 30 kilometers long and spans the mountain at a height of 350 meters."
-
-  },
-  {
-    "id": 4,
-    "post_image": 'https://i.dawn.com/thumbnail/2021/03/6054e4af8f616.jpg',
-    "post_title": 'Marvel of engineering: spectacular drone shot ',
-    "post_description": "Marvel of engineering: spectacular drone shot of a three-story highway built along Tianlong Mountain in Taiyuan of North China's Shanxi province. The circular highway bridge is 30 kilometers long and spans the mountain at a height of 350 meters."
-
-  }
-  , {
-    "id": 5,
-    "post_image": 'https://i.dawn.com/thumbnail/2021/03/6054e4af8f616.jpg',
-    "post_title": 'Marvel of engineering: spectacular drone shot ',
-    "post_description": "Marvel of engineering: spectacular drone shot of a three-story highway built along Tianlong Mountain in Taiyuan of North China's Shanxi province. The circular highway bridge is 30 kilometers long and spans the mountain at a height of 350 meters."
-
-  }
-]
+import { get, post, _delete } from '../apis/index'
 
 class Home extends React.Component {
+  state = {
+    token: 'sometoken',
+    posts: [],
+    user: []
+  }
+
+  async componentDidMount() {
+    let response = await get(this, 'post/')
+    if (response.status) {
+      let res = response.response
+      if (res.posts.length > 0) {
+        this.setState({ posts: res.posts });
+
+      } else {
+        // return false;
+      }
+    } else {
+      // return false;
+    }
+  }
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.screenBackgroundColor }}>
         <FlatList
-          data={data}
+          data={this.state.posts}
           keyExtractor={(item) => { return item.id }}
-          renderItem={({ item }) => <PostItem post={item} />}
+          renderItem={({ item }) => <PostItem context={this} post={item} />}
 
         />
       </View>

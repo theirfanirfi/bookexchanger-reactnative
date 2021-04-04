@@ -3,19 +3,22 @@ import { Image, Text, TouchableOpacity } from 'react-native'
 import { Col, Row } from "react-native-easy-grid";
 import { Card, Icon } from 'react-native-elements'
 import CircularImage from '../Images/CircularImage';
-import { getMoment } from '../utils'
+import { getMoment, getImage } from '../utils'
 const profile_default_image = require('../../assets/images/default.png');
+import LikeComponent from './LikeComponent'
+import CommentComponent from './CommentComponent'
 
 
 
-export default function PostItem({ post }) {
+export default function PostItem(props) {
+    let post = props.post
     return (
         <Card containerStyle={{ borderWidth: 0.4, borderColor: 'white', margin: 2 }}>
             <Row>
                 <Col style={{ flexDirection: 'row', marginVertical: 8 }}>
                     <CircularImage style={null} image={null} size="small" />
 
-                    <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>Irfan Irfi</Text>
+                    <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{post.fullname}</Text>
                 </Col>
 
             </Row>
@@ -28,7 +31,7 @@ export default function PostItem({ post }) {
             </Row>
             <Row>
                 <Col>
-                    <Image style={{ width: '100%', height: 200 }} source={{ uri: post.post_image }} />
+                    <Image style={{ width: '100%', height: 200 }} source={{ uri: getImage('posts', post.post_image) }} />
                 </Col>
             </Row>
 
@@ -50,14 +53,13 @@ export default function PostItem({ post }) {
 
             <Row style={{ marginTop: 18 }}>
                 <Col >
-                    <TouchableOpacity>
-                        <Icon name="heart-outline" type="ionicon" size={20} style={{ alignSelf: 'center', marginLeft: 6 }} />
-                    </TouchableOpacity>
+                    <LikeComponent post={post} context={props.context} isLiked={post.isLiked} />
                 </Col>
                 <Col>
-                    <TouchableOpacity>
+                    {/* <TouchableOpacity>
                         <Icon name="chatbox-ellipses-outline" type="ionicon" size={23} style={{ alignSelf: 'center', marginLeft: 26, marginBottom: 3 }} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
+                    <CommentComponent context={props.context} post={post} />
                 </Col>
                 <Col>
                     <Text style={{ margin: 6, color: 'gray' }}>{"2020-12-04"}</Text>
