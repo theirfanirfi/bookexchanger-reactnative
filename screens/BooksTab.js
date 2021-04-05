@@ -1,54 +1,17 @@
 import * as React from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, RefreshControl, Image, Text } from 'react-native';
 import colors from '../constants/colors'
 import BookItem from '../components/Books/BookItem'
-import { Input } from 'react-native-elements'
+import { Input, Icon } from 'react-native-elements'
 import { FloatingAction } from "react-native-floating-action";
-import Icon from 'react-native-vector-icons/FontAwesome'
-
-
-const data = [
-    {
-        "id": 1,
-        "post_image": 'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1320514881l/109512.jpg',
-        "post_title": 'The Fist of God',
-        "post_description": "Marvel of engineering: spectacular drone shot of a three-story highway built along Tianlong Mountain in Taiyuan of North China's Shanxi province. The circular highway bridge is 30 kilometers long and spans the mountain at a height of 350 meters."
-
-    },
-    {
-        "id": 2,
-        "post_image": 'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1428715580l/52036.jpg',
-        "post_title": 'Siddhartha ',
-        "post_description": "Marvel of engineering: spectacular drone shot of a three-story highway built along Tianlong Mountain in Taiyuan of North China's Shanxi province. The circular highway bridge is 30 kilometers long and spans the mountain at a height of 350 meters."
-
-    },
-    {
-        "id": 3,
-        "post_image": 'https://i.dawn.com/thumbnail/2021/03/6054e4af8f616.jpg',
-        "post_title": 'The White Tiger',
-        "post_description": "Marvel of engineering: spectacular drone shot of a three-story highway built along Tianlong Mountain in Taiyuan of North China's Shanxi province. The circular highway bridge is 30 kilometers long and spans the mountain at a height of 350 meters."
-
-    },
-    {
-        "id": 4,
-        "post_image": 'https://i.dawn.com/thumbnail/2021/03/6054e4af8f616.jpg',
-        "post_title": 'A Dawn Like Thunder',
-        "post_description": "Marvel of engineering: spectacular drone shot of a three-story highway built along Tianlong Mountain in Taiyuan of North China's Shanxi province. The circular highway bridge is 30 kilometers long and spans the mountain at a height of 350 meters."
-
-    }
-    , {
-        "id": 5,
-        "post_image": 'https://i.dawn.com/thumbnail/2021/03/6054e4af8f616.jpg',
-        "post_title": 'The God of small things',
-        "post_description": "Marvel of engineering: spectacular drone shot of a three-story highway built along Tianlong Mountain in Taiyuan of North China's Shanxi province. The circular highway bridge is 30 kilometers long and spans the mountain at a height of 350 meters."
-
-    }
-];
-
+import { get, post, _delete } from '../apis/index'
+import { Grid, Row, Col } from 'react-native-easy-grid'
+const nobooks = require('../assets/graphics/nobooks.png');
+import DropDownPicker from 'react-native-dropdown-picker';
 const actions = [
     {
         text: "Add Book",
-        icon: <Icon name="plus" color="white" />,
+        icon: <Icon type="ionicon" name="add-outline" color="white" />,
         name: "add_book",
         position: 1
     },
@@ -58,36 +21,123 @@ const actions = [
 
 class BooksTab extends React.Component {
 
+    state = {
+        token: 'sometoken',
+        user: [],
+        books: [],
+        refreshing: false,
+        filter: 'asc',
+        filtered_books: []
+    }
+
+    async getBooks() {
+        this.setState({ refreshing: true });
+        let response = await get(this, 'book/')
+        console.log(response)
+        if (response.status) {
+            let res = response.response
+            if (res.books.length > 0) {
+                this.setState({ books: res.books, refreshing: false });
+
+            } else {
+                this.setState({ refreshing: false });
+
+            }
+        } else {
+            // return false;
+            this.setState({ refreshing: false });
+        }
+    }
+
+    async componentDidMount() {
+        this.getBooks();
+    }
+
+    async filter_books(search_term) {
+        console.log(search_term)
+        let filter_array = this.state.books.filter((book) => {
+            if (book.book_title.includes(search_term) || book.book_author.includes(search_term)) {
+                return book;
+            }
+        })
+        console.log(filter_array.length)
+
+        this.setState({ filtered_books: filter_array });
+
+
+    }
+
     listHeader = () => {
         return (
-            <Input placeholder="search" leftIcon={{ type: 'font-awesome', name: 'search', color: 'lightgray' }} />
+            <View style={{ flexDirection: 'row', zIndex: 2000 }}>
+                <View style={{ width: '70%' }}>
+                    <Input placeholder="search" onChangeText={(text) => this.filter_books(text)} leftIcon={{ type: 'ionicon', name: 'search-outline', color: 'lightgray' }} />
+                </View>
+                <View style={{ width: '30%', zIndex: 2000 }}>
+                    <DropDownPicker
+                        defaultValue={this.state.filter}
+                        items={[
+                            { label: 'ASC', value: 'asc' },
+                            { label: 'DESC', value: 'desc' },
+                        ]}
+                        containerStyle={{ height: 40, marginTop: 12, zIndex: 10 }}
+                        style={{ backgroundColor: '#fff', borderWidth: 0 }}
+                        itemStyle={{
+                            justifyContent: 'flex-start',
+                            zIndex: 1
+                        }}
+                        dropDownStyle={{ backgroundColor: '#ffffff' }}
+                        onChangeItem={item => this.setState({
+                            filter: item.value
+                        })}
+                    />
+                </View>
+
+            </View>
         )
     }
     render() {
-        return (
-            <View style={{ flex: 1, backgroundColor: colors.screenBackgroundColor }}>
-                <FlatList
-                    data={data}
-                    ListHeaderComponent={this.listHeader}
-                    keyExtractor={(item) => { return item.id }}
-                    renderItem={({ item }) => <BookItem book={item} isApiCall={false} context={this} navigation={this.props.navigation} />}
 
-                />
+        if (this.state.books.length > 0) {
 
-                <FloatingAction
-                    actions={actions}
-                    color="#7D4DFF"
-                    onPressItem={name => {
-                        switch (name) {
-                            case 'add_book':
-                                this.props.navigation.navigate('addbook');
-                                break;
+            return (
+                <View style={{ flex: 1, backgroundColor: colors.screenBackgroundColor }}>
+                    <FlatList
+                        refreshControl={
+                            <RefreshControl
+                                colors={["#9Bd35A", "#689F38"]}
+                                refreshing={this.state.refreshing}
+                                onRefresh={() => this.getBooks()} />
                         }
-                        console.log(`selected button: ${name}`);
-                    }}
-                />
-            </View>
-        );
+                        data={this.state.filtered_books.length > 0 ? this.state.filtered_books : this.state.books}
+                        ListHeaderComponent={this.listHeader}
+                        keyExtractor={(item) => { return item.id }}
+                        renderItem={({ item }) => <BookItem book={item} isApiCall={false} context={this} navigation={this.props.navigation} />}
+
+                    />
+
+                    <FloatingAction
+                        actions={actions}
+                        color="#7D4DFF"
+                        onPressItem={name => {
+                            switch (name) {
+                                case 'add_book':
+                                    this.props.navigation.navigate('addbook');
+                                    break;
+                            }
+                            console.log(`selected button: ${name}`);
+                        }}
+                    />
+                </View>
+            );
+        } else {
+            return (
+                <View style={{ justifyContent: 'center', backgroundColor: 'white', flex: 1 }}>
+                    <Image source={nobooks} style={{ width: 200, height: 200, alignSelf: 'center' }} />
+                    <Text style={{ alignSelf: 'center' }}>No books</Text>
+                </View>
+            )
+        }
     }
 }
 export default BooksTab;
