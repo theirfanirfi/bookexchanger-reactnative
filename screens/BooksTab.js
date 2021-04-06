@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, FlatList, RefreshControl, Image, Text } from 'react-native';
+import { View, FlatList, RefreshControl, Image, Text, Platform } from 'react-native';
 import colors from '../constants/colors'
 import BookItem from '../components/Books/BookItem'
 import { Input, Icon } from 'react-native-elements'
@@ -54,37 +54,49 @@ class BooksTab extends React.Component {
     }
 
     async filter_books(search_term) {
-        console.log(search_term)
         let filter_array = this.state.books.filter((book) => {
             if (book.book_title.includes(search_term) || book.book_author.includes(search_term)) {
                 return book;
             }
         })
-        console.log(filter_array.length)
-
         this.setState({ filtered_books: filter_array });
 
 
     }
 
+
+    async sort_books_by_distance_in_ascending() {
+        let filter_array = this.state.books.sort((bookA, bookB) => {
+            return bookA.distance_in_km - bookB.distance_in_km
+        })
+        this.setState({ filtered_books: filter_array });
+    }
+
+    async sort_books_by_distance_in_desc() {
+        let filter_array = this.state.books.sort((bookA, bookB) => {
+            return bookB.distance_in_km - bookA.distance_in_km
+        })
+        this.setState({ filtered_books: filter_array });
+    }
+
     listHeader = () => {
         return (
-            <View style={{ flexDirection: 'row', zIndex: 2000 }}>
+            <View style={{ flexDirection: 'row', zIndex: 10 }}>
                 <View style={{ width: '70%' }}>
                     <Input placeholder="search" onChangeText={(text) => this.filter_books(text)} leftIcon={{ type: 'ionicon', name: 'search-outline', color: 'lightgray' }} />
                 </View>
-                <View style={{ width: '30%', zIndex: 2000 }}>
+                <View style={{ width: '30%', zIndex: 10 }}>
                     <DropDownPicker
                         defaultValue={this.state.filter}
                         items={[
                             { label: 'ASC', value: 'asc' },
                             { label: 'DESC', value: 'desc' },
                         ]}
-                        containerStyle={{ height: 40, marginTop: 12, zIndex: 10 }}
+                        containerStyle={{ height: 40, marginTop: 12 }}
                         style={{ backgroundColor: '#fff', borderWidth: 0 }}
                         itemStyle={{
                             justifyContent: 'flex-start',
-                            zIndex: 1
+
                         }}
                         dropDownStyle={{ backgroundColor: '#ffffff' }}
                         onChangeItem={item => this.setState({
@@ -101,7 +113,7 @@ class BooksTab extends React.Component {
         if (this.state.books.length > 0) {
 
             return (
-                <View style={{ flex: 1, backgroundColor: colors.screenBackgroundColor }}>
+                <View style={{ flex: 1, backgroundColor: colors.screenBackgroundColor, zIndex: 2000 }}>
                     <FlatList
                         refreshControl={
                             <RefreshControl

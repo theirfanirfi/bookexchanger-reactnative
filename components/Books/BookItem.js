@@ -4,7 +4,7 @@ import { Col, Row } from "react-native-easy-grid";
 import { Card, Button, Icon } from 'react-native-elements'
 import { post, _delete } from '../../apis/index'
 import { getImage } from '../utils'
-
+import BookExchangeComponent from './BookExchangeComponent'
 
 
 
@@ -14,6 +14,8 @@ export default function BookItem(props) {
     const [isAdded, setIsAdded] = useState(false)
     const [addedBook, setAddedBook] = useState([])
     const [beingAddedToList, setBeingAddedToList] = useState(false)
+    const [exchangedRequestSent, setExchangedRequestSent] = useState(false)
+    const [exchangedRequest, setExchangedRequest] = useState([])
 
     const addBook = async () => {
         let form = new FormData();
@@ -102,9 +104,7 @@ export default function BookItem(props) {
                         {!isApiCall &&
                             <Row>
                                 <Col>
-                                    <TouchableOpacity>
-                                        <Icon name="repeat-outline" type="ionicon" size={26} />
-                                    </TouchableOpacity>
+                                    <BookExchangeComponent book={book} />
                                 </Col>
                             </Row>
                         }
