@@ -13,7 +13,7 @@ export default class Search extends React.Component {
             { key: 'users', title: 'Users' },
             { key: 'books', title: 'Books' },
             { key: 'posts', title: 'Posts' },
-        ]
+        ],
     }
     componentDidMount() {
         const { term } = this.props.route.params
@@ -24,7 +24,7 @@ export default class Search extends React.Component {
         console.log(props.route.params.term)
         if (props.route.params.term != state.search_term && props.route.params.term != undefined) {
             return {
-                search_term: props.route.params.term
+                search_term: props.route.params.term,
             }
         } else {
             return null;
@@ -40,11 +40,11 @@ export default class Search extends React.Component {
     renderScene = ({ route, jumpTo }) => {
         switch (route.key) {
             case 'users':
-                return <UserSearchTab jumpTo={jumpTo} />;
+                return <UserSearchTab jumpTo={jumpTo} term={this.state.search_term} />;
             case 'books':
-                return <BooksSearchTab jumpTo={jumpTo} />;
+                return <BooksSearchTab jumpTo={jumpTo} term={this.state.search_term} />;
             case 'posts':
-                return <PostSearchTab jumpTo={jumpTo} />;
+                return <PostSearchTab jumpTo={jumpTo} term={this.state.search_term} />;
         }
     };
 

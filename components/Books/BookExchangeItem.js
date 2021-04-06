@@ -32,7 +32,7 @@ export default function BookExchangeItem(props) {
             if (res.isCreated) {
                 setExchangedRequestSent(true);
                 setExchangedRequest(res.exchange)
-                console.log(res.exchange)
+
                 return true;
             } else {
                 return false;
@@ -56,10 +56,6 @@ export default function BookExchangeItem(props) {
         if (response.status) {
             let res = response.response
             if (res.isCreated) {
-                console.log(res.book);
-                // setIsAdded(true);
-                // setAddedBook(res.book)
-                // console.log(`${addedBook}`)
                 makeExchangeRequest(res.book);
                 return true;
             } else {
