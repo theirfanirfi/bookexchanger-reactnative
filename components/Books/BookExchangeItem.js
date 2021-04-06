@@ -90,17 +90,6 @@ export default function BookExchangeItem(props) {
         }
     }
 
-    const addBookToList = async () => {
-        setBeingAddedToList(true)
-        let isBookAdded = addBook();
-        if (isBookAdded) {
-            setBeingAddedToList(false)
-            console.log(addedBook)
-            // props.navigation.navigate('addtolistscreen', { book_id: addedBook.book_id })
-        } else {
-            alert('Error occurred. Please try again')
-        }
-    }
 
     let book = props.book_to_provide_in_exchange
     return (
@@ -120,8 +109,12 @@ export default function BookExchangeItem(props) {
                     </Row>
                     <Row>
                         <Col style={{ flexDirection: 'row', width: '40%' }}>
-                            {/* <Icon name="location-outline" type="ionicon" color="#96A787" size={14} />
-                            <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12 }}>{book.distance_in_km} Kms away</Text> */}
+                            {exchangedRequestSent &&
+                                <TouchableOpacity style={{ flexDirection: 'column', justifyContent: 'center' }} onPress={() => removeBook()}>
+                                    <Icon name="chatbox-ellipses-outline" type="ionicon" color="black" size={20} />
+                                    <Text style={{ alignSelf: 'center', fontSize: 10 }}>Initiate Chat</Text>
+                                </TouchableOpacity>
+                            }
                         </Col>
                         <Col style={{ flexDirection: 'row' }}>
 
