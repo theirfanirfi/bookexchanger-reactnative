@@ -89,7 +89,7 @@ export default function BookExchangeItem(props) {
 
     let book = props.book_to_provide_in_exchange
     return (
-        <Card containerStyle={{ borderWidth: 0.4, borderColor: 'white', margin: 2 }}>
+        <TouchableOpacity style={{ borderWidth: 0.4, borderColor: 'white', marginVertical: 14, padding: 12 }}>
             <Row>
                 <Col style={{ width: 100 }}>
                     <Image style={{ height: 110, marginRight: 12 }} source={{ uri: getImage('books', book.book_cover_image) }} />
@@ -144,6 +144,6 @@ export default function BookExchangeItem(props) {
                 </Col>
             </Row>
 
-        </Card>
+        </TouchableOpacity>
     )
 }

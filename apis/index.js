@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.10.7:5000";
+const BASE_URL = "http://192.168.10.6:5000";
 const endpoint = BASE_URL + "/api"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import base64 from 'react-native-base64';

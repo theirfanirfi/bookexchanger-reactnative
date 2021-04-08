@@ -73,12 +73,12 @@ export default class LocationPicker extends React.Component {
                         </TouchableOpacity>
                     </Col>
 
-                    <Col style={{ flexDirection: 'column', justifyContent: 'center' }}>
+                    {/* <Col style={{ flexDirection: 'column', justifyContent: 'center' }}>
                         <TouchableOpacity style={{ flexDirection: 'column', justifyContent: 'center' }}>
                             <Text style={{ alignSelf: 'center' }}>Influence points</Text>
                             <Text style={{ alignSelf: 'center' }}>500</Text>
                         </TouchableOpacity>
-                    </Col>
+                    </Col> */}
                 </Row>
 
                 <Row size={70}>

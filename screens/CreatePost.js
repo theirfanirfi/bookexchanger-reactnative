@@ -132,6 +132,7 @@ class CreatePost extends React.Component {
 
             let response = await postWithImages(this, 'post/create', form);
             this.setState({ isLoading: false });
+            console.log(response)
             if (response.response.isPostCreated) {
                 alert('Post created');
             } else {

@@ -70,7 +70,7 @@ export default class CommentsComponent extends React.Component {
                 renderItem={(item) => {
                     const comment = item.item
                     return (
-                        <View style={{ borderBottomWidth: 0.5, borderBottomColor: 'lightgray', padding: 12, flexDirection: 'column' }}>
+                        <TouchableOpacity style={{ borderBottomWidth: 0.5, borderBottomColor: 'lightgray', padding: 12, flexDirection: 'column' }}>
                             <View style={{ flexDirection: 'row', marginVertical: 8 }}>
 
                                 <CircularImage style={null} image={getImage('profile', comment.profile_image)} size="small" />
@@ -83,7 +83,7 @@ export default class CommentsComponent extends React.Component {
                                 <Text style={{ marginHorizontal: 12, textAlign: 'justify' }}>{comment.comment_text}</Text>
 
                             </View>
-                        </View>
+                        </TouchableOpacity>
                     )
                 }}
             />
