@@ -17,8 +17,13 @@ export default function PostItem(props) {
             <Row>
                 <Col style={{ flexDirection: 'row', marginVertical: 8 }}>
                     <CircularImage style={null} image={null} size="small" />
+                    <Row style={{ flexDirection: 'column' }}>
+                        <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{post.fullname}</Text>
+                        <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8 }}>{post.created_at}</Text>
 
-                    <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{post.fullname}</Text>
+                    </Row>
+
+
                 </Col>
 
             </Row>
@@ -29,11 +34,13 @@ export default function PostItem(props) {
                 </Col>
 
             </Row>
-            <Row>
-                <Col>
-                    <Image style={{ width: '100%', height: 200 }} source={{ uri: getImage('posts', post.post_image) }} />
-                </Col>
-            </Row>
+            {post.post_image != "" && post.post_image != null &&
+                <Row>
+                    <Col>
+                        <Image style={{ width: '100%', height: 200 }} source={{ uri: getImage('posts', post.post_image) }} />
+                    </Col>
+                </Row>
+            }
 
 
 
@@ -59,10 +66,11 @@ export default function PostItem(props) {
                     {/* <TouchableOpacity>
                         <Icon name="chatbox-ellipses-outline" type="ionicon" size={23} style={{ alignSelf: 'center', marginLeft: 26, marginBottom: 3 }} />
                     </TouchableOpacity> */}
-                    <CommentComponent context={props.context} post={post} />
                 </Col>
                 <Col>
-                    <Text style={{ margin: 6, color: 'gray' }}>{"2020-12-04"}</Text>
+                    {/* <Text style={{ margin: 6, color: 'gray' }}>{"2020-12-04"}</Text> */}
+                    <CommentComponent context={props.context} post={post} />
+
                 </Col>
 
             </Row>

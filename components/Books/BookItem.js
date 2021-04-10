@@ -128,7 +128,7 @@ export default function BookItem(props) {
                         ) : (
                             <TouchableOpacity style={{ flexDirection: 'column', justifyContent: 'center' }} onPress={() => addBook()}>
                                 <Icon name="add-outline" type="ionicon" size={26} />
-                                <Text style={{ alignSelf: 'center', fontSize: 12 }}>Add</Text>
+                                <Text style={{ alignSelf: 'center', fontSize: 12 }}>Add to exchange</Text>
                             </TouchableOpacity>
                         )}
 

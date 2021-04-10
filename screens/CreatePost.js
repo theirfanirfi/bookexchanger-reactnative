@@ -117,6 +117,8 @@ class CreatePost extends React.Component {
                 }
 
             });
+
+            console.log(result);
         }
     }
 
