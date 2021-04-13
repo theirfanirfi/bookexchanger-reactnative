@@ -18,13 +18,14 @@ export default function BookItem(props) {
     const [exchangedRequest, setExchangedRequest] = useState([])
 
     const addBook = async () => {
+        let book = props.book
         let form = new FormData();
-        form.append("book_title", "some title")
+        form.append("book_title", book.book_title)
         form.append("book_description", "some description")
-        form.append("book_isbn", "some isbn")
-        form.append("book_author", "some author")
-        form.append("book_cover_image", "some cover_image")
-        form.append("book_added_from", "some from")
+        form.append("book_isbn", book.book_isbn)
+        form.append("book_author", book.book_author)
+        form.append("book_cover_image", book.book_cover_image)
+        form.append("book_added_from", "openlibrary")
         let response = await post(props.context, 'book', form)
         // console.log(response)
         if (response.status) {
@@ -91,16 +92,20 @@ export default function BookItem(props) {
                         </Col>
                     </Row>
                     <Row>
-                        <Col style={{ flexDirection: 'row', width: '40%' }}>
-                            <Icon name="location-outline" type="ionicon" color="#96A787" size={14} />
-                            <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12 }}>{book.distance_in_km} Kms away</Text>
-                        </Col>
-                        <Col style={{ flexDirection: 'row' }}>
+                        {!isApiCall &&
+                            <>
+                                <Col style={{ flexDirection: 'row', width: '40%' }}>
+                                    <Icon name="location-outline" type="ionicon" color="#96A787" size={14} />
+                                    <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12 }}>{book.distance_in_km} Kms away</Text>
+                                </Col>
+                                <Col style={{ flexDirection: 'row' }}>
 
-                            <Icon name="person" type="ionicon" color="#96A787" size={14} />
-                            <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12, marginLeft: 3 }}>Today</Text>
+                                    <Icon name="person" type="ionicon" color="#96A787" size={14} />
+                                    <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12, marginLeft: 3 }}>Today</Text>
 
-                        </Col>
+                                </Col>
+                            </>
+                        }
                         {!isApiCall &&
                             <Row>
                                 <Col>
