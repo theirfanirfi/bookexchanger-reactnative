@@ -93,6 +93,31 @@ export const post = async (context, pUrl, form) => {
     }
 }
 
+export const put = async (context, pUrl, form) => {
+    await getToken(context);
+    try {
+        const url = `${endpoint}/${pUrl}/`
+        const response = await fetch(url, {
+            method: "PUT",
+            body: form,
+            headers: {
+                'Authorization': context.state.token,
+            }
+        });
+        const responseJson = await response.json()
+        // context.setState({ message: responseJson.message });
+        return {
+            response: responseJson,
+            status: true
+        };
+    } catch (err) {
+        return {
+            status: false,
+            response: err
+        }
+    }
+}
+
 export const get = async (context, pUrl) => {
     await getToken(context);
     console.log(context.state.token)
@@ -128,6 +153,34 @@ export const _delete = async (context, pUrl) => {
         const url = `${endpoint}/${pUrl}`
         const response = await fetch(url, {
             method: "DELETE",
+            headers: {
+                'Authorization': context.state.token,
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': 0
+            }
+        });
+        const responseJson = await response.json()
+        // context.setState({ message: responseJson.message });
+        return {
+            response: responseJson,
+            status: true
+        };
+    } catch (err) {
+        return {
+            status: false,
+            response: err
+        }
+    }
+}
+
+export const generic_request = async (context, req_method, pUrl) => {
+    await getToken(context);
+    console.log(context.state.token)
+    try {
+        const url = `${endpoint}/${pUrl}`
+        const response = await fetch(url, {
+            method: req_method,
             headers: {
                 'Authorization': context.state.token,
                 'Cache-Control': 'no-cache, no-store, must-revalidate',

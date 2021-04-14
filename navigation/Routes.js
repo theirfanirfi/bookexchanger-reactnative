@@ -16,6 +16,7 @@ import Notifications from '../screens/Notifications';
 import LocationPicker from '../screens/LocationPicker';
 import Profile from '../screens/Profile';
 import AddToListScreen from '../screens/AddToListScreen'
+import ListBooksScreen from '../screens/ListBooksScreen'
 
 
 
@@ -172,6 +173,7 @@ function ListNavigator(navigator) {
   return (
     <Stack.Navigator initialRouteName="list" screenOptions={headerOptions(navigator)}>
       <Stack.Screen name="list" component={ListsTab} />
+      <Stack.Screen name="listbooksscreen" component={ListBooksScreen} />
     </Stack.Navigator>
   )
 }

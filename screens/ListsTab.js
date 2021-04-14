@@ -1,41 +1,10 @@
 import * as React from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, RefreshControl } from 'react-native';
 import colors from '../constants/colors'
 import ListItem from '../components/List/ListItem'
 import { Input, Button } from 'react-native-elements'
 import { Col, Row } from "react-native-easy-grid";
 import { get, post } from '../apis/index'
-
-
-const data = [
-    {
-        "id": '1',
-        "list_name": 'My list 1',
-    },
-    {
-        "id": '2',
-        "list_name": 'My list 2',
-
-    },
-    {
-        "id": '3',
-        "list_name": 'My list 3',
-
-    },
-    {
-        "id": '4',
-        "list_name": 'My list 4',
-
-    }
-    , {
-        "id": '5',
-        "list_name": 'My list 5'
-
-    }
-];
-
-
-
 
 class ListsTab extends React.Component {
 
@@ -44,18 +13,29 @@ class ListsTab extends React.Component {
         user: [],
         lists: [],
         list_title: "",
-        list_title_error_message: ""
+        list_title_error_message: "",
+        refreshing: false,
 
     }
 
-    async componentDidMount() {
+    async getLists() {
+        this.setState({ refreshing: false });
+
         let response = await get(this, 'list/')
         if (response.status) {
             let res = response.response
-            this.setState({ lists: res.lists });
+            this.setState({ lists: res.lists, refreshing: false });
         } else {
             //alert
         }
+    }
+
+    async componentDidMount() {
+
+
+        this.props.navigation.addListener('focus', async () => {
+            this.setState({ refreshing: true }, () => this.getLists())
+        })
 
     }
 
@@ -105,10 +85,15 @@ class ListsTab extends React.Component {
         return (
             <View style={{ flex: 1, backgroundColor: colors.screenBackgroundColor }}>
                 <FlatList
+                    refreshControl={<RefreshControl
+                        colors={["#9Bd35A", "#689F38"]}
+                        refreshing={this.state.refreshing}
+                        onRefresh={() => this.getLists()} />
+                    }
                     data={this.state.lists}
                     ListHeaderComponent={this.listHeader}
                     keyExtractor={(item) => { return item.id }}
-                    renderItem={({ item, index }) => <ListItem context={this} book_id={null} isAddToList={false} list={item} index={index} deleteListCallBack={this.deleteListCallBack} />}
+                    renderItem={({ item, index }) => <ListItem navigation={this.props.navigation} context={this} book_id={null} isAddToList={false} list={item} index={index} deleteListCallBack={this.deleteListCallBack} />}
 
                 />
             </View>

@@ -56,6 +56,10 @@ export default function ListItem(props) {
         }
     }
 
+    const navigateToList = () => {
+        props.navigation.navigate('listbooksscreen', { list_id: props.list.list_id });
+    }
+
 
     let list = props.list
     let isAddToList = props.isAddToList
@@ -63,9 +67,9 @@ export default function ListItem(props) {
         <Card containerStyle={{ borderWidth: 0.4, borderColor: 'white', margin: 2 }} >
 
             <Row>
-                <Col>
+                <TouchableOpacity onPress={() => navigateToList()}>
                     <Text style={{ fontSize: 18, fontFamily: 'Roboto-Medium', margin: 6 }}>{list.list_title}</Text>
-                </Col>
+                </TouchableOpacity>
 
             </Row>
 
