@@ -29,7 +29,9 @@ class Home extends React.Component {
   }
 
   async componentDidMount() {
-    this.getPosts();
+    this.props.navigation.addListener('focus', async () => {
+      this.setState({ refreshing: true }, () => this.getPosts())
+    })
   }
   render() {
     if (this.state.posts.length > 0) {

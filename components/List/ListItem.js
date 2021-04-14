@@ -23,12 +23,13 @@ export default function ListItem(props) {
     }
 
     const addToList = async () => {
-        console.log('add')
+        console.log('add ' + props.book_id)
         let form = new FormData();
         if (props.book_id != null) {
             form.append("book_id", props.book_id)
             form.append("list_id", props.list.list_id)
             let response = await post(props.context, 'stack', form)
+            console.log(response);
             if (response.status) {
                 let res = response.response
                 if (res.isCreated) {

@@ -66,6 +66,17 @@ export default class AddToListScreen extends React.Component {
             //alert
         }
     }
+
+    static getStateDerivedFromProps(props, state) {
+        if (state.book_id != props.book_id && props.book_id != undefined) {
+            return {
+                book_id: props.book_id
+            }
+        }
+        return null;
+
+    }
+
     listHeader = () => {
         return (
             <Input placeholder="search" leftIcon={{ type: 'font-awesome', name: 'search', color: 'lightgray' }} />

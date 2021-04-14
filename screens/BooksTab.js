@@ -50,7 +50,9 @@ class BooksTab extends React.Component {
     }
 
     async componentDidMount() {
-        this.getBooks();
+        this.props.navigation.addListener('focus', async () => {
+            this.setState({ refreshing: true }, () => this.getBooks())
+        })
     }
 
     async filter_books(search_term) {

@@ -18,7 +18,7 @@ class AddBook extends React.Component {
     }
 
     searchForBooks = async () => {
-        this.setState({ isLoading: true })
+        this.setState({ isLoading: true, message: 'search is in progress' })
         // third party apis
         let BOOKS_REPO_API = `http://openlibrary.org/search.json?q=${this.state.search_keyword}&limit=${this.state.limit}&page=${this.state.page}`
         fetch(BOOKS_REPO_API).then(res => res.json()).then(res => {
@@ -37,7 +37,7 @@ class AddBook extends React.Component {
 
                 })
                 if (this.state.books.length > 0) {
-                    this.setState({ books: this.state.books.concat(formated_books), isLoading: false })
+                    this.setState({ books: this.state.books.concat(formated_books), isLoading: false, message: 'books found' })
                 } else {
                     this.setState({ books: formated_books, isLoading: false })
 
