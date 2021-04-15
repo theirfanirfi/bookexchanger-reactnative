@@ -42,6 +42,7 @@ const NOTIFICATION_TAB_ICON = require('../assets/icons/notification.png')
 const SEARCH_ICON = require('../assets/icons/explore.png')
 
 import { Icon, Input } from 'react-native-elements'
+import BooksSearchAPI from '../screens/BooksSearchAPI';
 
 function headerOptions(navigator) {
   return (
@@ -184,6 +185,7 @@ function BooksNavigator(navigator) {
     <Stack.Navigator initialRouteName="books" screenOptions={headerOptions(navigator)}>
       <Stack.Screen name="books" component={BooksTab} />
       <Stack.Screen name="addbook" component={AddBook} />
+      <Stack.Screen name="bookexchangesearchapi" component={BooksSearchAPI} />
       <Stack.Screen name="addtolistscreen" component={AddToListScreen} />
     </Stack.Navigator>
   )

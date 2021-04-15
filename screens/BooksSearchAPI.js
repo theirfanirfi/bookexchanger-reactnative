@@ -42,21 +42,22 @@ export default class BooksSearchAPI extends React.Component {
     }
 
     async componentDidMount() {
-        this.setState({ book: this.props.book });
+        const { book } = await this.props.route.params
+        this.setState({ book: book });
         // this.getBooks("s");
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (state.book != props.book && props.book != undefined) {
-            return {
-                book: props.book
-            }
-        } else {
-            return {
-                book: []
-            }
-        }
-    }
+    // static getDerivedStateFromProps(props, state) {
+    //     if (state.book != props.book && props.book != undefined) {
+    //         return {
+    //             book: props.book
+    //         }
+    //     } else {
+    //         return {
+    //             book: []
+    //         }
+    //     }
+    // }
 
     searchForBooks = async () => {
         this.setState({ isLoading: true, message: 'search is in progress' })

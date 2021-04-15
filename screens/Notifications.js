@@ -1,13 +1,38 @@
 import * as React from 'react';
-import { Text, Image, View } from 'react-native';
+import { Text, Image, View, FlatList, RefreshControl } from 'react-native';
 const nonotification = require('../assets/graphics/notnotification.png');
+import { get, post, put, _delete } from '../apis/index'
+import LikeCommentNotificationComponent from '../components/Notifications/LikeCommentNotificationComponent'
+import ExchangeNotificationComponent from '../components/Notifications/ExchangeNotificationComponent'
+import FollowNotificationComponent from '../components/Notifications/FollowNotificationComponent'
 export default class Notifications extends React.Component {
     state = {
-        notifications: []
+        notifications: [],
+        token: 'sometoken',
+        user: [],
+        refreshing: false,
+        message: 'No notification for you at the moment'
+    }
+
+    async getNotifications() {
+        this.setState({ refreshing: true, message: 'loading...' });
+        let response = await get(this, 'notification/')
+        if (response.status) {
+            let res = response.response
+            if (res.notifications.length > 0) {
+                this.setState({ notifications: res.notifications, refreshing: false, message: 'No notification for you at the moment' });
+
+            } else {
+                // return false;
+            }
+        } else {
+            // return false;
+        }
     }
     componentDidMount() {
         // const { term } = this.props.route.params
         // this.setState({ search_term: term }, () => console.log(this.state.search_term))
+        this.getNotifications();
     }
 
     // static getDerivedStateFromProps(props, state) {
@@ -21,22 +46,50 @@ export default class Notifications extends React.Component {
     //     }
     // }
 
+    getNotificationItem = item => {
+        console.log('item')
+        console.log(item)
+
+        if (item.is_like == 1 || item.is_comment == 1) {
+            console.log('like')
+            return <LikeCommentNotificationComponent notification={item} navigation={this.props.navigation} />
+        } else if (item.is_exchange == 1) {
+            console.log('exchange')
+            return <ExchangeNotificationComponent notification={item} navigation={this.props.navigation} />
+        } else if (item.is_follow == 1) {
+
+        }
+    }
+
 
 
     render() {
-        if (this.state.notifications.length > 0) {
-            <Text>Notifications</Text>
-        }
-        else {
-            return (
-                <View style={{ flex: 1, flexDirection: 'column', backgroundColor: 'white', justifyContent: 'center' }}>
-                    <Image source={nonotification} style={{ width: 200, height: 210, alignSelf: 'center', }} />
-                    <Text style={{ alignSelf: 'center', fontWeight: 'bold' }} >
-                        We don't have any notification for you at the moment
-                        </Text>
-                </View>
-            )
-        }
+        return (
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
+
+
+                <FlatList
+                    refreshControl={<RefreshControl
+                        colors={["#9Bd35A", "#689F38"]}
+                        refreshing={this.state.refreshing}
+                        onRefresh={() => this.getNotifications()} />
+                    }
+                    data={this.state.notifications}
+                    // ListHeaderComponent={this.listHeader}
+                    // onEndReached={() => this.nextPage()}
+                    onEndReachedThreshold={0.5}
+                    keyExtractor={(item) => { return item.notification_id }}
+                    renderItem={({ item }) => this.getNotificationItem(item)}
+
+                />
+                {this.state.notifications.length == 0 && <>
+                    <View style={{ justifyContent: 'center', backgroundColor: 'white', flex: 1, marginBottom: 80 }}>
+                        <Image source={nonotification} style={{ width: 200, height: 200, alignSelf: 'center', }} />
+                        <Text style={{ alignSelf: 'center' }}>{this.state.message}</Text>
+                    </View>
+                </>}
+            </View>
+        )
     }
 }
 

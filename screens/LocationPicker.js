@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { Text, Image, View } from 'react-native';
-// import MapPicker from "react-native-map-picker";
-// import LocationView from "react-native-location-view";
+import { Text, Image, View, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 export default class LocationPicker extends React.Component {
     state = {
@@ -38,51 +36,43 @@ export default class LocationPicker extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
-                {/* <MapPicker
-                    initialCoordinate={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
+            <MapView
+                style={{ width: '100%', height: '100%' }}
+                initialRegion={this.state.region}
+                showsUserLocation={true}
+                showsCompass={true}
+                zoomControlEnabled={true}
+                showsTraffic={true}
+                // onMapReady={this.onMapReady}
+                onRegionChangeComplete={this.onRegionChange}>
+                <MapView.Marker
+                    coordinate={{
+                        "latitude": this.state.region.latitude,
+                        "longitude": this.state.region.longitude
                     }}
-                    onLocationSelect={({ latitude, longitude }) => console.log(longitude)}
-                /> */}
-
-
-                {/* <LocationView
-                    apiKey={"AIzaSyAbKhNWHZCF87W25x4pPWBXEUQOHr4VviM"}
-                    initialLocation={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
-                    }}
-                /> */}
-
-                {/* <MapView
-                    initialRegion={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    }}
-                    onRegionChange={this.onRegionChange}
-                /> */}
-
-                <MapView
-                    style={{ width: '100%', height: '100%' }}
-                    initialRegion={this.state.region}
-                    showsUserLocation={true}
-                    onMapReady={this.onMapReady}
-                    onRegionChangeComplete={this.onRegionChange}>
-                    <MapView.Marker
-                        coordinate={{
-                            "latitude": this.state.region.latitude,
-                            "longitude": this.state.region.longitude
-                        }}
-                        title={"Your Location"}
-                        draggable />
-                </MapView>
-
-            </View>
+                    title={"Your Location"}
+                    draggable />
+            </MapView>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+    map: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    },
+});
 

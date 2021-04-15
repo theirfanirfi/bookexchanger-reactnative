@@ -189,7 +189,12 @@ export default class BookItem extends React.Component {
                                     ) : (
                                         <Row>
                                             <Col>
-                                                <BookExchangeComponent book={book} />
+                                                {/* <BookExchangeComponent book={book} /> */}
+                                                <TouchableOpacity onPress={() => this.props.navigation.navigate('bookexchangesearchapi', { book: book })}>
+
+                                                    <Icon name="repeat-outline" type="ionicon" size={26} />
+
+                                                </TouchableOpacity>
                                             </Col>
                                         </Row>
                                     )}

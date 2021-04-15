@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native'
 import { Col, Row } from "react-native-easy-grid";
 import { Card, Button, Icon } from 'react-native-elements'
@@ -17,18 +17,25 @@ export default function BookExchangeItem(props) {
     const [exchangedRequestSent, setExchangedRequestSent] = useState(false)
     const [exchangedRequest, setExchangedRequest] = useState([])
 
+    useEffect(() => {
+        console.log("to provide: " + props.book_to_provide_in_exchange)
+        console.log("to get: " + props.book_to_get_in_exchange)
+    })
+
     const makeExchangeRequest = async (book_to_provide_in_exchange) => {
-        console.log(book_to_provide_in_exchange);
         let form = new FormData();
 
         form.append("to_exchange_with_user_id", props.book_to_get_in_exchange.user_id)
         form.append("book_to_be_sent_id", book_to_provide_in_exchange.book_id)
         form.append("book_to_be_received_id", props.book_to_get_in_exchange.book_id)
+        console.log(props.book_to_get_in_exchange)
+        console.log(props.book_to_provide_in_exchange)
 
         let response = await post(props.context, 'exchange', form)
         // console.log(response)
         if (response.status) {
             let res = response.response
+            console.log(res)
             if (res.isCreated) {
                 setExchangedRequestSent(true);
                 setExchangedRequest(res.exchange)
@@ -43,14 +50,14 @@ export default function BookExchangeItem(props) {
     }
 
     const initiateBookExchangeRequest = async () => {
-        // console.log(props.book_to_provide_in_exchange.book_id + " " + props.book_to_get_in_exchange.book_id)
         let form = new FormData();
         form.append("book_title", props.book_to_provide_in_exchange.book_title)
         form.append("book_description", "some description")
         form.append("book_isbn", props.book_to_provide_in_exchange.book_isbn)
         form.append("book_author", props.book_to_provide_in_exchange.book_author)
         form.append("book_cover_image", props.book_to_provide_in_exchange.book_cover_image)
-        form.append("book_added_from", "google")
+        form.append("is_available_for_exchange", 0)
+        form.append("book_added_from", "openlibrary")
         let response = await post(props.context, 'book', form)
         // console.log(response)
         if (response.status) {

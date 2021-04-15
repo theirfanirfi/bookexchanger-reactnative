@@ -23,6 +23,7 @@ export default class BookExchangeComponent extends React.Component {
 
     static getDerivedStateFromProps(props, state) {
         if (state.book != props.book && props.book != undefined) {
+            console.log(props.book)
             return {
                 book: props.book
             }
@@ -38,7 +39,13 @@ export default class BookExchangeComponent extends React.Component {
 
 
             <View>
-                <Modal onBackButtonPress={() => this.setState({ visible: false })} isVisible={this.state.visible} deviceHeight={windowHeight - 20} swipeDirection={['down']} onSwipeComplete={() => { this.setState({ visible: false }) }}>
+                <Modal
+                    onBackdropPress={() => this.setState({ visible: false })}
+                    onBackButtonPress={() => this.setState({ visible: false })}
+                    isVisible={this.state.visible}
+                    deviceHeight={windowHeight - 20}
+                    swipeDirection={['down']}
+                    onSwipeComplete={() => { this.setState({ visible: false }) }}>
                     {/* <View style={{ backgroundColor: '#fff', marginTop: 30, padding: 12 }}> */}
                     {/* <CommentWritingBoxComponent commentCallBack={this.commentCallBack} context={this} post={this.props.post} /> */}
                     <BooksSearchAPI book={this.state.book} />
