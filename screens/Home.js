@@ -46,7 +46,7 @@ class Home extends React.Component {
             }
             data={this.state.posts}
             keyExtractor={(item) => { return item.id }}
-            renderItem={({ item }) => <PostItem key={item.id} context={this} post={item} />}
+            renderItem={({ item }) => <PostItem key={item.id} context={this} post={item} navigation={this.props.navigation} />}
 
           />
         </View>

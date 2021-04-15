@@ -43,6 +43,7 @@ const SEARCH_ICON = require('../assets/icons/explore.png')
 
 import { Icon, Input } from 'react-native-elements'
 import BooksSearchAPI from '../screens/BooksSearchAPI';
+import SinglePost from '../screens/SinglePost';
 
 function headerOptions(navigator) {
   return (
@@ -215,6 +216,14 @@ function profileNavigator(navigator) {
   )
 }
 
+function singlePostNavigator(navigator) {
+  return (
+    <Stack.Navigator initialRouteName="post" screenOptions={{ headerStyle: { backgroundColor: '#7D4DFF' }, headerTitle: 'Post', headerTintColor: 'white' }}>
+      <Stack.Screen name="post" component={SinglePost} />
+    </Stack.Navigator>
+  )
+}
+
 export default function RootNavigator() {
   return (
     <Stack.Navigator initialRouteName="root" screenOptions={{ headerShown: false }}>
@@ -225,6 +234,7 @@ export default function RootNavigator() {
       <Stack.Screen name="notifications" component={notificationsNavigator} />
       <Stack.Screen name="location" component={locationNavigator} />
       <Stack.Screen name="profile" component={profileNavigator} />
+      <Stack.Screen name="SinglePost" component={singlePostNavigator} />
     </Stack.Navigator>
   )
 }

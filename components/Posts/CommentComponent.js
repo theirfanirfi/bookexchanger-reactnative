@@ -35,8 +35,14 @@ export default class CommentComponent extends React.Component {
                     {/* </View> */}
                 </Modal>
 
-                <TouchableOpacity onPress={() => this.setState({ visible: true })}>
+                <TouchableOpacity
+                    style={{ flexDirection: 'row' }}
+                    onPress={() => this.setState({ visible: true })}
+                >
                     <Icon name="chatbox-ellipses-outline" type="ionicon" size={23} style={{ alignSelf: 'center', marginLeft: 26, marginBottom: 3 }} />
+                    {this.props.post.comments_count > 0 &&
+                        <Text style={{ fontSize: 17 }}> {this.props.post.comments_count}</Text>
+                    }
                 </TouchableOpacity>
             </View>
         )

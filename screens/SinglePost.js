@@ -1,175 +1,131 @@
 import * as React from 'react';
-import { StyleSheet, FlatList, TouchableOpacity, Text, View, Image, Platform } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, Text, View, Image, Platform } from 'react-native';
 import colors from '../constants/colors'
-import { Badge } from 'react-native-elements'
+import { Col, Row } from "react-native-easy-grid";
+import CircularImage from '../components/Images/CircularImage'
+import { Badge, Card } from 'react-native-elements'
+import LikeComponent from '../components/Posts/LikeComponent'
+import CommentComponent from '../components/Posts/CommentComponent'
+import CommentsComponent from '../components/Posts/CommentsComponent'
 const profile_image = require('../assets/images/default.png');
+import { get } from '../apis/index'
+import { getImage } from '../components/utils'
 
-const data = [
-    {
-        id: '1',
-        username: 'Irfan Irfi'
-    },
-    {
-        id: '2',
-        username: 'Irfan Irfi'
-    },
-    {
-        id: '3',
-        username: 'Irfan Irfi'
-    },
-    {
-        id: '4',
-        username: 'Irfan Irfi'
-    },
-]
 
 export default class SinglePost extends React.Component {
     state = {
-        participants: [],
+        post: [],
         user: [],
-        token: null,
+        token: 'sometoken',
         isLoggedIn: false,
         isRefreshing: false,
+        message: 'Post not found',
+        post_id: null
     }
 
-    goToChat = (chat: any) => {
-        var id = 0
-        if (chat.i_am_intitiater == 1) {
-            id = chat.chat_initiated_with_id
+    async getPost() {
+        this.setState({ isRefreshing: true, message: 'loading...' });
+        let response = await get(this, `post/${this.state.post_id}/`)
+        if (response.status) {
+            let res = response.response
+            if (res.post.length > 0) {
+                console.log(res)
+
+                this.setState({ post: res.post[0], isRefreshing: false, message: 'Post not found' });
+
+            } else {
+                // return false;
+            }
         } else {
-            id = chat.chat_initiater_id
-        }
-
-        if (id > 0) {
-            this.props.navigation.navigate('Chat', { chat_with_id: id });
+            // return false;
         }
     }
 
-    async componentDidMount() {
-        // this.props.navigation.addListener('focus', () => {
-        //     this.setState({ isRefreshing: true }, () => getChatParticipants(this))
-        // })
-        // await getChatParticipants(this);
+    componentDidMount() {
+        const { post_id } = this.props.route.params
+        this.setState({ post_id: post_id }, () => this.getPost())
     }
 
     onRefresh = async () => {
-        await this.setState({ isRefreshing: true })
-        await getChatParticipants(this);
+        this.setState({ isRefreshing: true }, () => this.getPost())
 
     }
 
-    getUserName(item: any) {
-        if (item.i_am_intitiater == 1) {
-            return item.initiated_with_username
-        } else {
-            return item.initiater_username
-        }
-    }
 
-    getProfilePicture(item: any) {
-        if (item.i_am_intitiater == 1) {
-            return getProfileImage('user', item.initiated_with_profile_image)
-        } else {
-            return getProfileImage('user', item.initiater_profile_image)
-        }
-    }
-
-    getLastMessage(item: any) {
-        if (item.last_message.length > 0) {
-            if (item.last_message.length > 15) {
-                return item.last_message.substr(0, 15) + '...'
-            } else {
-                return item.last_message
-            }
-        } else {
-            return ''
-        }
-    }
 
     render() {
+        let post = this.state.post
         return (
-            <View style={{ backgroundColor: 'white', height: '100%' }}>
-                <FlatList
-                    style={{ width: '100%' }}
-                    data={data}
-                    refreshing={this.state.isRefreshing}
-                    onRefresh={() => this.onRefresh()}
-                    keyExtractor={(item) => { return item.id; }}
-                    renderItem={({ item }) => (
-                        <View style={{
-                            flex: 1, shadowColor: 'black', shadowOpacity: 0.3, padding: 10, borderRadius: 2,
-                            flexDirection: 'row', elevation: 3,
-                            marginHorizontal: 8, marginVertical: 8,
-                            borderColor: 'darkgray',
-                            borderWidth: Platform.OS == "ios" ? 0.3 : 0
-                        }}>
+            <ScrollView style={{ backgroundColor: 'white' }}>
+                <Card containerStyle={{ borderWidth: 0.4, borderColor: 'white', margin: 2 }}>
+                    <Row>
+                        <Col style={{ flexDirection: 'row', marginVertical: 8 }}>
+                            <CircularImage style={null} image={null} size="small" />
+                            <Row style={{ flexDirection: 'column' }}>
+                                <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{post.fullname}</Text>
+                                <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8 }}>{post.created_at}</Text>
 
-                            <View style={{ flexDirection: 'column' }}>
-                                <TouchableOpacity style={{ alignSelf: 'flex-start' }}>
-                                    <Image style={styles.image} source={profile_image} />
-                                </TouchableOpacity>
-                            </View>
+                            </Row>
 
 
-                            <View style={{ flexDirection: 'column', marginHorizontal: 10 }}>
-                                <TouchableOpacity style={{ alignSelf: 'stretch' }}>
-                                    <Text style={styles.title}>{item.username}</Text>
-                                </TouchableOpacity>
+                        </Col>
 
-                            </View>
+                    </Row>
 
-                            {/* <View style={{
-                                flexDirection: 'column',
-                                alignContent: 'stretch'
-                            }}>
+                    <Row>
+                        <Col>
+                            <Text style={{ fontSize: 18, fontFamily: 'Roboto-Medium', margin: 6 }}>{post.post_title}</Text>
+                        </Col>
 
-                                <Badge value={item.unread_msgs} status="warning" containerStyle={{ alignSelf: 'flex-end' }} />
-                            </View> */}
-
-                        </View>
-                    )
+                    </Row>
+                    {post.post_image != "" && post.post_image != null &&
+                        <Row>
+                            <Col>
+                                <Image style={{ width: '100%', height: 200 }} source={{ uri: getImage('posts', post.post_image) }} />
+                            </Col>
+                        </Row>
                     }
-                />
-            </View >
+
+
+
+                    <Row>
+                        <Col>
+                            <Text style={{
+                                textAlign: 'justify', fontSize: 14,
+                                color: 'gray',
+                                fontFamily: 'Roboto-Regular', margin: 6
+                            }}>{post.post_description}</Text>
+
+                        </Col>
+                    </Row>
+
+
+
+
+                    <Row style={{ marginTop: 18 }}>
+                        <Col >
+                            <LikeComponent post={post} context={this} isLiked={post.isLiked} />
+                        </Col>
+                        <Col>
+                            {/* <TouchableOpacity>
+                        <Icon name="chatbox-ellipses-outline" type="ionicon" size={23} style={{ alignSelf: 'center', marginLeft: 26, marginBottom: 3 }} />
+                    </TouchableOpacity> */}
+                        </Col>
+                        <Col>
+                            {/* <Text style={{ margin: 6, color: 'gray' }}>{"2020-12-04"}</Text> */}
+                            <CommentComponent context={this} post={post} />
+
+                        </Col>
+
+                    </Row>
+                </Card>
+
+                <Card>
+                    <CommentsComponent postt={post} />
+                </Card>
+            </ScrollView >
         );
     }
 
 }
 
-
-const styles = StyleSheet.create({
-
-    image: {
-        width: 80,
-        height: 80,
-        margin: 4,
-        borderRadius: 120
-
-    },
-
-    title: {
-        fontSize: 15,
-        color: "#000",
-        fontWeight: 'bold',
-        marginTop: 20,
-    },
-    description: {
-        fontSize: 15,
-        color: "#fff",
-        marginBottom: 8
-    },
-
-    icon: {
-        width: 20,
-        height: 20,
-    },
-    view: {
-        backgroundColor: "#eee",
-    },
-    profile: {
-        backgroundColor: "#1E90FF",
-    },
-    message: {
-        backgroundColor: "#228B22",
-    },
-});

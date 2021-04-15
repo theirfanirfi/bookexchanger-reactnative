@@ -43,14 +43,12 @@ export default class CommentsComponent extends React.Component {
 
     static getDerivedStateFromProps(props, state) {
         if (state.postt != props.postt && props.postt != undefined) {
+            console.log(props.postt)
             return {
                 postt: props.postt
             }
-        } else {
-            return {
-                postt: []
-            }
         }
+        return null
     }
 
     listHeader = () => {
