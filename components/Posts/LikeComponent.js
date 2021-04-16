@@ -27,6 +27,17 @@ export default class LikeComponent extends React.Component {
         this.setState({ postt: this.props.post, isLiked: this.props.isLiked, likesCount: this.props.post.likes_count })
     }
 
+    static getDerivedStateFromProps(props, state) {
+        if (props.post != state.postt && props.post != undefined) {
+            return {
+                postt: props.post
+            }
+        }
+
+
+        return null;
+    }
+
     likePost = async () => {
         let form = new FormData();
         form.append("post_id", this.state.postt.post_id)

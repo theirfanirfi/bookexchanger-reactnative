@@ -3,68 +3,48 @@ import { StyleSheet, FlatList, TouchableOpacity, Text, View, Image, Platform } f
 import colors from '../constants/colors'
 import { Badge } from 'react-native-elements'
 const profile_image = require('../assets/images/default.png');
-
-const data = [
-    {
-        id: '1',
-        username: 'Irfan Irfi'
-    },
-    {
-        id: '2',
-        username: 'Irfan Irfi'
-    },
-    {
-        id: '3',
-        username: 'Irfan Irfi'
-    },
-    {
-        id: '4',
-        username: 'Irfan Irfi'
-    },
-]
+import { get } from '../apis/index'
 
 export default class Chats extends React.Component {
     state = {
         participants: [],
         user: [],
-        token: null,
+        token: 'sometoken',
         isLoggedIn: false,
         isRefreshing: false,
     }
 
-    goToChat = (chat: any) => {
-        var id = 0
-        if (chat.i_am_intitiater == 1) {
-            id = chat.chat_initiated_with_id
-        } else {
-            id = chat.chat_initiater_id
-        }
+    async getChats() {
+        this.setState({ isRefreshing: true, message: 'loading...' });
+        let response = await get(this, 'participant/')
+        if (response.status) {
+            let res = response.response
+            if (res.isFound) {
+                this.setState({ participants: res.participants, isRefreshing: false, message: 'No notification for you at the moment' });
 
-        if (id > 0) {
-            this.props.navigation.navigate('Chat', { chat_with_id: id });
+            } else {
+                // return false;
+            }
+        } else {
+            // return false;
         }
     }
+
 
     async componentDidMount() {
         // this.props.navigation.addListener('focus', () => {
         //     this.setState({ isRefreshing: true }, () => getChatParticipants(this))
         // })
         // await getChatParticipants(this);
+        this.getChats();
     }
 
     onRefresh = async () => {
-        await this.setState({ isRefreshing: true })
-        await getChatParticipants(this);
+        this.setState({ isRefreshing: true }, () => this.getChats())
 
     }
 
-    getUserName(item: any) {
-        if (item.i_am_intitiater == 1) {
-            return item.initiated_with_username
-        } else {
-            return item.initiater_username
-        }
-    }
+
 
     getProfilePicture(item: any) {
         if (item.i_am_intitiater == 1) {
@@ -74,48 +54,51 @@ export default class Chats extends React.Component {
         }
     }
 
-    getLastMessage(item: any) {
-        if (item.last_message.length > 0) {
-            if (item.last_message.length > 15) {
-                return item.last_message.substr(0, 15) + '...'
-            } else {
-                return item.last_message
-            }
+    getUserName = (item) => {
+        let user = undefined
+        if (item.amIUserOne == 1) {
+            user = JSON.parse(item.user_two)
+            return user.user_two_fullname
         } else {
-            return ''
+            user = JSON.parse(item.user_one)
+            return user.user_one_fullname
         }
     }
+
+
 
     render() {
         return (
             <View style={{ backgroundColor: 'white', height: '100%' }}>
                 <FlatList
                     style={{ width: '100%' }}
-                    data={data}
+                    data={this.state.participants}
                     refreshing={this.state.isRefreshing}
                     onRefresh={() => this.onRefresh()}
                     keyExtractor={(item) => { return item.id; }}
-                    renderItem={({ item }) => (
-                        <View style={{
-                            flex: 1, padding: 10,
-                            flexDirection: 'row',
-                        }}  >
+                    renderItem={({ item }) => {
+                        return (
 
-                            <View style={{ flexDirection: 'column' }}>
-                                <TouchableOpacity style={{ alignSelf: 'flex-start' }} onPress={() => this.props.navigation.navigate('Chat', { 'chat_id': 'some id' })}>
-                                    <Image style={styles.image} source={profile_image} />
-                                </TouchableOpacity>
-                            </View>
+                            <View style={{
+                                flex: 1, padding: 10,
+                                flexDirection: 'row',
+                            }}  >
+
+                                <View style={{ flexDirection: 'column' }}>
+                                    <TouchableOpacity style={{ alignSelf: 'flex-start' }} onPress={() => this.props.navigation.navigate('Chat', { 'p_id': item.p_id, 'username': this.getUserName(item) })}>
+                                        <Image style={styles.image} source={profile_image} />
+                                    </TouchableOpacity>
+                                </View>
 
 
-                            <View style={{ flexDirection: 'column', marginHorizontal: 10 }}>
-                                <TouchableOpacity style={{ alignSelf: 'stretch' }}>
-                                    <Text style={styles.title}>{item.username}</Text>
-                                </TouchableOpacity>
+                                <View style={{ flexDirection: 'column', marginHorizontal: 10 }}>
+                                    <TouchableOpacity style={{ alignSelf: 'stretch' }} onPress={() => this.props.navigation.navigate('Chat', { 'p_id': item.p_id, 'username': this.getUserName(item) })}>
+                                        <Text style={styles.title}>{this.getUserName(item)}</Text>
+                                    </TouchableOpacity>
 
-                            </View>
+                                </View>
 
-                            {/* <View style={{
+                                {/* <View style={{
                                 flexDirection: 'column',
                                 alignContent: 'stretch'
                             }}>
@@ -123,8 +106,9 @@ export default class Chats extends React.Component {
                                 <Badge value={item.unread_msgs} status="warning" containerStyle={{ alignSelf: 'flex-end' }} />
                             </View> */}
 
-                        </View>
-                    )
+                            </View>
+                        )
+                    }
                     }
                 />
             </View >

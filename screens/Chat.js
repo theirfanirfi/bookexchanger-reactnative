@@ -34,9 +34,9 @@ export default class Chat extends React.Component {
     }
 
     async componentDidMount() {
-        // const { chat_with_id } = await this.props.route.params
+        const { p_id, username } = await this.props.route.params
         this.props.navigation.setOptions({
-            headerTitle: 'Updated!',
+            headerTitle: username,
             headerTitleStyle: { fontSize: 16, color: 'white' },
             headerRight: () => {
                 return (

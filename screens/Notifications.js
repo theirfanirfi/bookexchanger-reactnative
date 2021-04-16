@@ -55,7 +55,7 @@ export default class Notifications extends React.Component {
             return <LikeCommentNotificationComponent notification={item} navigation={this.props.navigation} />
         } else if (item.is_exchange == 1) {
             console.log('exchange')
-            return <ExchangeNotificationComponent notification={item} navigation={this.props.navigation} />
+            return <ExchangeNotificationComponent context={this} notification={item} navigation={this.props.navigation} />
         } else if (item.is_follow == 1) {
 
         }
