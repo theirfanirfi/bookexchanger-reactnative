@@ -1,10 +1,10 @@
 import React from 'react'
 import { GiftedChat, Message, Bubble, SystemMessage } from 'react-native-gifted-chat'
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { Row, Col } from 'react-native-easy-grid'
 import base64 from 'react-native-base64';
-import { Icon } from 'react-native-elements'
+import { Icon, Card, Button } from 'react-native-elements'
 import { get, post, put } from '../apis/index'
 
 
@@ -140,14 +140,69 @@ export default class Chat extends React.Component {
             return JSON.parse(message.receiver);
         }
     }
+    customMessage(message) {
+        if (message.currentMessage.is_exchange == 1) {
+            let book_to_be_received = JSON.parse(message.currentMessage.book_to_be_received)
+            let book_to_be_sent = JSON.parse(message.currentMessage.book_to_be_sent)
+            return (
+                // <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
+                <Card style={{ padding: 12, alignSelf: 'center', justifyContent: 'center' }}>
+                    <Col style={{ flexDirection: 'column' }}>
+
+                        <View style={{ flexDirection: 'row' }}>
+
+                            {book_to_be_received.book_cover_image != null &&
+                                <Image source={{ uri: book_to_be_received.book_cover_image }} style={{ width: 80, height: 80 }} />
+                            }
+                            <View style={{ flexDirection: 'column' }}>
+                                <Text style={{ fontWeight: 'bold' }}>  {book_to_be_received.book_title}</Text>
+                                <Text>  by {book_to_be_received.book_author}</Text>
+                            </View>
+
+                        </View>
+                        <Text>You Will get</Text>
+
+                    </Col>
+                    <Col style={{ justifyContent: 'center' }}>
+                        <Icon name="repeat-outline" size={40} type="ionicon" />
+                    </Col>
+                    <Col>
+                        <View style={{ flexDirection: 'row' }}>
+
+                            {book_to_be_sent.book_cover_image != null &&
+                                <Image source={{ uri: book_to_be_sent.book_cover_image }} style={{ width: 80, height: 80 }} />
+                            }
+                            <View style={{ flexDirection: 'column' }}>
+                                <Text style={{ fontWeight: 'bold' }}>  {book_to_be_sent.book_title}</Text>
+                                <Text>  by {book_to_be_sent.book_author}</Text>
+                            </View>
+
+                        </View>
+
+                        <Text>You Will Send</Text>
+
+                    </Col>
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 12 }}>
+                        <Button type="solid" title="Approve" />
+                        <Button title="Decline" buttonStyle={{ backgroundColor: 'red' }} />
+                    </View>
+                </Card>
+                // </View>
+            )
+        }
+        return <Message {...message} />
+    }
 
     render() {
         console.log('sender id render: ' + this.state.sender_id)
         return (
             <View style={{ height: '100%', backgroundColor: 'white' }}>
                 <GiftedChat
+                    isLoadingEarlier={true}
                     messages={this.state.messages}
                     renderBubble={this.messageRender}
+                    renderMessage={this.customMessage}
                     onSend={messages => this.onSend(messages)}
                     scrollToBottom={true}
                     user={{
