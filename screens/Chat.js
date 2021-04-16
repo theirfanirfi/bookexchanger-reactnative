@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import base64 from 'react-native-base64';
 import { Icon } from 'react-native-elements'
+import { get, post, put } from '../apis/index'
 
 
 
@@ -18,7 +19,9 @@ export default class Chat extends React.Component {
         messages: [],
         participants: [],
         chat_with_id: 0,
-        token: null,
+        token: 'sometoken',
+        username: null,
+        sender_id: 0,
     }
 
 
@@ -31,6 +34,22 @@ export default class Chat extends React.Component {
             } else {
             }
         });
+    }
+
+    async getMessages() {
+        let response = await get(this, `messages/${this.state.participant_id}`)
+        if (response.status) {
+            let res = response.response
+            if (res.messages.length > 0) {
+                this.setState({ messages: res.messages, isRefreshing: false, message: 'No notification for you at the moment' }, () => {
+                    this.setState({ sender_id: this.getSender()._id }, () => this.formatMessages())
+                });
+            } else {
+                // return false;
+            }
+        } else {
+            // return false;
+        }
     }
 
     async componentDidMount() {
@@ -47,6 +66,8 @@ export default class Chat extends React.Component {
                 )
             }
         })
+        this.setState({ participant_id: p_id, username: username }, () => this.getMessages());
+
         // this.getData()
         // await this.setState({ chat_with_id: chat_with_id });
         // const response = await getChatWithUser(this);
@@ -70,13 +91,13 @@ export default class Chat extends React.Component {
         //     let res = response.response
         //     if (res.isMessageSent) {
         let messages = this.state.messages
-        // messages.unshift({
-        messages.push({
-            '_id': 2,
+        messages.unshift({
+            // messages.push({
+            '_id': '8783-djfls-fjsdl-2',
             'text': 'some message',
             'sent': true,
             'user': {
-                '_id': 1
+                '_id': this.state.sender_id
             }
         })
 
@@ -111,7 +132,17 @@ export default class Chat extends React.Component {
         )
     }
 
+    getSender() {
+        let message = this.state.messages[0]
+        if (message.amISender == 1) {
+            return JSON.parse(message.sender);
+        } else {
+            return JSON.parse(message.receiver);
+        }
+    }
+
     render() {
+        console.log('sender id render: ' + this.state.sender_id)
         return (
             <View style={{ height: '100%', backgroundColor: 'white' }}>
                 <GiftedChat
@@ -120,7 +151,7 @@ export default class Chat extends React.Component {
                     onSend={messages => this.onSend(messages)}
                     scrollToBottom={true}
                     user={{
-                        _id: 1
+                        _id: this.state.sender_id
                     }}
                 />
             </View>
