@@ -1,15 +1,21 @@
 import React from 'react'
 import { GiftedChat, Message, Bubble, SystemMessage } from 'react-native-gifted-chat'
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, ActivityIndicator } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Row, Col } from 'react-native-easy-grid'
 import base64 from 'react-native-base64';
 import { Icon, Card, Button } from 'react-native-elements'
 import { get, post, put } from '../apis/index'
+import ChatBookExchangeComponent from '../components/ChatExchangeComponent';
 
 
 
 export default class Chat extends React.Component {
+
+    constructor(props) {
+        super(props);
+        // this.context = this;
+    }
 
     state = {
         isLoggedIn: false,
@@ -22,18 +28,27 @@ export default class Chat extends React.Component {
         token: 'sometoken',
         username: null,
         sender_id: 0,
+        is_approved: false,
+        is_decline: false,
+        context: this
     }
 
 
-    getData = async () => {
-        let isLoggedIn = await AsyncStorage.getItem('user').then(item => {
-            console.log(item);
-            if (item !== null) {
-                console.log(item)
-                this.setState({ user: JSON.parse(item) })
+    approve_exchange_request = async () => {
+        let form = new FormData();
+        let response = await post(this, `exchange/approve_exchange/${this.state.participant_id}`, form)
+        if (response.status) {
+            let res = response.response
+            if (res.messages.length > 0) {
+                this.setState({ messages: res.messages, message: 'No notification for you at the moment' }, () => {
+                    this.setState({ sender_id: this.getSender()._id }, () => this.formatMessages())
+                });
             } else {
+                // return false;
             }
-        });
+        } else {
+            // return false;
+        }
     }
 
     async getMessages() {
@@ -41,7 +56,7 @@ export default class Chat extends React.Component {
         if (response.status) {
             let res = response.response
             if (res.messages.length > 0) {
-                this.setState({ messages: res.messages, isRefreshing: false, message: 'No notification for you at the moment' }, () => {
+                this.setState({ messages: res.messages, message: 'No notification for you at the moment' }, () => {
                     this.setState({ sender_id: this.getSender()._id }, () => this.formatMessages())
                 });
             } else {
@@ -66,7 +81,7 @@ export default class Chat extends React.Component {
                 )
             }
         })
-        this.setState({ participant_id: p_id, username: username }, () => this.getMessages());
+        this.setState({ participant_id: p_id, username: username, isLoading: true }, () => this.getMessages());
 
         // this.getData()
         // await this.setState({ chat_with_id: chat_with_id });
@@ -78,7 +93,7 @@ export default class Chat extends React.Component {
         await this.state.messages.forEach((value, index) => {
             msgs[index].user = JSON.parse(value.user);
         })
-        this.setState({ messages: msgs });
+        this.setState({ messages: msgs, isLoading: false });
     }
 
     async onSend(message: any) {
@@ -140,65 +155,30 @@ export default class Chat extends React.Component {
             return JSON.parse(message.receiver);
         }
     }
-    customMessage(message) {
+    customMessage = (message) => {
+        // console.log(message.currentMessage)
         if (message.currentMessage.is_exchange == 1) {
-            let book_to_be_received = JSON.parse(message.currentMessage.book_to_be_received)
-            let book_to_be_sent = JSON.parse(message.currentMessage.book_to_be_sent)
-            return (
-                // <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
-                <Card style={{ padding: 12, alignSelf: 'center', justifyContent: 'center' }}>
-                    <Col style={{ flexDirection: 'column' }}>
-
-                        <View style={{ flexDirection: 'row' }}>
-
-                            {book_to_be_received.book_cover_image != null &&
-                                <Image source={{ uri: book_to_be_received.book_cover_image }} style={{ width: 80, height: 80 }} />
-                            }
-                            <View style={{ flexDirection: 'column' }}>
-                                <Text style={{ fontWeight: 'bold' }}>  {book_to_be_received.book_title}</Text>
-                                <Text>  by {book_to_be_received.book_author}</Text>
-                            </View>
-
-                        </View>
-                        <Text>You Will get</Text>
-
-                    </Col>
-                    <Col style={{ justifyContent: 'center' }}>
-                        <Icon name="repeat-outline" size={40} type="ionicon" />
-                    </Col>
-                    <Col>
-                        <View style={{ flexDirection: 'row' }}>
-
-                            {book_to_be_sent.book_cover_image != null &&
-                                <Image source={{ uri: book_to_be_sent.book_cover_image }} style={{ width: 80, height: 80 }} />
-                            }
-                            <View style={{ flexDirection: 'column' }}>
-                                <Text style={{ fontWeight: 'bold' }}>  {book_to_be_sent.book_title}</Text>
-                                <Text>  by {book_to_be_sent.book_author}</Text>
-                            </View>
-
-                        </View>
-
-                        <Text>You Will Send</Text>
-
-                    </Col>
-
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 12 }}>
-                        <Button type="solid" title="Approve" />
-                        <Button title="Decline" buttonStyle={{ backgroundColor: 'red' }} />
-                    </View>
-                </Card>
-                // </View>
-            )
+            // let book_to_be_received = JSON.parse(message.currentMessage.book_to_be_received)
+            // let book_to_be_sent = JSON.parse(message.currentMessage.book_to_be_sent)
+            return <ChatBookExchangeComponent
+                book_to_be_received={message.currentMessage.book_to_be_received}
+                book_to_be_sent={message.currentMessage.book_to_be_sent}
+                exchange_id={message.currentMessage.exchange_id}
+                context={this}
+            />
         }
         return <Message {...message} />
     }
 
     render() {
-        console.log('sender id render: ' + this.state.sender_id)
         return (
             <View style={{ height: '100%', backgroundColor: 'white' }}>
                 <GiftedChat
+                    renderLoading={() => {
+                        return <ActivityIndicator size="large" />
+
+                    }
+                    }
                     isLoadingEarlier={true}
                     messages={this.state.messages}
                     renderBubble={this.messageRender}
