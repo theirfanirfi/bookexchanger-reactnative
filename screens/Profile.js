@@ -6,6 +6,7 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import UserSearchTab from '../components/Search/AppSearchTabs/UsersSearchTab';
 import BooksSearchTab from '../components/Search/AppSearchTabs/BooksSearchTab';
 import PostSearchTab from '../components/Search/AppSearchTabs/PostSearchTab';
+import { Icon, Button } from 'react-native-elements'
 export default class LocationPicker extends React.Component {
     state = {
         index: 0,
@@ -13,11 +14,12 @@ export default class LocationPicker extends React.Component {
             { key: 'social', title: 'Social' },
             { key: 'books', title: 'Books' },
             { key: 'stacks', title: 'Stacks' },
-        ]
+        ],
+        user_id: 0
     };
     componentDidMount() {
-        // const { term } = this.props.route.params
-        // this.setState({ search_term: term }, () => console.log(this.state.search_term))
+        // const { user_id } = this.props.route.params
+        // this.setState({ user_id: user_id }, () => console.log(this.state.user_id))
     }
     renderScene = ({ route, jumpTo }) => {
         switch (route.key) {
@@ -34,7 +36,7 @@ export default class LocationPicker extends React.Component {
         <TabBar
             {...props}
             indicatorStyle={{ backgroundColor: 'white' }}
-            style={{ backgroundColor: '#7D4DFF' }}
+            style={{ backgroundColor: '#41cece' }}
         />
     );
 
@@ -56,8 +58,27 @@ export default class LocationPicker extends React.Component {
 
                     </Col>
                 </Row>
+                <Row style={{ justifyContent: 'center', marginTop: 32 }}>
+                    <Col >
+                        <Button
+                            buttonStyle={{ backgroundColor: '#41cece' }}
+                            containerStyle={{ width: '60%', alignSelf: 'center', }}
+                            icon={<Icon color="white" name="add" type="ionicon" />}
+                            title="Follow" />
+                    </Col>
 
-                <Row size={20}>
+                    <Col>
+                        <Button
+                            type="outline"
+                            buttonStyle={{ borderColor: '#41cece' }}
+                            containerStyle={{ width: '60%', alignSelf: 'center', borderColor: '#41cece' }}
+                            icon={<Icon name="chatbubbles-outline" color="#41cece" type="ionicon" />}
+                            titleStyle={{ color: '#41cece' }}
+                            title=" Chat" />
+                    </Col>
+                </Row>
+
+                <Row size={20} style={{ marginTop: 12 }}>
                     <Col style={{ flexDirection: 'column', justifyContent: 'center' }}>
                         <TouchableOpacity style={{ flexDirection: 'column', justifyContent: 'center' }}>
                             <Text style={{ alignSelf: 'center' }}>Followers</Text>
