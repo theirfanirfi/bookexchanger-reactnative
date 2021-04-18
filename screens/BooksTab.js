@@ -132,7 +132,7 @@ class BooksTab extends React.Component {
 
                     <FloatingAction
                         actions={actions}
-                        color="#7D4DFF"
+                        color="#41cece"
                         onPressItem={name => {
                             switch (name) {
                                 case 'add_book':

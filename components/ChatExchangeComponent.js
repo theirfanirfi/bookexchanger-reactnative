@@ -126,12 +126,14 @@ export default function ChatBookExchangeComponent(props) {
 
                     <Button
                         type="solid"
+                        buttonStyle={{ backgroundColor: '#41cece' }}
                         title={approved ? "Withdraw" : "Approve"}
                         onPress={() => { if (approved) { withdraw_exchange(); } else { approve_exchange(); } }} />
                     <Button
                         onPress={() => { if (declined) { withdraw_exchange(); } else { decline_exchange(); } }}
                         title={declined ? "Withdraw" : "Decline"}
-                        buttonStyle={{ backgroundColor: 'red' }} />
+                        buttonStyle={{ backgroundColor: '#162b34' }}
+                        type="solid" />
                 </View>
             </Card>
         </View>

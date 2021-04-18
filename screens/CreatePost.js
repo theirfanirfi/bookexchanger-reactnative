@@ -239,7 +239,11 @@ class CreatePost extends React.Component {
 
                     <Row>
                         <Col>
-                            <Button onPress={() => this.createStatus()} title="Create Post" containerStyle={{ marginBottom: 22, marginHorizontal: 50 }} />
+                            <Button
+                                onPress={() => this.createStatus()}
+                                buttonStyle={{ backgroundColor: '#41cece' }}
+                                title="Create Post"
+                                containerStyle={{ marginBottom: 22, marginHorizontal: 50 }} />
                         </Col>
                     </Row>
 

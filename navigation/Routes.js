@@ -48,7 +48,7 @@ import SinglePost from '../screens/SinglePost';
 function headerOptions(navigator) {
   return (
     {
-      headerStyle: { elevation: 0, shadowOpacity: 0, backgroundColor: '#7D4DFF', height: 60, },
+      headerStyle: { elevation: 0, shadowOpacity: 0, backgroundColor: '#41cece', height: 60, },
       headerTitleStyle: { alignSelf: 'center' },
       headerTitle: null,
       headerLeft: (nav) => <HeaderLeftLocation nav={nav} navigator={navigator} />,
@@ -79,7 +79,7 @@ function getTabIcon(icon) {
 function BottomNavigation() {
   return (
     <Tab.Navigator lazy={true} initialRouteName="Feed" tabBarOptions={{
-      activeTintColor: '#7D4DFF',
+      activeTintColor: '#41cece',
       inactiveTintColor: 'gray',
 
       style: { backgroundColor: '#fff' },
@@ -155,7 +155,7 @@ function CreatePostNavigator(navigator) {
 
 function ChatsNavigator(navigator) {
   return (
-    <Stack.Navigator initialRouteName="chats" screenOptions={{ headerStyle: { backgroundColor: '#7D4DFF' }, headerTitle: 'Chat', headerTintColor: 'white' }}>
+    <Stack.Navigator initialRouteName="chats" screenOptions={{ headerStyle: { backgroundColor: '#41cece' }, headerTitle: 'Chat', headerTintColor: 'white' }}>
       <Stack.Screen name="chats" component={Chats} />
       <Stack.Screen name="Chat" component={Chat} />
     </Stack.Navigator>
@@ -194,7 +194,7 @@ function BooksNavigator(navigator) {
 
 function notificationsNavigator(navigator) {
   return (
-    <Stack.Navigator initialRouteName="notifications" screenOptions={{ headerStyle: { backgroundColor: '#7D4DFF' }, headerTitle: 'Notifications', headerTintColor: 'white' }}>
+    <Stack.Navigator initialRouteName="notifications" screenOptions={{ headerStyle: { backgroundColor: '#41cece' }, headerTitle: 'Notifications', headerTintColor: 'white' }}>
       <Stack.Screen name="notifications" component={Notifications} />
     </Stack.Navigator>
   )
@@ -202,7 +202,7 @@ function notificationsNavigator(navigator) {
 
 function locationNavigator(navigator) {
   return (
-    <Stack.Navigator initialRouteName="location" screenOptions={{ headerStyle: { backgroundColor: '#7D4DFF' }, headerTitle: 'Pick your location', headerTintColor: 'white' }}>
+    <Stack.Navigator initialRouteName="location" screenOptions={{ headerStyle: { backgroundColor: '#41cece' }, headerTitle: 'Pick your location', headerTintColor: 'white' }}>
       <Stack.Screen name="location" component={LocationPicker} />
     </Stack.Navigator>
   )
@@ -210,7 +210,7 @@ function locationNavigator(navigator) {
 
 function profileNavigator(navigator) {
   return (
-    <Stack.Navigator initialRouteName="profile" screenOptions={{ headerStyle: { backgroundColor: '#7D4DFF' }, headerTitle: 'Profile', headerTintColor: 'white' }}>
+    <Stack.Navigator initialRouteName="profile" screenOptions={{ headerStyle: { backgroundColor: '#41cece' }, headerTitle: 'Profile', headerTintColor: 'white' }}>
       <Stack.Screen name="profile" component={Profile} />
     </Stack.Navigator>
   )
@@ -218,7 +218,7 @@ function profileNavigator(navigator) {
 
 function singlePostNavigator(navigator) {
   return (
-    <Stack.Navigator initialRouteName="post" screenOptions={{ headerStyle: { backgroundColor: '#7D4DFF' }, headerTitle: 'Post', headerTintColor: 'white' }}>
+    <Stack.Navigator initialRouteName="post" screenOptions={{ headerStyle: { backgroundColor: '#41cece' }, headerTitle: 'Post', headerTintColor: 'white' }}>
       <Stack.Screen name="post" component={SinglePost} />
     </Stack.Navigator>
   )

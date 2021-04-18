@@ -52,7 +52,7 @@ export default class Search extends React.Component {
         <TabBar
             {...props}
             indicatorStyle={{ backgroundColor: 'white' }}
-            style={{ backgroundColor: '#7D4DFF' }}
+            style={{ backgroundColor: '#41cece' }}
         />
     );
 

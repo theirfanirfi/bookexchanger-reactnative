@@ -89,7 +89,7 @@ export default class LikeComponent extends React.Component {
             <>
                 {this.state.isLiked ? (
                     <TouchableOpacity onPress={() => this.unlike()} style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                        <Icon name="heart" type="ionicon" size={20} color="red" style={{ alignSelf: 'center', marginLeft: 6 }} />
+                        <Icon name="heart" type="ionicon" size={20} color="#41cece" style={{ alignSelf: 'center', marginLeft: 6 }} />
                         {this.state.likesCount > 0 &&
                             <Text>{this.state.likesCount}</Text>
                         }

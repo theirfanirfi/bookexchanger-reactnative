@@ -7,7 +7,7 @@ import { Input, Icon } from 'react-native-elements'
 export default function AppSearchHeader(navigator) {
     let search_term = undefined;
     return {
-        headerStyle: { backgroundColor: '#7D4DFF' }, headerTitle: () => {
+        headerStyle: { backgroundColor: '#41cece' }, headerTitle: () => {
             return <Input placeholder="Search"
                 onChangeText={(text) => text == '' ? search_term = undefined : search_term = text}
                 inputStyle={{ color: 'white' }}
