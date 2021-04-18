@@ -144,6 +144,10 @@ class CreatePost extends React.Component {
         }
     }
 
+    removePicture() {
+        this.setState({ featured_image: null, isImageSelected: false });
+    }
+
     render() {
         return (
             <>
@@ -175,39 +179,23 @@ class CreatePost extends React.Component {
 
                     <Row>
                         <Col>
+                            {this.state.isImageSelected &&
+                                <View style={{
+                                    height: 150,
+                                    borderRadius: 12,
+                                    marginHorizontal: 8,
+                                    borderBottomWidth: 0.5,
+                                    borderColor: 'lightgray',
+                                    justifyContent: 'center'
+                                }}>
 
-                            <TouchableOpacity onPress={() => this.RBSheet.open()} style={{
-                                height: 150,
-                                borderRadius: 12,
-                                marginHorizontal: 8,
-                                borderBottomWidth: 0.5,
-                                borderColor: 'lightgray',
-                                justifyContent: 'center'
-                            }}>
-                                {this.state.isImageSelected ? (
                                     <Image source={{ uri: this.state.featured_image.uri }} style={{ height: 150, width: '100%' }} />
-                                ) : (
-                                    <>
-                                        <Row style={{ justifyContent: 'center' }}>
-                                            <Col style={{ justifyContent: 'center' }}>
-                                                <Icon
-                                                    name="image"
-                                                    color="black"
-                                                    size={30}
-                                                    style={{ alignSelf: 'center' }}
-                                                />
-                                            </Col>
-                                        </Row>
+                                    <TouchableOpacity style={{ position: 'absolute', left: '50%' }} onPress={() => this.removePicture()}>
+                                        <Icon name="trash" color="black" size={42} />
+                                    </TouchableOpacity>
 
-                                        <Row style={{ justifyContent: 'center' }}>
-                                            <Col style={{ justifyContent: 'center' }}>
-                                                <Text style={{ alignSelf: 'center' }}>Select Feature Image</Text>
-                                            </Col>
-                                        </Row>
-                                    </>
-                                )}
-
-                            </TouchableOpacity>
+                                </View>
+                            }
 
 
 
@@ -226,7 +214,7 @@ class CreatePost extends React.Component {
                                 style={{
                                     height: 250,
                                     borderRadius: 12,
-                                    marginVertical: 12,
+                                    marginVertical: 4,
                                     borderBottomWidth: 0.5,
                                     borderColor: 'lightgray',
                                     textAlign: 'auto'
@@ -238,12 +226,19 @@ class CreatePost extends React.Component {
 
 
                     <Row>
-                        <Col>
+                        <Col size={1}>
+
+                            <TouchableOpacity onPress={() => this.RBSheet.open()}>
+                                <Icon name="image" color="#41cece" size={42} style={{ marginHorizontal: 12 }} />
+                            </TouchableOpacity>
+
+                        </Col>
+                        <Col size={3}>
                             <Button
                                 onPress={() => this.createStatus()}
                                 buttonStyle={{ backgroundColor: '#41cece' }}
                                 title="Create Post"
-                                containerStyle={{ marginBottom: 22, marginHorizontal: 50 }} />
+                                containerStyle={{ marginBottom: 22, marginRight: 12 }} />
                         </Col>
                     </Row>
 

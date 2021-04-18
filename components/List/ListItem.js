@@ -92,7 +92,7 @@ export default function ListItem(props) {
 
                     ) : (
                         <TouchableOpacity onPress={() => deleteList(list.list_id)}>
-                            <Icon type="ionicon" name="trash" color="red" size={23} />
+                            <Icon type="ionicon" name="trash" color="#162b34" size={23} />
                         </TouchableOpacity>
                     )}
 
