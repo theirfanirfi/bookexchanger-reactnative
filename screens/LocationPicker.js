@@ -37,7 +37,7 @@ export default class LocationPicker extends React.Component {
     render() {
         return (
             <MapView
-                style={{ width: '100%', height: '100%' }}
+                style={styles.map}
                 initialRegion={this.state.region}
                 showsUserLocation={true}
                 showsCompass={true}

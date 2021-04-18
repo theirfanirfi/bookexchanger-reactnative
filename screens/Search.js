@@ -40,11 +40,11 @@ export default class Search extends React.Component {
     renderScene = ({ route, jumpTo }) => {
         switch (route.key) {
             case 'users':
-                return <UserSearchTab jumpTo={jumpTo} term={this.state.search_term} />;
+                return <UserSearchTab jumpTo={jumpTo} navigation={this.props.navigation} term={this.state.search_term} />;
             case 'books':
-                return <BooksSearchTab jumpTo={jumpTo} term={this.state.search_term} />;
+                return <BooksSearchTab jumpTo={jumpTo} navigation={this.props.navigation} term={this.state.search_term} />;
             case 'posts':
-                return <PostSearchTab jumpTo={jumpTo} term={this.state.search_term} />;
+                return <PostSearchTab jumpTo={jumpTo} navigation={this.props.navigation} term={this.state.search_term} />;
         }
     };
 

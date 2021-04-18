@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { View, FlatList, RefreshControl, Image, Text, Platform, TouchableOpacity, Dimensions } from 'react-native';
-const windowHeight = Dimensions.get('window').height;
+import { View, FlatList, RefreshControl, Image, Text, Platform, TouchableOpacity } from 'react-native';
 
 import colors from '../constants/colors'
 import BookItem from '../components/Books/BookItem'
