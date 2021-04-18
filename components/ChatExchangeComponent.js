@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, Image, View } from 'react-native'
 import { Icon, Button, Card } from 'react-native-elements'
 import { Row, Col } from 'react-native-easy-grid'
@@ -12,6 +12,18 @@ export default function ChatBookExchangeComponent(props) {
 
     const [approved, setApproved] = useState(false);
     const [declined, setDeclined] = useState(false);
+
+    useEffect(() => {
+        if (props.is_approved == 1) {
+            setApproved(true);
+
+        }
+
+        if (props.is_declined == 1) {
+            setDeclined(true);
+
+        }
+    })
 
     const approve_exchange = async () => {
         let form = new FormData();

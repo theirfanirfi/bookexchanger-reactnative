@@ -5,8 +5,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Row, Col } from 'react-native-easy-grid'
 import base64 from 'react-native-base64';
 import { Icon, Card, Button } from 'react-native-elements'
-import { get, post, put } from '../apis/index'
+import { get, post, put, encode } from '../apis/index'
 import ChatBookExchangeComponent from '../components/ChatExchangeComponent';
+import ThemedListItem from 'react-native-elements/dist/list/ListItem';
 
 
 
@@ -30,7 +31,8 @@ export default class Chat extends React.Component {
         sender_id: 0,
         is_approved: false,
         is_decline: false,
-        context: this
+        context: ThemedListItem,
+        message: ''
     }
 
 
@@ -40,8 +42,9 @@ export default class Chat extends React.Component {
         if (response.status) {
             let res = response.response
             if (res.messages.length > 0) {
-                this.setState({ messages: res.messages, message: 'No notification for you at the moment' }, () => {
-                    this.setState({ sender_id: this.getSender()._id }, () => this.formatMessages())
+                let msgs = await this.formatMessages(res.messages);
+                this.setState({ messages: msgs, message: 'No chat' }, () => {
+                    this.setState({ sender_id: this.getSender()._id })
                 });
             } else {
                 // return false;
@@ -56,9 +59,11 @@ export default class Chat extends React.Component {
         if (response.status) {
             let res = response.response
             if (res.messages.length > 0) {
-                this.setState({ messages: res.messages, message: 'No notification for you at the moment' }, () => {
-                    this.setState({ sender_id: this.getSender()._id }, () => this.formatMessages())
-                });
+                let messages = res.messages
+                await messages.forEach((value, index) => {
+                    messages[index].user = JSON.parse(value.user);
+                })
+                this.setState({ messages: messages, message: 'No chat' });
             } else {
                 // return false;
             }
@@ -88,37 +93,38 @@ export default class Chat extends React.Component {
         // const response = await getChatWithUser(this);
     }
 
-    async formatMessages() {
-        let msgs = this.state.messages
-        await this.state.messages.forEach((value, index) => {
+    async formatMessages(messages) {
+        let msgs = await messages
+        await msgs.forEach((value, index) => {
             msgs[index].user = JSON.parse(value.user);
         })
-        this.setState({ messages: msgs, isLoading: false });
+        return msgs;
+        // this.setState({ messages: msgs, isLoading: false });
     }
 
-    async onSend(message: any) {
-        // let formdata = new FormData()
-        // formdata.append("text", base64.encode(message[0].text))
-        // formdata.append("receiver_id", this.state.chat_with_id)
-        // formdata.append("p_id", this.state.participants.length > 0 ? this.state.participants.participant_id : 0)
-        // const response = await sendChatMessage(this, formdata);
-        // if (response.status) {
-        //     let res = response.response
-        //     if (res.isMessageSent) {
-        let messages = this.state.messages
-        messages.unshift({
-            // messages.push({
-            '_id': '8783-djfls-fjsdl-2',
-            'text': 'some message',
-            'sent': true,
-            'user': {
-                '_id': this.state.sender_id
-            }
-        })
+    async onSend(message) {
+        let formdata = new FormData()
+        formdata.append("text", encode(message[0].text))
+        const response = await post(this, `messages/send/${this.state.participant_id}`, formdata);
+        if (response.status) {
+            let res = response.response
+            if (res.isCreated) {
+                let messages = this.state.messages
+                messages.unshift({
+                    // messages.push({
+                    '_id': res.messages.message_id,
+                    'text': message[0].text,
+                    'sent': true,
+                    'user': {
+                        '_id': res.messages.sender_id
+                    }
+                })
 
-        this.setState({ messages: messages });
-        //     }
-        // }
+                this.setState({ messages: messages });
+            } else {
+                alert('Unable to send. Please try again.')
+            }
+        }
 
     }
 
@@ -149,14 +155,10 @@ export default class Chat extends React.Component {
 
     getSender() {
         let message = this.state.messages[0]
-        if (message.amISender == 1) {
-            return JSON.parse(message.sender);
-        } else {
-            return JSON.parse(message.receiver);
-        }
+        return message.user;
     }
+
     customMessage = (message) => {
-        // console.log(message.currentMessage)
         if (message.currentMessage.is_exchange == 1) {
             // let book_to_be_received = JSON.parse(message.currentMessage.book_to_be_received)
             // let book_to_be_sent = JSON.parse(message.currentMessage.book_to_be_sent)
@@ -164,29 +166,27 @@ export default class Chat extends React.Component {
                 book_to_be_received={message.currentMessage.book_to_be_received}
                 book_to_be_sent={message.currentMessage.book_to_be_sent}
                 exchange_id={message.currentMessage.exchange_id}
+                is_approved={message.currentMessage.is_exchange_confirmed}
+                is_declined={message.currentMessage.is_exchange_declined}
                 context={this}
             />
+        } else {
+            return <Message {...message} />
         }
-        return <Message {...message} />
     }
 
     render() {
         return (
             <View style={{ height: '100%', backgroundColor: 'white' }}>
                 <GiftedChat
-                    renderLoading={() => {
-                        return <ActivityIndicator size="large" />
-
-                    }
-                    }
-                    isLoadingEarlier={true}
+                    // isLoadingEarlier={true} 
                     messages={this.state.messages}
                     renderBubble={this.messageRender}
                     renderMessage={this.customMessage}
                     onSend={messages => this.onSend(messages)}
                     scrollToBottom={true}
                     user={{
-                        _id: this.state.sender_id
+                        _id: "1"
                     }}
                 />
             </View>
