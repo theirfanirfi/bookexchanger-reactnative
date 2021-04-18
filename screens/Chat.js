@@ -16,7 +16,7 @@ export default class Chat extends React.Component {
 
     constructor(props) {
         super(props);
-        // this.context = this;
+        this.intervalId = null;
     }
 
     state = {
@@ -33,7 +33,8 @@ export default class Chat extends React.Component {
         is_approved: false,
         is_decline: false,
         context: ThemedListItem,
-        message: ''
+        message: '',
+        // intervalId: null,
     }
 
 
@@ -56,6 +57,9 @@ export default class Chat extends React.Component {
     }
 
     async getMessages() {
+        if (this.intervalId == null) {
+            return;
+        }
         let response = await get(this, `messages/${this.state.participant_id}`)
         if (response.status) {
             let res = response.response
@@ -87,12 +91,24 @@ export default class Chat extends React.Component {
                 )
             }
         })
+
+        this.intervalId = 0;
         this.setState({ participant_id: p_id, username: username, isLoading: true }, () => this.getMessages());
+        this.intervalId = setInterval(() => this.getMessages(), 60000);
 
         // this.getData()
         // await this.setState({ chat_with_id: chat_with_id });
         // const response = await getChatWithUser(this);
     }
+
+    componentWillUnmount() {
+        console.log('component unmounted')
+        clearInterval(this.intervalId);
+        this.intervalId = null;
+        console.log('intervalid: ' + this.intervalId)
+    }
+
+
 
     async formatMessages(messages) {
         let msgs = await messages
