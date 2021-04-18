@@ -8,6 +8,7 @@ import { Icon, Card, Button } from 'react-native-elements'
 import { get, post, put, encode } from '../apis/index'
 import ChatBookExchangeComponent from '../components/ChatExchangeComponent';
 import ThemedListItem from 'react-native-elements/dist/list/ListItem';
+import ChatExchangeComponentForSender from '../components/ChatExchangeComponentForSender';
 
 
 
@@ -159,17 +160,29 @@ export default class Chat extends React.Component {
     }
 
     customMessage = (message) => {
-        if (message.currentMessage.is_exchange == 1) {
+        let msg = message.currentMessage
+        console.log(msg.to_exchange_with_user_id)
+        if (msg.is_exchange == 1) {
             // let book_to_be_received = JSON.parse(message.currentMessage.book_to_be_received)
             // let book_to_be_sent = JSON.parse(message.currentMessage.book_to_be_sent)
-            return <ChatBookExchangeComponent
-                book_to_be_received={message.currentMessage.book_to_be_received}
-                book_to_be_sent={message.currentMessage.book_to_be_sent}
-                exchange_id={message.currentMessage.exchange_id}
-                is_approved={message.currentMessage.is_exchange_confirmed}
-                is_declined={message.currentMessage.is_exchange_declined}
-                context={this}
-            />
+            if (msg.to_exchange_with_user_id != 1) {
+                return <ChatExchangeComponentForSender
+                    book_to_be_received={message.currentMessage.book_to_be_received}
+                    book_to_be_sent={message.currentMessage.book_to_be_sent}
+                    exchange_id={message.currentMessage.exchange_id}
+                    is_approved={message.currentMessage.is_exchange_confirmed}
+                    is_declined={message.currentMessage.is_exchange_declined}
+                    context={this} />
+            } else {
+                return <ChatBookExchangeComponent
+                    book_to_be_received={message.currentMessage.book_to_be_received}
+                    book_to_be_sent={message.currentMessage.book_to_be_sent}
+                    exchange_id={message.currentMessage.exchange_id}
+                    is_approved={message.currentMessage.is_exchange_confirmed}
+                    is_declined={message.currentMessage.is_exchange_declined}
+                    context={this}
+                />
+            }
         } else {
             return <Message {...message} />
         }
