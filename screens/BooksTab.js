@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { View, FlatList, RefreshControl, Image, Text, Platform } from 'react-native';
+import { View, FlatList, RefreshControl, Image, Text, Platform, TouchableOpacity, Dimensions } from 'react-native';
+const windowHeight = Dimensions.get('window').height;
+
 import colors from '../constants/colors'
 import BookItem from '../components/Books/BookItem'
 import { Input, Icon } from 'react-native-elements'
@@ -7,13 +9,14 @@ import { FloatingAction } from "react-native-floating-action";
 import { get, post, _delete } from '../apis/index'
 import { Grid, Row, Col } from 'react-native-easy-grid'
 const nobooks = require('../assets/graphics/nobooks.png');
-import DropDownPicker from 'react-native-dropdown-picker';
+import Modal from 'react-native-modal';
 const actions = [
     {
         text: "Add Book",
         icon: <Icon type="ionicon" name="add-outline" color="white" />,
         name: "add_book",
-        position: 1
+        position: 1,
+
     },
 ];
 
@@ -27,7 +30,9 @@ class BooksTab extends React.Component {
         books: [],
         refreshing: false,
         filter: 'asc',
-        filtered_books: []
+        filtered_books: [],
+        visible: false,
+        applied_filter: 'Nearest'
     }
 
     async getBooks() {
@@ -81,31 +86,45 @@ class BooksTab extends React.Component {
         this.setState({ filtered_books: filter_array });
     }
 
+    async sort_books_by_id() {
+        let filter_array = this.state.books.sort((bookA, bookB) => {
+            return bookA.book_id - bookB.book_id
+        })
+        this.setState({ filtered_books: filter_array });
+    }
+
     listHeader = () => {
         return (
             <View style={{ flexDirection: 'row', zIndex: 10 }}>
-                <View style={{ width: '70%' }}>
+                <View style={{ width: '80%' }}>
                     <Input placeholder="search" onChangeText={(text) => this.filter_books(text)} leftIcon={{ type: 'ionicon', name: 'search-outline', color: 'lightgray' }} />
                 </View>
-                <View style={{ width: '30%', zIndex: 10 }}>
-                    <DropDownPicker
-                        defaultValue={this.state.filter}
-                        items={[
-                            { label: 'ASC', value: 'asc' },
-                            { label: 'DESC', value: 'desc' },
-                        ]}
-                        containerStyle={{ height: 40, marginTop: 12 }}
-                        style={{ backgroundColor: '#fff', borderWidth: 0 }}
-                        itemStyle={{
-                            justifyContent: 'flex-start',
-
-                        }}
-                        dropDownStyle={{ backgroundColor: '#ffffff' }}
-                        onChangeItem={item => this.setState({
-                            filter: item.value
-                        })}
-                    />
+                <View style={{ width: '20%', justifyContent: 'center' }}>
+                    <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => this.setState({ visible: true })}>
+                        <Text style={{ marginTop: 8 }}>{this.state.applied_filter} </Text>
+                        <Icon name="chevron-down-outline" type="ionicon" size={22} style={{ marginTop: 8 }} />
+                    </TouchableOpacity>
                 </View>
+
+                <Modal
+                    onBackdropPress={() => this.setState({ visible: false })}
+                    onBackButtonPress={() => this.setState({ visible: false })}
+                    isVisible={this.state.visible} swipeDirection={['down']}
+                    onSwipeComplete={() => { this.setState({ visible: false }) }}>
+                    <View style={{ backgroundColor: '#fff', marginTop: 30, padding: 12, justifyContent: 'center' }}>
+                        {/* <CommentWritingBoxComponent commentCallBack={this.commentCallBack} context={this} post={this.props.post} /> */}
+                        {/* <CommentsComponent postt={this.props.post} /> */}
+                        {/* </View> */}
+                        <TouchableOpacity onPress={() => this.setState({ applied_filter: 'Nearest', visible: false }, () => this.sort_books_by_distance_in_ascending())}>
+                            <Text style={{ marginTop: 14, alignSelf: 'center', fontSize: 18 }}>Nearest </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={() => this.setState({ applied_filter: 'Newest', visible: false }, () => this.sort_books_by_id())}>
+                            <Text style={{ marginTop: 14, alignSelf: 'center', fontSize: 18 }}>Newest </Text>
+
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
 
             </View>
         )
