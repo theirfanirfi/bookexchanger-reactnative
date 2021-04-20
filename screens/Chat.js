@@ -60,7 +60,7 @@ export default class Chat extends React.Component {
         if (this.intervalId == null) {
             return;
         }
-        let response = await get(this, `messages/${this.state.participant_id}`)
+        let response = await get(this, `messages/${this.state.participant_id}/`)
         if (response.status) {
             let res = response.response
             if (res.messages.length > 0) {

@@ -12,6 +12,10 @@ target 'Golfrica' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
 
+  pod 'react-native-social-login', :path => '../node_modules/react-native-social-login'
+
+  pod 'RNGoogleSignin', :path => '../node_modules/@react-native-google-signin/google-signin'
+
   target 'GolfricaTests' do
     inherit! :complete
     # Pods for testing

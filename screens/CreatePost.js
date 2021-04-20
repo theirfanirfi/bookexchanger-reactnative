@@ -151,7 +151,7 @@ class CreatePost extends React.Component {
     render() {
         return (
             <>
-                <ScrollView style={{ flex: 1, backgroundColor: colors.screenBackgroundColor, paddingTop: 12, paddingBottom: 18 }}>
+                <ScrollView style={{ flex: 1, backgroundColor: colors.screenBackgroundColor, paddingTop: 12, paddingBottom: 18, marginTop: Platform.OS == "ios" ? 40 : 10 }}>
                     {this.state.isLoading &&
                         <Row>
                             <Col>

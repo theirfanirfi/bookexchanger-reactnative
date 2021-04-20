@@ -1,12 +1,16 @@
 import * as React from 'react';
-import { Text, Image, View, StyleSheet } from 'react-native';
-import MapView from 'react-native-maps';
+import { View, StyleSheet } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import { Button } from 'react-native-elements'
+import GetLocation from 'react-native-get-location'
+import { get, post, encode } from '../apis/index'
+
 export default class LocationPicker extends React.Component {
     state = {
         loading: true,
         region: {
-            latitude: 10,
-            longitude: 10,
+            latitude: 0,
+            longitude: 0,
             latitudeDelta: 0.001,
             longitudeDelta: 0.001
         }
@@ -14,6 +18,24 @@ export default class LocationPicker extends React.Component {
     componentDidMount() {
         // const { term } = this.props.route.params
         // this.setState({ search_term: term }, () => console.log(this.state.search_term))
+
+        GetLocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            timeout: 15000,
+        })
+            .then(location => {
+                let region = {
+                    latitude: location.latitude,
+                    longitude: location.longitude,
+                    latitudeDelta: 0.001,
+                    longitudeDelta: 0.001
+                }
+                this.setState({ region: region });
+            })
+            .catch(error => {
+                const { code, message } = error;
+                console.warn(code, message);
+            })
     }
 
     // static getDerivedStateFromProps(props, state) {
@@ -28,51 +50,99 @@ export default class LocationPicker extends React.Component {
     // }
 
     onRegionChange = region => {
-        console.log(region);
+        // console.log(region);
         this.setState({ region: region });
+    }
+
+    saveLocation = async () => {
+        let formdata = new FormData()
+        formdata.append("longitude", this.state.region.longitude)
+        formdata.append("latitude", this.state.region.latitude);
+
+        const response = await post(this, `messages/send/${this.state.participant_id}`, formdata);
+        if (response.status) {
+            let res = response.response
+            if (res.isCreated) {
+            } else {
+                alert('Unable to Save location. Please try again.')
+            }
+        }
     }
 
 
 
     render() {
         return (
-            <MapView
-                style={styles.map}
-                initialRegion={this.state.region}
-                showsUserLocation={true}
-                showsCompass={true}
-                zoomControlEnabled={true}
-                showsTraffic={true}
-                // onMapReady={this.onMapReady}
-                onRegionChangeComplete={this.onRegionChange}>
-                <MapView.Marker
-                    coordinate={{
-                        "latitude": this.state.region.latitude,
-                        "longitude": this.state.region.longitude
+            <View style={styles.container}>
+                <MapView
+                    provider="google" // remove if not using Google Maps
+                    style={styles.map}
+                    region={this.state.region}
+                    // onRegionChange={this.onRegionChange}
+                    onPress={(e) => {
+                        let region = {
+                            latitude: e.nativeEvent.coordinate.latitude,
+                            longitude: e.nativeEvent.coordinate.longitude,
+                            latitudeDelta: 0.001,
+                            longitudeDelta: 0.001
+                        }
+                        this.setState({
+                            region: region,
+
+                        })
                     }}
-                    title={"Your Location"}
-                    draggable />
-            </MapView>
+                    moveOnMarkerPress
+                    followsUserLocation
+                    showsUserLocation
+                    showsMyLocationButton
+                    showsCompass
+                    loadingEnabled
+                    cacheEnabled
+                    showsBuildings
+                    showsIndoors
+
+
+                >
+                    <Marker
+                        coordinate={this.state.region}
+                        draggable
+                        isPreselected={true}
+                        onDragEnd={(e) => {
+                            let region = {
+                                latitude: e.nativeEvent.coordinate.latitude,
+                                longitude: e.nativeEvent.coordinate.longitude,
+                                latitudeDelta: 0.001,
+                                longitudeDelta: 0.001
+                            }
+                            this.setState({
+                                region: region,
+
+                            })
+                        }
+                        }
+                    />
+                </MapView >
+
+                <Button
+                    onPress={() => this.saveLocation()}
+                    title="Save Location"
+                    containerStyle={{ position: 'absolute', bottom: 12, left: '35%' }} />
+
+            </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        ...StyleSheet.absoluteFillObject,
+        height: '100%',
+        width: '100%',
         justifyContent: 'flex-end',
         alignItems: 'center',
     },
     map: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        ...StyleSheet.absoluteFillObject,
     },
 });
 

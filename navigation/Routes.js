@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text, TouchableOpacity, Image, View } from 'react-native';
+import { Text, TouchableOpacity, Image, View, Platform } from 'react-native';
 const Tab = createBottomTabNavigator();
 
 
@@ -17,6 +17,8 @@ import LocationPicker from '../screens/LocationPicker';
 import Profile from '../screens/Profile';
 import AddToListScreen from '../screens/AddToListScreen'
 import ListBooksScreen from '../screens/ListBooksScreen'
+
+import SplashScreen from '../screens/SplashScreen'
 
 
 
@@ -44,11 +46,12 @@ const SEARCH_ICON = require('../assets/icons/explore.png')
 import { Icon, Input } from 'react-native-elements'
 import BooksSearchAPI from '../screens/BooksSearchAPI';
 import SinglePost from '../screens/SinglePost';
+import LoginScreen from '../screens/LoginScreen';
 
 function headerOptions(navigator) {
   return (
     {
-      headerStyle: { elevation: 0, shadowOpacity: 0, backgroundColor: '#41cece', height: 60, },
+      headerStyle: { elevation: 0, shadowOpacity: 0, backgroundColor: '#41cece', height: Platform.OS == "android" ? 60 : 110, },
       headerTitleStyle: { alignSelf: 'center' },
       headerTitle: null,
       headerLeft: (nav) => <HeaderLeftLocation nav={nav} navigator={navigator} />,
@@ -78,7 +81,7 @@ function getTabIcon(icon) {
 
 function BottomNavigation() {
   return (
-    <Tab.Navigator lazy={true} initialRouteName="Feed" tabBarOptions={{
+    <Tab.Navigator lazy={true} initialRouteName="Home" tabBarOptions={{
       activeTintColor: '#41cece',
       inactiveTintColor: 'gray',
 
@@ -132,7 +135,7 @@ const Stack = createStackNavigator();
 function AuthNavigator() {
   return (
     <Stack.Navigator initialRouteName="login" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="login" component={Home} />
+      <Stack.Screen name="login" component={LoginScreen} />
       <Stack.Screen name="register" component={BottomNavigation} />
     </Stack.Navigator>
   )
@@ -226,8 +229,8 @@ function singlePostNavigator(navigator) {
 
 export default function RootNavigator() {
   return (
-    <Stack.Navigator initialRouteName="root" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="splash" component={Home} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName="splash" screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="splash" component={SplashScreen} options={{ headerShown: false }} />
       <Stack.Screen name="root" component={BottomNavigation} />
       <Stack.Screen name="auth" component={AuthNavigator} />
       <Stack.Screen name="search" component={searchNavigator} />
