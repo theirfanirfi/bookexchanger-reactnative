@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, Text, TouchableOpacity } from 'react-native'
 import { Col, Row } from "react-native-easy-grid";
 import { Card, Icon, Button } from 'react-native-elements'
@@ -13,6 +13,8 @@ export default function ExchangeNotificationComponent(props) {
     let notification = props.notification
     let book_to_be_received = JSON.parse(notification.book_to_received)
     let book_to_be_sent = JSON.parse(notification.book_to_send)
+    const [declined, setDeclined] = useState(false)
+
 
     const initiate_chat = async () => {
         // this.setState({ refreshing: true, message: 'loading...' });
@@ -31,6 +33,42 @@ export default function ExchangeNotificationComponent(props) {
             // return false;
         }
 
+    }
+
+    const decline_exchange = async () => {
+        let form = new FormData();
+        let response = await get(props.context, `exchange/decline_exchange/${notification.exchange_id}/`)
+        console.log(response)
+        if (response.status) {
+            let res = response.response
+            console.log(res);
+            if (res.isDeclined) {
+                // setApproved(false);
+                setDeclined(true);
+            } else {
+                // return false;
+                alert('Error occurred, please try again.')
+            }
+        } else {
+            // return false;
+        }
+
+    }
+
+    const withdraw_exchange = async () => {
+        let response = await get(props.context, `exchange/withdraw_exchange/${notification.exchange_id}/`)
+        console.log(response)
+        if (response.status) {
+            let res = response.response
+            if (res.isConfirmed) {
+                setDeclined(false);
+            } else {
+                // return false;
+                alert('Error occurred, please try again.')
+            }
+        } else {
+            // return false;
+        }
     }
 
     return (
@@ -96,9 +134,18 @@ export default function ExchangeNotificationComponent(props) {
 
                 </Col>
                 <Col style={{ justifyContent: 'center' }}>
+                    {declined ? (
+                        <TouchableOpacity onPress={() => withdraw_exchange()}>
+                            <Icon type="ionicon" name="close-outline" />
+                            <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8, alignSelf: 'center' }}>Withdraw</Text>
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity onPress={() => decline_exchange()}>
+                            <Icon type="ionicon" name="close-outline" />
+                            <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8, alignSelf: 'center' }}>Decline</Text>
+                        </TouchableOpacity>
+                    )}
 
-                    <Icon type="ionicon" name="close-outline" />
-                    <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8, alignSelf: 'center' }}>Decline</Text>
                 </Col>
 
 
