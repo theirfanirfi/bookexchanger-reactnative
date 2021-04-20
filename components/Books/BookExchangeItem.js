@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Image, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native'
 import { Col, Row } from "react-native-easy-grid";
-import { Card, Button, Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements'
 import { post, _delete } from '../../apis/index'
 import { getImage } from '../utils'
 import BookExchangeComponent from './BookExchangeComponent'
+const book_image_not_available = require('../../assets/graphics/book_not_available.png')
 
 
 
@@ -95,11 +96,12 @@ export default function BookExchangeItem(props) {
 
 
     let book = props.book_to_provide_in_exchange
+    console.log(book.book_cover_image)
     return (
         <TouchableOpacity style={{ borderWidth: 0.4, borderColor: 'white', marginVertical: 14, padding: 12 }}>
             <Row>
                 <Col style={{ width: 100 }}>
-                    <Image style={{ height: 110, marginRight: 12 }} source={{ uri: getImage('books', book.book_cover_image) }} />
+                    <Image style={{ height: 110, marginRight: 12, width: 100 }} source={book.book_cover_image != undefined && !book.book_cover_image.includes('undefined') ? { uri: getImage('books', book.book_cover_image) } : book_image_not_available} />
                 </Col>
 
                 <Col>

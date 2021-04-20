@@ -6,7 +6,6 @@ import BookItem from '../components/Books/BookItem'
 import { Input, Icon } from 'react-native-elements'
 import { FloatingAction } from "react-native-floating-action";
 import { get, post, _delete } from '../apis/index'
-import { Grid, Row, Col } from 'react-native-easy-grid'
 const nobooks = require('../assets/graphics/nobooks.png');
 import Modal from 'react-native-modal';
 const actions = [

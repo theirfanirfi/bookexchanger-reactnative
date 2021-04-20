@@ -3,10 +3,12 @@ import { View, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Button } from 'react-native-elements'
 import GetLocation from 'react-native-get-location'
-import { get, post, encode } from '../apis/index'
+import { put } from '../apis/index'
 
 export default class LocationPicker extends React.Component {
     state = {
+        user: [],
+        token: 'sometoken',
         loading: true,
         region: {
             latitude: 0,
@@ -56,13 +58,14 @@ export default class LocationPicker extends React.Component {
 
     saveLocation = async () => {
         let formdata = new FormData()
-        formdata.append("longitude", this.state.region.longitude)
-        formdata.append("latitude", this.state.region.latitude);
+        formdata.append("location_longitude", this.state.region.longitude)
+        formdata.append("location_latitude", this.state.region.latitude);
 
-        const response = await post(this, `messages/send/${this.state.participant_id}`, formdata);
+        const response = await put(this, `location`, formdata);
         if (response.status) {
             let res = response.response
-            if (res.isCreated) {
+            if (res.isUpdated) {
+                alert('Location saved.');
             } else {
                 alert('Unable to Save location. Please try again.')
             }

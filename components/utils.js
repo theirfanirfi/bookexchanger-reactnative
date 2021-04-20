@@ -6,7 +6,8 @@ export const getImage = (type, image) => {
     if (image != null) {
         if (image.includes('http://') || image.includes('https://')) {
             return image
-        } else {
+        }
+        else {
             return getBaseUrl() + `/static/${type}/` + image
         }
     } else {

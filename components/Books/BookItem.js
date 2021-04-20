@@ -4,6 +4,8 @@ import { Col, Row } from "react-native-easy-grid";
 import { Card, Button, Icon } from 'react-native-elements'
 import { post, _delete, put, generic_request } from '../../apis/index'
 import { getImage } from '../utils'
+const book_image_not_available = require('../../assets/graphics/book_not_available.png')
+
 import BookExchangeComponent from './BookExchangeComponent'
 
 
@@ -131,7 +133,7 @@ export default class BookItem extends React.Component {
             <Card containerStyle={{ borderWidth: 0.4, borderColor: 'white', margin: 2 }}>
                 <Row>
                     <Col style={{ width: 100 }}>
-                        <Image style={{ height: 110, marginRight: 12 }} source={{ uri: getImage('books', book.book_cover_image) }} />
+                        <Image style={{ height: 110, marginRight: 12, width: 100 }} source={book.book_cover_image != undefined && !book.book_cover_image.includes('undefined') ? { uri: getImage('books', book.book_cover_image) } : book_image_not_available} />
                     </Col>
 
                     <Col>
@@ -147,7 +149,7 @@ export default class BookItem extends React.Component {
                                 <>
                                     <Col style={{ flexDirection: 'row', width: '40%' }}>
                                         <Icon name="location-outline" type="ionicon" color="#96A787" size={14} />
-                                        <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12 }}>{book.distance_in_km} Kms away</Text>
+                                        <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12 }}>{book.distance_in_km.toFixed(2)} Kms away</Text>
                                     </Col>
                                     <Col style={{ flexDirection: 'row' }}>
 
