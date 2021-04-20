@@ -19,13 +19,11 @@ export default function ExchangeNotificationComponent(props) {
         let form = new FormData();
         form.append("exchange_id", notification.exchange_id)
         let response = await post(props.context, `participant/initiate_chat/${notification.exchange_id}`, form)
-        console.log(response);
 
         if (response.status) {
             let res = response.response
-            console.log(res);
             if (res.isCreated) {
-                alert('Created');
+                props.navigation.navigate('Chat', { 'p_id': res.p_id, 'username': notification.fullname })
             } else {
                 alert(res.message);
             }
@@ -62,9 +60,11 @@ export default function ExchangeNotificationComponent(props) {
                         <Text>{book_to_be_received.book_title}</Text>
                     }
                     {book_to_be_received.book_cover_image != null &&
-                        <Image source={{ uri: book_to_be_received.book_cover_image }} style={{ width: 80, height: 80 }} />
+                        <Image
+                            source={book_to_be_received.book_cover_image != undefined && !book_to_be_received.book_cover_image.includes('undefined') ? { uri: getImage('books', book_to_be_received.book_cover_image) } : book_image_not_available}
+                            style={{ width: 80, height: 80 }} />
                     }
-                    <Text>You Will get</Text>
+                    <Text>You Will Get</Text>
 
                 </Col>
                 <Col style={{ justifyContent: 'center' }}>
@@ -76,9 +76,10 @@ export default function ExchangeNotificationComponent(props) {
                         <Text>{book_to_be_sent.book_title}</Text>
                     }
                     {book_to_be_sent.book_cover_image != null &&
-                        <Image source={{ uri: book_to_be_sent.book_cover_image }} style={{ width: 80, height: 80 }} />
+                        <Image
+                            source={book_to_be_sent.book_cover_image != undefined && !book_to_be_sent.book_cover_image.includes('undefined') ? { uri: getImage('books', book_to_be_sent.book_cover_image) } : book_image_not_available} style={{ width: 80, height: 80 }} />
                     }
-                    <Text>You Will Send</Text>
+                    <Text>You Will Share</Text>
 
                 </Col>
             </Row>

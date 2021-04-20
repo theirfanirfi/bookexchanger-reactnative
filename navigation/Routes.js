@@ -199,6 +199,8 @@ function notificationsNavigator(navigator) {
   return (
     <Stack.Navigator initialRouteName="notifications" screenOptions={{ headerStyle: { backgroundColor: '#41cece' }, headerTitle: 'Notifications', headerTintColor: 'white' }}>
       <Stack.Screen name="notifications" component={Notifications} />
+      <Stack.Screen name="Chat" component={Chat} />
+
     </Stack.Navigator>
   )
 }
