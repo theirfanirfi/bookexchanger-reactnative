@@ -35,6 +35,7 @@ export default function ListItem(props) {
                 if (res.isCreated) {
                     setIsAddedToList(true);
                     setStack(res.stack);
+                    alert('Book added to list');
                 } else {
                     alert(res.message);
                 }
@@ -50,6 +51,7 @@ export default function ListItem(props) {
             if (res.isDeleted) {
                 setIsAddedToList(false)
                 setStack([])
+                alert('Book removed from list')
             } else {
                 alert(res.message);
             }
