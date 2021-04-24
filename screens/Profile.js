@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, Image, View, TouchableOpacity } from 'react-native';
+import { Text, Image, View, TouchableOpacity, Platform } from 'react-native';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import CircularImage from "../components/Images/CircularImage"
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
@@ -7,7 +7,10 @@ import UserSearchTab from '../components/Search/AppSearchTabs/UsersSearchTab';
 import BooksSearchTab from '../components/Search/AppSearchTabs/BooksSearchTab';
 import PostSearchTab from '../components/Search/AppSearchTabs/PostSearchTab';
 import { Icon, Button } from 'react-native-elements'
-export default class LocationPicker extends React.Component {
+import { get, post, put, _delete } from '../apis/index'
+import SocialTab from '../components/Profile/SocialTab';
+export default class Profile extends React.Component {
+
     state = {
         index: 0,
         routes: [
@@ -15,20 +18,58 @@ export default class LocationPicker extends React.Component {
             { key: 'books', title: 'Books' },
             { key: 'stacks', title: 'Stacks' },
         ],
-        user_id: 0
+        user_id: 0,
+        isMe: false,
+        profile: [],
+        token: 'sometoken',
+        user: [],
     };
-    componentDidMount() {
-        // const { user_id } = this.props.route.params
-        // this.setState({ user_id: user_id }, () => console.log(this.state.user_id))
+
+    getProfile = async () => {
+        console.log("user id: " + this.state.user_id)
+        let response = await get(this, `profile/${this.state.user_id}/`)
+        if (response.status) {
+            let res = response.response
+            console.log(res);
+            if (res.isLoggedIn && res.isFound) {
+                this.setState({ profile: res.profile, refreshing: false, message: 'Profile not found.' });
+
+            } else {
+                alert(res.message);
+            }
+        } else {
+            // return false;
+        }
     }
+
+    componentDidMount() {
+        const { isMe, user_id } = this.props.route.params
+        this.setState({ isMe: isMe, user_id: user_id }, async () => {
+            this.getProfile();
+        });
+
+        if (isMe) {
+            this.props.navigation.setOptions({
+                headerRight: () => {
+                    return (
+                        <TouchableOpacity>
+                            <Icon name="log-out-outline" type="ionicon" color="white" size={28} style={{ marginRight: 12 }} />
+                        </TouchableOpacity>
+                    )
+                }
+
+            });
+        }
+    }
+
     renderScene = ({ route, jumpTo }) => {
         switch (route.key) {
             case 'social':
-                return <UserSearchTab jumpTo={jumpTo} />;
+                return <SocialTab jumpTo={jumpTo} profile_id={this.state.user_id} navigation={this.props.navigation} />;
             case 'books':
-                return <BooksSearchTab jumpTo={jumpTo} />;
+                return <BooksSearchTab jumpTo={jumpTo} user_id={this.state.user_id} navigation={this.props.navigation} />;
             case 'stacks':
-                return <PostSearchTab jumpTo={jumpTo} />;
+                return <PostSearchTab jumpTo={jumpTo} user_id={this.state.user_id} navigation={this.props.navigation} />;
         }
     };
 
@@ -52,37 +93,40 @@ export default class LocationPicker extends React.Component {
                         <CircularImage image={null} style={null} size="large" />
                         <Row style={{ flexDirection: 'column', margin: 20 }}>
 
-                            <Text>Irfan Irfi</Text>
-                            <Text>@irfan_irfi</Text>
+                            <Text>{this.state.profile.fullname}</Text>
+                            {/* <Text>@irfan_irfi</Text> */}
                         </Row>
 
                     </Col>
                 </Row>
-                <Row style={{ justifyContent: 'center', marginTop: 32 }}>
-                    <Col >
-                        <Button
-                            buttonStyle={{ backgroundColor: '#41cece' }}
-                            containerStyle={{ width: '60%', alignSelf: 'center', }}
-                            icon={<Icon color="white" name="add" type="ionicon" />}
-                            title="Follow" />
-                    </Col>
 
-                    <Col>
-                        <Button
-                            type="outline"
-                            buttonStyle={{ borderColor: '#41cece' }}
-                            containerStyle={{ width: '60%', alignSelf: 'center', borderColor: '#41cece' }}
-                            icon={<Icon name="chatbubbles-outline" color="#41cece" type="ionicon" />}
-                            titleStyle={{ color: '#41cece' }}
-                            title=" Chat" />
-                    </Col>
-                </Row>
+                {!this.state.isMe &&
+                    <Row style={{ justifyContent: 'center', marginTop: 32 }}>
+                        <Col >
+                            <Button
+                                buttonStyle={{ backgroundColor: '#41cece' }}
+                                containerStyle={{ width: '60%', alignSelf: 'center', height: 50 }}
+                                icon={<Icon color="white" name="add" type="ionicon" />}
+                                title="Follow" />
+                        </Col>
+
+                        <Col>
+                            <Button
+                                type="outline"
+                                buttonStyle={{ borderColor: '#41cece' }}
+                                containerStyle={{ width: '60%', alignSelf: 'center', borderColor: '#41cece', height: 50 }}
+                                icon={<Icon name="chatbubbles-outline" color="#41cece" type="ionicon" />}
+                                titleStyle={{ color: '#41cece' }}
+                                title=" Chat" />
+                        </Col>
+                    </Row>
+                }
 
                 <Row size={20} style={{ marginTop: 12 }}>
                     <Col style={{ flexDirection: 'column', justifyContent: 'center' }}>
                         <TouchableOpacity style={{ flexDirection: 'column', justifyContent: 'center' }}>
                             <Text style={{ alignSelf: 'center' }}>Followers</Text>
-                            <Text style={{ alignSelf: 'center' }}>500</Text>
+                            <Text style={{ alignSelf: 'center' }}>{this.state.profile.followers}</Text>
                         </TouchableOpacity>
 
                     </Col>
@@ -90,7 +134,7 @@ export default class LocationPicker extends React.Component {
                     <Col style={{ flexDirection: 'column', justifyContent: 'center' }}>
                         <TouchableOpacity style={{ flexDirection: 'column', justifyContent: 'center' }}>
                             <Text style={{ alignSelf: 'center' }}>Following</Text>
-                            <Text style={{ alignSelf: 'center' }}>500</Text>
+                            <Text style={{ alignSelf: 'center' }}>{this.state.profile.followed}</Text>
                         </TouchableOpacity>
                     </Col>
 

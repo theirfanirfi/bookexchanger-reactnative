@@ -13,12 +13,12 @@ export default function LoginScreen(props) {
 
 
     useEffect(() => {
-        // setTimeout(() => {
-        //     props.navigation.reset({
-        //         index: 0,
-        //         routes: [{ name: 'root', screen: 'Home' }]
-        //     });
-        // }, 5000)
+        setTimeout(() => {
+            props.navigation.reset({
+                index: 0,
+                routes: [{ name: 'root', screen: 'Home' }]
+            });
+        }, 5000)
 
         GoogleSignin.configure({
             webClientId: '901252522520-r831fpbuhpjtqcgkbmsp2rqv84cu9u0i.apps.googleusercontent.com',

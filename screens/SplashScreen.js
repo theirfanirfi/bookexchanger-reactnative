@@ -7,7 +7,7 @@ export default function SplashScreen(props) {
         setTimeout(() => {
             props.navigation.reset({
                 index: 0,
-                routes: [{ name: 'root', screen: 'Home' }]
+                routes: [{ name: 'auth', screen: 'login' }]
             });
         }, 5000)
     })

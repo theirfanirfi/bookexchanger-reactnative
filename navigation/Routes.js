@@ -61,11 +61,13 @@ function headerOptions(navigator) {
             <TouchableOpacity style={{ marginRight: 12 }} onPress={() => navigator.navigation.navigate('notifications')}>
               <Icon name="notifications-outline" type="ionicon" color="white" size={28} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigator.navigation.navigate('search', { screen: 'search-app', params: { term: undefined } })}>
+            <TouchableOpacity
+              onPress={() => navigator.navigation.navigate('search', { screen: 'search-app', params: { term: undefined } })}>
               <Icon name="search-outline" type="ionicon" color="white" size={28} style={{ marginHorizontal: 12 }} />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigator.navigation.navigate('profile')}>
+            <TouchableOpacity
+              onPress={() => navigator.navigation.navigate('profile', { screen: 'profile', params: { isMe: true, user_id: 0 } })}>
               <Icon name="person-circle-outline" type="ionicon" color="white" size={28} style={{ marginHorizontal: 12 }} />
             </TouchableOpacity>
           </View>
