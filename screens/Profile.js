@@ -3,13 +3,14 @@ import { Text, Image, View, TouchableOpacity, Platform } from 'react-native';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import CircularImage from "../components/Images/CircularImage"
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import UserSearchTab from '../components/Search/AppSearchTabs/UsersSearchTab';
-import BooksSearchTab from '../components/Search/AppSearchTabs/BooksSearchTab';
 import PostSearchTab from '../components/Search/AppSearchTabs/PostSearchTab';
 import { Icon, Button } from 'react-native-elements'
 import { get, post, put, _delete } from '../apis/index'
+
 import SocialTab from '../components/Profile/SocialTab';
 import BooksTab from '../components/Profile/BooksTab';
+import StacksTab from '../components/Profile/StacksTab';
+
 export default class Profile extends React.Component {
 
     state = {
@@ -69,7 +70,7 @@ export default class Profile extends React.Component {
             case 'books':
                 return <BooksTab jumpTo={jumpTo} profile_id={this.state.user_id} navigation={this.props.navigation} />;
             case 'stacks':
-                return <PostSearchTab jumpTo={jumpTo} user_id={this.state.user_id} navigation={this.props.navigation} />;
+                return <StacksTab jumpTo={jumpTo} isMe={this.state.isMe} profile_id={this.state.user_id} navigation={this.props.navigation} />;
         }
     };
 

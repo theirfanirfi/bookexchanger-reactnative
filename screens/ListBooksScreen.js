@@ -6,16 +6,6 @@ import { Input, Icon } from 'react-native-elements'
 import { FloatingAction } from "react-native-floating-action";
 import { get, post, _delete } from '../apis/index'
 const nobooks = require('../assets/graphics/nobooks.png');
-import Modal from 'react-native-modal';
-
-const actions = [
-    {
-        text: "Add Book",
-        icon: <Icon type="ionicon" name="add-outline" color="white" />,
-        name: "add_book",
-        position: 1
-    },
-];
 
 
 
@@ -29,7 +19,8 @@ export default class ListBooksScreen extends React.Component {
         filter: 'asc',
         filtered_books: [],
         list_id: null,
-        applied_filter: 'Nearest'
+        applied_filter: 'Nearest',
+        isMe: false
 
     }
 
@@ -59,8 +50,8 @@ export default class ListBooksScreen extends React.Component {
         //     this.setState({ refreshing: true }, () => this.getBooks())
         // })
 
-        const { list_id } = await this.props.route.params
-        this.setState({ list_id: list_id }, () => this.getBooks())
+        const { list_id, isMe } = await this.props.route.params
+        this.setState({ list_id: list_id, isMe: isMe }, () => this.getBooks())
     }
 
     // static getDerivedStateFromProps(props, state){
@@ -127,24 +118,13 @@ export default class ListBooksScreen extends React.Component {
                         ListHeaderComponent={this.listHeader}
                         keyExtractor={(item) => { return item.id }}
                         renderItem={({ item }) => <BookItem
-                            show_delete_option={true}
+                            show_delete_option={this.state.isMe ? true : false}
                             book={item} isApiCall={false}
                             context={this} navigation={this.props.navigation} />}
 
                     />
 
-                    <FloatingAction
-                        actions={actions}
-                        color="#7D4DFF"
-                        onPressItem={name => {
-                            switch (name) {
-                                case 'add_book':
-                                    this.props.navigation.navigate('addbook');
-                                    break;
-                            }
-                            console.log(`selected button: ${name}`);
-                        }}
-                    />
+
                 </View>
             );
         } else {

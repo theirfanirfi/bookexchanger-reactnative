@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Text, TouchableOpacity } from 'react-native'
 import { Col, Row } from "react-native-easy-grid";
 import { Card, Icon } from 'react-native-elements'
@@ -10,6 +10,8 @@ export default function ListItem(props) {
 
     const [isAddedToList, setIsAddedToList] = useState(false)
     const [stack, setStack] = useState([])
+    const [me, setMe] = useState(false)
+
     const deleteList = async (list_id) => {
         let response = await _delete(props.context, `list/${list_id}/`)
         if (response.status) {
@@ -21,6 +23,10 @@ export default function ListItem(props) {
             }
         }
     }
+
+    useEffect(() => {
+        setMe(props.isMe)
+    })
 
     const addToList = async () => {
         console.log('add ' + props.book_id)
@@ -59,7 +65,7 @@ export default function ListItem(props) {
     }
 
     const navigateToList = () => {
-        props.navigation.navigate('listbooksscreen', { list_id: props.list.list_id });
+        props.navigation.navigate('listbooksscreen', { list_id: props.list.list_id, isMe: props.isMe });
     }
 
 
@@ -93,9 +99,13 @@ export default function ListItem(props) {
                         </>
 
                     ) : (
-                        <TouchableOpacity onPress={() => deleteList(list.list_id)}>
-                            <Icon type="ionicon" name="trash" color="#162b34" size={23} />
-                        </TouchableOpacity>
+                        <>
+                            {props.isMe &&
+                                <TouchableOpacity onPress={() => deleteList(list.list_id)}>
+                                    <Icon type="ionicon" name="trash" color="#162b34" size={23} />
+                                </TouchableOpacity>
+                            }
+                        </>
                     )}
 
 
