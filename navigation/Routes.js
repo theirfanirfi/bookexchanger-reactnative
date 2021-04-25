@@ -67,7 +67,7 @@ function headerOptions(navigator) {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => navigator.navigation.navigate('profile', { screen: 'profile', params: { isMe: true, user_id: 0 } })}>
+              onPress={() => navigator.navigation.navigate('profile', { screen: 'profile', params: { isMe: true, user_id: "me" } })}>
               <Icon name="person-circle-outline" type="ionicon" color="white" size={28} style={{ marginHorizontal: 12 }} />
             </TouchableOpacity>
           </View>

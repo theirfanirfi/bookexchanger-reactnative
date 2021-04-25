@@ -10,7 +10,7 @@ export default class SocialTab extends React.Component {
         posts: [],
         user: [],
         refreshing: false,
-        profile_id: 0,
+        profile_id: "me",
     }
 
     async getPosts() {
@@ -33,7 +33,7 @@ export default class SocialTab extends React.Component {
 
     async componentDidMount() {
         const { profile_id } = this.props
-        console.log(this.props.profile_id)
+        console.log('profile id: ' + profile_id)
         this.setState({ profile_id: profile_id }, () => {
             this.getPosts();
         });

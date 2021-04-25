@@ -9,6 +9,7 @@ import PostSearchTab from '../components/Search/AppSearchTabs/PostSearchTab';
 import { Icon, Button } from 'react-native-elements'
 import { get, post, put, _delete } from '../apis/index'
 import SocialTab from '../components/Profile/SocialTab';
+import BooksTab from '../components/Profile/BooksTab';
 export default class Profile extends React.Component {
 
     state = {
@@ -18,7 +19,7 @@ export default class Profile extends React.Component {
             { key: 'books', title: 'Books' },
             { key: 'stacks', title: 'Stacks' },
         ],
-        user_id: 0,
+        user_id: "me",
         isMe: false,
         profile: [],
         token: 'sometoken',
@@ -26,7 +27,6 @@ export default class Profile extends React.Component {
     };
 
     getProfile = async () => {
-        console.log("user id: " + this.state.user_id)
         let response = await get(this, `profile/${this.state.user_id}/`)
         if (response.status) {
             let res = response.response
@@ -67,7 +67,7 @@ export default class Profile extends React.Component {
             case 'social':
                 return <SocialTab jumpTo={jumpTo} profile_id={this.state.user_id} navigation={this.props.navigation} />;
             case 'books':
-                return <BooksSearchTab jumpTo={jumpTo} user_id={this.state.user_id} navigation={this.props.navigation} />;
+                return <BooksTab jumpTo={jumpTo} profile_id={this.state.user_id} navigation={this.props.navigation} />;
             case 'stacks':
                 return <PostSearchTab jumpTo={jumpTo} user_id={this.state.user_id} navigation={this.props.navigation} />;
         }
