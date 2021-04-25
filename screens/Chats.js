@@ -44,7 +44,10 @@ export default class Chats extends React.Component {
 
     }
 
-
+    navigateToUserProfile = (chat) => {
+        let user_id = chat.amIUserOne == 1 ? JSON.parse(chat.user_two).user_two_id : JSON.parse(chat.user_one).user_one_id
+        this.props.navigation.navigate('profile', { screen: 'profile', params: { isMe: false, user_id: user_id } })
+    }
 
     getProfilePicture(item: any) {
         if (item.i_am_intitiater == 1) {
@@ -65,6 +68,10 @@ export default class Chats extends React.Component {
         }
     }
 
+    getChatWithUserId = (chat) => {
+        return chat.amIUserOne == 1 ? JSON.parse(chat.user_two).user_two_id : JSON.parse(chat.user_one).user_one_id
+    }
+
 
 
     render() {
@@ -79,20 +86,22 @@ export default class Chats extends React.Component {
                     renderItem={({ item }) => {
                         return (
 
-                            <View style={{
-                                flex: 1, padding: 10,
-                                flexDirection: 'row',
-                            }}  >
+                            <TouchableOpacity
+                                onPress={() => this.props.navigation.navigate('Chat', { 'p_id': item.p_id, 'username': this.getUserName(item), 'chat_with': this.getChatWithUserId(item) })} style={{
+                                    flex: 1, padding: 10,
+                                    flexDirection: 'row',
+                                }}  >
 
                                 <View style={{ flexDirection: 'column' }}>
-                                    <TouchableOpacity style={{ alignSelf: 'flex-start' }} onPress={() => this.props.navigation.navigate('Chat', { 'p_id': item.p_id, 'username': this.getUserName(item) })}>
+                                    <TouchableOpacity style={{ alignSelf: 'flex-start' }}
+                                        onPress={() => this.navigateToUserProfile(item)}>
                                         <Image style={styles.image} source={profile_image} />
                                     </TouchableOpacity>
                                 </View>
 
 
                                 <View style={{ flexDirection: 'column', marginHorizontal: 10 }}>
-                                    <TouchableOpacity style={{ alignSelf: 'stretch' }} onPress={() => this.props.navigation.navigate('Chat', { 'p_id': item.p_id, 'username': this.getUserName(item) })}>
+                                    <TouchableOpacity style={{ alignSelf: 'stretch' }} onPress={() => this.props.navigation.navigate('Chat', { 'p_id': item.p_id, 'username': this.getUserName(item), 'chat_with': this.getChatWithUserId(item) })}>
                                         <Text style={styles.title}>{this.getUserName(item)}</Text>
                                     </TouchableOpacity>
 
@@ -106,7 +115,7 @@ export default class Chats extends React.Component {
                                 <Badge value={item.unread_msgs} status="warning" containerStyle={{ alignSelf: 'flex-end' }} />
                             </View> */}
 
-                            </View>
+                            </TouchableOpacity>
                         )
                     }
                     }

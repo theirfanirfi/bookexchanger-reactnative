@@ -11,14 +11,24 @@ const profile_default_image = require('../../assets/images/default.png');
 
 export default function LikeCommentNotificationComponent(props) {
     let notification = props.notification
+
+    const navigateToUserProfile = () => {
+        props.navigation.navigate('profile', { screen: 'profile', params: { isMe: false, user_id: notification.user_id } })
+    }
     return (
         <Card containerStyle={{ borderWidth: 0.4, borderColor: 'white', margin: 2 }}>
             <TouchableOpacity onPress={() => props.navigation.navigate('SinglePost', { screen: 'post', params: { post_id: notification.post_id } })}>
                 <Row>
                     <Col style={{ flexDirection: 'row', marginVertical: 8 }}>
-                        <CircularImage style={null} image={null} size="small" />
+                        <TouchableOpacity onPress={() => navigateToUserProfile()}>
+
+                            <CircularImage style={null} image={null} size="small" />
+                        </TouchableOpacity>
                         <Row style={{ flexDirection: 'row' }}>
-                            <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{notification.fullname}</Text>
+                            <TouchableOpacity onPress={() => navigateToUserProfile()}>
+
+                                <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{notification.fullname}</Text>
+                            </TouchableOpacity>
                             <Text style={{ margin: 6, fontSize: 16, color: 'gray' }}>has{notification.is_like == 1 ? <>
                                 <Icon name="heart" color="red" size={16} type="ionicon" />
 

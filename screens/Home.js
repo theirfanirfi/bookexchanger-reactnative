@@ -17,6 +17,7 @@ class Home extends React.Component {
     let response = await get(this, 'post/')
     if (response.status) {
       let res = response.response
+      console.log(res.posts[0])
       if (res.posts.length > 0) {
         this.setState({ posts: res.posts, refreshing: false });
 
@@ -46,7 +47,11 @@ class Home extends React.Component {
             }
             data={this.state.posts}
             keyExtractor={(item) => { return item.id }}
-            renderItem={({ item }) => <PostItem key={item.id} context={this} post={item} navigation={this.props.navigation} />}
+            renderItem={({ item }) => <PostItem
+              key={item.id}
+              context={this}
+              post={item}
+              navigation={this.props.navigation} />}
 
           />
         </View>

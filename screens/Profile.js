@@ -33,7 +33,7 @@ export default class Profile extends React.Component {
             let res = response.response
             console.log(res);
             if (res.isLoggedIn && res.isFound) {
-                this.setState({ profile: res.profile, refreshing: false, message: 'Profile not found.' });
+                this.setState({ profile: res.profile, refreshing: false, message: 'Profile not found.', isMe: res.isMe }, () => { if (this.state.isMe) { this.setLogoutButton() } });
 
             } else {
                 alert(res.message);
@@ -43,23 +43,27 @@ export default class Profile extends React.Component {
         }
     }
 
+    setLogoutButton() {
+        this.props.navigation.setOptions({
+            headerRight: () => {
+                return (
+                    <TouchableOpacity>
+                        <Icon name="log-out-outline" type="ionicon" color="white" size={28} style={{ marginRight: 12 }} />
+                    </TouchableOpacity>
+                )
+            }
+
+        });
+    }
+
     componentDidMount() {
         const { isMe, user_id } = this.props.route.params
         this.setState({ isMe: isMe, user_id: user_id }, async () => {
             this.getProfile();
         });
 
-        if (isMe) {
-            this.props.navigation.setOptions({
-                headerRight: () => {
-                    return (
-                        <TouchableOpacity>
-                            <Icon name="log-out-outline" type="ionicon" color="white" size={28} style={{ marginRight: 12 }} />
-                        </TouchableOpacity>
-                    )
-                }
-
-            });
+        if (this.state.isMe) {
+            this.setLogoutButton();
         }
     }
 

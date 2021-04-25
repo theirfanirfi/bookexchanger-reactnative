@@ -11,13 +11,25 @@ const profile_default_image = require('../../assets/images/default.png');
 
 export default function FollowNotificationComponent(props) {
     let post = props.post
+
+    const navigateToUserProfile = () => {
+        props.navigation.navigate('profile', { screen: 'profile', params: { isMe: false, user_id: post.user_id } })
+    }
+
+
     return (
         <Card containerStyle={{ borderWidth: 0.4, borderColor: 'white', margin: 2 }}>
             <Row>
                 <Col style={{ flexDirection: 'row', marginVertical: 8 }}>
-                    <CircularImage style={null} image={null} size="small" />
+                    <TouchableOpacity onPress={() => navigateToUserProfile()}>
+
+                        <CircularImage style={null} image={null} size="small" />
+                    </TouchableOpacity>
                     <Row style={{ flexDirection: 'column' }}>
-                        <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{post.fullname}</Text>
+                        <TouchableOpacity onPress={() => navigateToUserProfile()}>
+
+                            <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{post.fullname}</Text>
+                        </TouchableOpacity>
                         <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8 }}>{post.created_at}</Text>
 
                     </Row>

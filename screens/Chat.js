@@ -1,6 +1,6 @@
 import React from 'react'
 import { GiftedChat, Message, Bubble, SystemMessage } from 'react-native-gifted-chat'
-import { View, Text, Image, ActivityIndicator } from 'react-native'
+import { View, Text, Image, ActivityIndicator, TouchableOpacity } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Row, Col } from 'react-native-easy-grid'
 import base64 from 'react-native-base64';
@@ -34,13 +34,14 @@ export default class Chat extends React.Component {
         is_decline: false,
         context: ThemedListItem,
         message: '',
+        chat_with: null
         // intervalId: null,
     }
 
 
     approve_exchange_request = async () => {
         let form = new FormData();
-        let response = await post(this, `exchange/approve_exchange/${this.state.participant_id}`, form)
+        let response = await post(this, `exchange/approve_exchange/${this.state.participant_id}/`, form)
         if (response.status) {
             let res = response.response
             if (res.messages.length > 0) {
@@ -61,8 +62,10 @@ export default class Chat extends React.Component {
             return;
         }
         let response = await get(this, `messages/${this.state.participant_id}/`)
+
         if (response.status) {
             let res = response.response
+
             if (res.messages.length > 0) {
                 let messages = res.messages
                 await messages.forEach((value, index) => {
@@ -77,23 +80,33 @@ export default class Chat extends React.Component {
         }
     }
 
+    navigateToUserProfile = () => {
+        this.props.navigation.navigate('profile', { screen: 'profile', params: { isMe: false, user_id: this.state.chat_with } })
+    }
+
+
     async componentDidMount() {
-        const { p_id, username } = await this.props.route.params
+        const { p_id, username, chat_with } = await this.props.route.params
+        console.log("user tow: " + chat_with)
         this.props.navigation.setOptions({
             headerTitle: username,
             headerTitleStyle: { fontSize: 16, color: 'white' },
             headerRight: () => {
                 return (
                     <View style={{ flexDirection: 'row' }}>
-                        <Icon name="checkmark-done-outline" type="ionicon" size={20} color="white" />
-                        <Icon name="person-outline" type="ionicon" size={20} color="white" style={{ marginLeft: 12, marginRight: 12 }} />
+                        {/* <Icon name="checkmark-done-outline" type="ionicon" size={20} color="white" /> */}
+                        <TouchableOpacity onPress={() => this.navigateToUserProfile()}>
+
+                            <Icon name="person-outline" type="ionicon" size={20} color="white" style={{ marginLeft: 12, marginRight: 12 }} />
+                        </TouchableOpacity>
                     </View>
                 )
             }
-        })
+        });
+        // this.getMessages();
 
         this.intervalId = 0;
-        this.setState({ participant_id: p_id, username: username, isLoading: true }, () => this.getMessages());
+        this.setState({ participant_id: p_id, username: username, isLoading: true, chat_with: chat_with }, () => this.getMessages());
         this.intervalId = setInterval(() => this.getMessages(), 60000);
 
         // this.getData()
@@ -102,10 +115,8 @@ export default class Chat extends React.Component {
     }
 
     componentWillUnmount() {
-        console.log('component unmounted')
         clearInterval(this.intervalId);
         this.intervalId = null;
-        console.log('intervalid: ' + this.intervalId)
     }
 
 
@@ -177,7 +188,6 @@ export default class Chat extends React.Component {
 
     customMessage = (message) => {
         let msg = message.currentMessage
-        console.log(msg.to_exchange_with_user_id)
         if (msg.is_exchange == 1) {
             // let book_to_be_received = JSON.parse(message.currentMessage.book_to_be_received)
             // let book_to_be_sent = JSON.parse(message.currentMessage.book_to_be_sent)

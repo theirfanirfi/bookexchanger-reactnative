@@ -12,15 +12,26 @@ import CommentComponent from './CommentComponent'
 
 export default function PostItem(props) {
     let post = props.post
+
+    const navigateToUserProfile = () => {
+        props.navigation.navigate('profile', { screen: 'profile', params: { isMe: false, user_id: post.user_id } })
+    }
+
     return (
         <Card containerStyle={{ borderWidth: 0.4, borderColor: 'white', margin: 2 }}>
             <TouchableOpacity onPress={() => props.navigation.navigate('SinglePost', { screen: 'post', params: { post_id: post.post_id } })}>
 
                 <Row>
                     <Col style={{ flexDirection: 'row', marginVertical: 8 }}>
-                        <CircularImage style={null} image={null} size="small" />
+                        <TouchableOpacity onPress={() => navigateToUserProfile()}>
+
+                            <CircularImage style={null} image={null} size="small" />
+                        </TouchableOpacity>
                         <Row style={{ flexDirection: 'column' }}>
-                            <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{post.fullname}</Text>
+                            <TouchableOpacity onPress={() => navigateToUserProfile()}>
+
+                                <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{post.fullname}</Text>
+                            </TouchableOpacity>
                             <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8 }}>{post.created_at}</Text>
 
                         </Row>
@@ -71,7 +82,7 @@ export default function PostItem(props) {
                     </Col>
                     <Col>
                         {/* <Text style={{ margin: 6, color: 'gray' }}>{"2020-12-04"}</Text> */}
-                        <CommentComponent context={props.context} post={post} />
+                        <CommentComponent navigation={props.navigation} context={props.context} post={post} />
 
                     </Col>
 

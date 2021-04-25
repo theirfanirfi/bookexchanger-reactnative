@@ -11,6 +11,7 @@ import { get, post, put } from '../../apis/index'
 
 export default function ExchangeNotificationComponent(props) {
     let notification = props.notification
+    console.log(notification)
     let book_to_be_received = JSON.parse(notification.book_to_received)
     let book_to_be_sent = JSON.parse(notification.book_to_send)
     const [declined, setDeclined] = useState(false)
@@ -71,14 +72,24 @@ export default function ExchangeNotificationComponent(props) {
         }
     }
 
+    const navigateToUserProfile = () => {
+        props.navigation.navigate('profile', { screen: 'profile', params: { isMe: false, user_id: notification.user_id } })
+    }
+
     return (
         <Card containerStyle={{ borderWidth: 0.4, borderColor: 'white', margin: 2 }}>
             <Row>
                 <Col style={{ flexDirection: 'row', marginVertical: 8 }}>
-                    <CircularImage style={null} image={null} size="small" />
+                    <TouchableOpacity onPress={() => navigateToUserProfile()}>
+
+                        <CircularImage style={null} image={null} size="small" />
+                    </TouchableOpacity>
                     <Row >
                         <Col style={{ flexDirection: 'column', flexWrap: 'wrap' }}>
-                            <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{notification.fullname}</Text>
+                            <TouchableOpacity onPress={() => navigateToUserProfile()}>
+
+                                <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{notification.fullname}</Text>
+                            </TouchableOpacity>
                             <Text style={{ margin: 6, fontSize: 16, color: 'gray', textAlign: 'justify', }}>wants to exchange a book with you</Text>
                             <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8 }}>{notification.created_at}</Text>
 

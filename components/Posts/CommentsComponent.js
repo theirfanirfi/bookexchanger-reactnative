@@ -26,7 +26,7 @@ export default class CommentsComponent extends React.Component {
     async componentDidMount() {
         this.setState({ postt: this.props.postt });
 
-        let response = await get(this, `comment/${this.state.postt.post_id}`)
+        let response = await get(this, `comment/${this.state.postt.post_id}/`)
         console.log(response);
 
         if (response.status) {
@@ -51,6 +51,10 @@ export default class CommentsComponent extends React.Component {
         return null
     }
 
+    navigateToUserProfile = () => {
+        this.props.navigation.navigate('profile', { screen: 'profile', params: { isMe: false, user_id: this.state.postt.user_id } })
+    }
+
     listHeader = () => {
         return <CommentWritingBoxComponent commentCallBack={this.commentCallBack} context={this} post={this.state.postt} />
 
@@ -68,7 +72,9 @@ export default class CommentsComponent extends React.Component {
                 renderItem={(item) => {
                     const comment = item.item
                     return (
-                        <TouchableOpacity style={{ borderBottomWidth: 0.5, borderBottomColor: 'lightgray', padding: 12, flexDirection: 'column' }}>
+                        <TouchableOpacity
+                            onPress={() => this.navigateToUserProfile()}
+                            style={{ borderBottomWidth: 0.5, borderBottomColor: 'lightgray', padding: 12, flexDirection: 'column' }}>
                             <View style={{ flexDirection: 'row', marginVertical: 8 }}>
 
                                 <CircularImage style={null} image={getImage('profile', comment.profile_image)} size="small" />
