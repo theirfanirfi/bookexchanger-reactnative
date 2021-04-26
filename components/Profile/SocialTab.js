@@ -18,7 +18,6 @@ export default class SocialTab extends React.Component {
         let response = await get(this, `post/posts/${this.state.profile_id}/`)
         if (response.status) {
             let res = response.response
-            console.log(res.posts)
 
             if (res.posts.length > 0) {
                 this.setState({ posts: res.posts, refreshing: false });
@@ -31,9 +30,8 @@ export default class SocialTab extends React.Component {
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         const { profile_id } = this.props
-        console.log('profile id: ' + profile_id)
         this.setState({ profile_id: profile_id }, () => {
             this.getPosts();
         });
@@ -43,7 +41,7 @@ export default class SocialTab extends React.Component {
         })
     }
 
-    static getStateDerivedFromProps(props, state) {
+    static getDerivedStateFromProps(props, state) {
         if (state.profile_id != props.profile_id && props.profile_id != undefined) {
             return {
                 profile_id: props.profile_id

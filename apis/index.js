@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.10.3:5000";
+const BASE_URL = "http://192.168.10.8:5000";
 const endpoint = BASE_URL + "/api"
 
 
@@ -120,7 +120,6 @@ export const put = async (context, pUrl, form) => {
 
 export const get = async (context, pUrl) => {
     await getToken(context);
-    console.log(context.state.token)
     try {
         const url = `${endpoint}/${pUrl}`
         const response = await fetch(url, {
@@ -148,7 +147,6 @@ export const get = async (context, pUrl) => {
 
 export const _delete = async (context, pUrl) => {
     await getToken(context);
-    console.log(context.state.token)
     try {
         const url = `${endpoint}/${pUrl}`
         const response = await fetch(url, {
@@ -176,7 +174,6 @@ export const _delete = async (context, pUrl) => {
 
 export const generic_request = async (context, req_method, pUrl) => {
     await getToken(context);
-    console.log(context.state.token)
     try {
         const url = `${endpoint}/${pUrl}`
         const response = await fetch(url, {

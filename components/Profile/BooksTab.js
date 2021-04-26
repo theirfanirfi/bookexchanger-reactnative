@@ -46,7 +46,7 @@ class BooksTab extends React.Component {
         })
     }
 
-    static getStateDerivedFromProps(props, state) {
+    static getDerivedStateFromProps(props, state) {
         if (state.profile_id != props.profile_id && props.profile_id != undefined) {
             return {
                 profile_id: props.profile_id

@@ -3,13 +3,14 @@ import { Text, Image, View, TouchableOpacity, Platform } from 'react-native';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import CircularImage from "../components/Images/CircularImage"
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import PostSearchTab from '../components/Search/AppSearchTabs/PostSearchTab';
 import { Icon, Button } from 'react-native-elements'
 import { get, post, put, _delete } from '../apis/index'
 
 import SocialTab from '../components/Profile/SocialTab';
 import BooksTab from '../components/Profile/BooksTab';
 import StacksTab from '../components/Profile/StacksTab';
+
+import FollowButton from '../components/Profile/FollowButton'
 
 export default class Profile extends React.Component {
 
@@ -25,15 +26,18 @@ export default class Profile extends React.Component {
         profile: [],
         token: 'sometoken',
         user: [],
+        isFollowed: false,
     };
 
     getProfile = async () => {
         let response = await get(this, `profile/${this.state.user_id}/`)
         if (response.status) {
             let res = response.response
-            console.log(res);
             if (res.isLoggedIn && res.isFound) {
-                this.setState({ profile: res.profile, refreshing: false, message: 'Profile not found.', isMe: res.isMe }, () => { if (this.state.isMe) { this.setLogoutButton() } });
+                this.setState({
+                    profile: res.profile, refreshing: false, isFollowed: res.isFollowed,
+                    message: 'Profile not found.', isMe: res.isMe
+                }, () => { if (this.state.isMe) { this.setLogoutButton() } });
 
             } else {
                 alert(res.message);
@@ -108,11 +112,7 @@ export default class Profile extends React.Component {
                 {!this.state.isMe &&
                     <Row style={{ justifyContent: 'center', marginTop: 32 }}>
                         <Col >
-                            <Button
-                                buttonStyle={{ backgroundColor: '#41cece' }}
-                                containerStyle={{ width: '60%', alignSelf: 'center', height: 50 }}
-                                icon={<Icon color="white" name="add" type="ionicon" />}
-                                title="Follow" />
+                            <FollowButton context={this} user_id={this.state.user_id} is_followed={this.state.isFollowed} />
                         </Col>
 
                         <Col>
