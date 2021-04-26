@@ -27,6 +27,7 @@ export default class Profile extends React.Component {
         token: 'sometoken',
         user: [],
         isFollowed: false,
+        p_id: null
     };
 
     getProfile = async () => {
@@ -90,6 +91,27 @@ export default class Profile extends React.Component {
         />
     );
 
+    async goToChat() {
+        if (this.state.p_id == null) {
+            let response = await get(this, `participant/chat/${this.state.user_id}/`)
+            if (response.status) {
+                let res = response.response
+                if (res.isLoggedIn && res.isFound) {
+                    this.props.navigation.navigate('Chat', { 'p_id': res.participant.p_id, 'username': this.state.profile.fullname, 'chat_with': this.state.profile.user_id })
+
+                } else {
+                    alert(res.message);
+                }
+            } else {
+                // return false;
+                this.props.navigation.navigate('Chat', { 'p_id': this.state.p_id, 'username': this.state.profile.fullname, 'chat_with': this.state.profile.user_id })
+
+            }
+        } else {
+
+        }
+    }
+
 
 
     render() {
@@ -112,7 +134,7 @@ export default class Profile extends React.Component {
                 {!this.state.isMe &&
                     <Row style={{ justifyContent: 'center', marginTop: 32 }}>
                         <Col >
-                            <FollowButton context={this} user_id={this.state.user_id} is_followed={this.state.isFollowed} />
+                            <FollowButton context={this} user_id={this.state.profile.user_id} is_followed={this.state.isFollowed} />
                         </Col>
 
                         <Col>
@@ -122,6 +144,7 @@ export default class Profile extends React.Component {
                                 containerStyle={{ width: '60%', alignSelf: 'center', borderColor: '#41cece', height: 50 }}
                                 icon={<Icon name="chatbubbles-outline" color="#41cece" type="ionicon" />}
                                 titleStyle={{ color: '#41cece' }}
+                                onPress={() => this.goToChat()}
                                 title=" Chat" />
                         </Col>
                     </Row>

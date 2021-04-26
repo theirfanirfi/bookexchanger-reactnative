@@ -219,6 +219,8 @@ function profileNavigator(navigator) {
   return (
     <Stack.Navigator initialRouteName="profile" screenOptions={{ headerStyle: { backgroundColor: '#41cece' }, headerTitle: 'Profile', headerTintColor: 'white' }}>
       <Stack.Screen name="profile" component={Profile} />
+      <Stack.Screen name="Chat" component={Chat} />
+
     </Stack.Navigator>
   )
 }

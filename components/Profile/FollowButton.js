@@ -1,24 +1,39 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Component } from 'react'
 import { get } from '../../apis/index'
 import { Icon, Button } from 'react-native-elements'
 
-export default function FollowButton(props) {
+export default class FollowButton extends Component {
 
-    const [followed, setFollowed] = useState(false)
-    const [userId, setUserId] = useState(0)
+    state = {
+        isFollowed: false,
+        user_id: 0,
+        token: 'sometoken',
+        user: []
+    }
 
-    useEffect(() => {
-        setUserId(props.user_id)
-        setFollowed(props.is_followed)
-        console.log("is followed: " + props.is_followed)
-    })
+    componentDidMount() {
+        const { is_followed, user_id } = this.props
+        this.setState({ isFollowed: is_followed, user_id: user_id })
 
-    const follow = async () => {
-        let response = await get(props.context, `follow/${userId}/`)
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (state.user_id != props.user_id && props.user_id != undefined) {
+            return {
+                user_id: props.user_id,
+                isFollowed: props.is_followed,
+            }
+        }
+        return null;
+    }
+
+    follow = async () => {
+        let response = await get(this, `follow/${this.props.user_id}/`)
         if (response.status) {
             let res = response.response
             if (res.isLoggedIn && res.isFollowed) {
-                setFollowed(true);
+                this.setState({ isFollowed: true })
+
             } else {
                 alert(res.message);
             }
@@ -27,12 +42,13 @@ export default function FollowButton(props) {
         }
     }
 
-    const unfollow = async () => {
-        let response = await get(props.context, `follow/unfollow/${userId}/`)
+    unfollow = async () => {
+        let response = await get(this, `follow/unfollow/${this.props.user_id}/`)
         if (response.status) {
             let res = response.response
             if (res.isLoggedIn && res.isUnFollowed) {
-                setFollowed(false);
+                this.setState({ isFollowed: false })
+
             } else {
                 alert(res.message);
             }
@@ -40,26 +56,27 @@ export default function FollowButton(props) {
             // return false;
         }
     }
+    render() {
+        return (
+            <>
+                {this.state.isFollowed ? (
+                    <Button
+                        buttonStyle={{ backgroundColor: '#41cece' }}
+                        containerStyle={{ width: '60%', alignSelf: 'center', height: 50 }
+                        }
+                        onPress={() => this.unfollow()}
+                        title="Unfollow" />
+                ) : (
+                    <Button
+                        buttonStyle={{ backgroundColor: '#41cece' }}
+                        containerStyle={{ width: '60%', alignSelf: 'center', height: 50 }
+                        }
+                        onPress={() => this.follow()}
 
-    return (
-        <>
-            {followed ? (
-                <Button
-                    buttonStyle={{ backgroundColor: '#41cece' }}
-                    containerStyle={{ width: '60%', alignSelf: 'center', height: 50 }
-                    }
-                    onPress={() => unfollow()}
-                    title="Unfollow" />
-            ) : (
-                <Button
-                    buttonStyle={{ backgroundColor: '#41cece' }}
-                    containerStyle={{ width: '60%', alignSelf: 'center', height: 50 }
-                    }
-                    onPress={() => follow()}
-
-                    icon={< Icon color="white" name="add" type="ionicon" />}
-                    title="Follow" />
-            )}
-        </>
-    )
+                        icon={< Icon color="white" name="add" type="ionicon" />}
+                        title="Follow" />
+                )}
+            </>
+        )
+    }
 }
