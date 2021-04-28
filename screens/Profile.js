@@ -27,9 +27,20 @@ export default class Profile extends React.Component {
         token: 'sometoken',
         user: [],
         isFollowed: false,
-        p_id: null
+        p_id: null,
+        followers: 0,
     };
 
+    followActionCallBack = (context, action) => {
+        if (action == 'follow') {
+            context.setState({ followers: context.state.followers + 1 });
+        } else if (action == "unfollow") {
+            if (context.state.followers > 0) {
+                context.setState({ followers: context.state.followers - 1 });
+            }
+
+        }
+    }
     getProfile = async () => {
         let response = await get(this, `profile/${this.state.user_id}/`)
         if (response.status) {
@@ -37,6 +48,7 @@ export default class Profile extends React.Component {
             if (res.isLoggedIn && res.isFound) {
                 this.setState({
                     profile: res.profile, refreshing: false, isFollowed: res.isFollowed,
+                    followers: res.profile.followers,
                     message: 'Profile not found.', isMe: res.isMe
                 }, () => { if (this.state.isMe) { this.setLogoutButton() } });
 
@@ -134,7 +146,7 @@ export default class Profile extends React.Component {
                 {!this.state.isMe &&
                     <Row style={{ justifyContent: 'center', marginTop: 32 }}>
                         <Col >
-                            <FollowButton context={this} user_id={this.state.profile.user_id} is_followed={this.state.isFollowed} />
+                            <FollowButton followActionCallBack={this.followActionCallBack} context={this} user_id={this.state.profile.user_id} is_followed={this.state.isFollowed} />
                         </Col>
 
                         <Col>
@@ -154,7 +166,7 @@ export default class Profile extends React.Component {
                     <Col style={{ flexDirection: 'column', justifyContent: 'center' }}>
                         <TouchableOpacity style={{ flexDirection: 'column', justifyContent: 'center' }}>
                             <Text style={{ alignSelf: 'center' }}>Followers</Text>
-                            <Text style={{ alignSelf: 'center' }}>{this.state.profile.followers}</Text>
+                            <Text style={{ alignSelf: 'center' }}>{this.state.followers}</Text>
                         </TouchableOpacity>
 
                     </Col>

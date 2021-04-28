@@ -33,7 +33,7 @@ export default class FollowButton extends Component {
             let res = response.response
             if (res.isLoggedIn && res.isFollowed) {
                 this.setState({ isFollowed: true })
-
+                this.props.followActionCallBack(this.props.context, 'follow');
             } else {
                 alert(res.message);
             }
@@ -48,6 +48,8 @@ export default class FollowButton extends Component {
             let res = response.response
             if (res.isLoggedIn && res.isUnFollowed) {
                 this.setState({ isFollowed: false })
+                this.props.followActionCallBack(this.props.context, 'unfollow');
+
 
             } else {
                 alert(res.message);
