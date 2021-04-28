@@ -23,7 +23,7 @@ export default class BooksSearchTab extends React.Component {
     }
     componentDidMount() {
         const { term } = this.props
-        this.setState({ search_term: term }, () => console.log(this.state.search_term))
+        this.setState({ search_term: term }, () => this.getBooks())
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -59,10 +59,6 @@ export default class BooksSearchTab extends React.Component {
             // return false;
             this.setState({ books: [], refreshing: false });
         }
-    }
-
-    componentDidMount() {
-        this.getBooks();
     }
 
     async filter_books(search_term) {
