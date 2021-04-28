@@ -9,7 +9,7 @@ export default function AppSearchHeader(navigator) {
     return {
         headerStyle: { backgroundColor: '#41cece' }, headerTitle: () => {
             return <Input placeholder="Search"
-                onChangeText={(text) => text == '' ? search_term = undefined : search_term = text}
+                onChangeText={(text) => search_term = text}
                 inputStyle={{ color: 'white' }}
                 inputContainerStyle={{ borderBottomWidth: 0.45, borderBottomColor: 'white', top: 4 }}
                 containerStyle={{ borderWidth: 0, top: 8 }} />
@@ -17,7 +17,7 @@ export default function AppSearchHeader(navigator) {
 
         headerRight: () => {
             return (
-                <TouchableOpacity onPress={() => navigator.navigation.navigate('search', { screen: 'search-app', params: { term: search_term } })}>
+                <TouchableOpacity onPress={() => { navigator.navigation.navigate('search', { screen: 'search-app', params: { term: search_term } }) }}>
                     <Icon name="search-outline" type="ionicon" color="white" size={28} style={{ marginHorizontal: 12 }} />
                 </TouchableOpacity>
             )

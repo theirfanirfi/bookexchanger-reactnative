@@ -21,7 +21,6 @@ export default class Search extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        console.log(props.route.params.term)
         if (props.route.params.term != state.search_term && props.route.params.term != undefined) {
             return {
                 search_term: props.route.params.term,

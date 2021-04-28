@@ -36,6 +36,12 @@ export default class BooksSearchTab extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.term != prevProps.term) {
+            this.getBooks()
+        }
+    }
+
     async getBooks() {
         this.setState({ refreshing: true });
         let response = await get(this, `search/books/${this.state.search_term}`)
@@ -46,12 +52,12 @@ export default class BooksSearchTab extends React.Component {
                 this.setState({ books: res.books, refreshing: false });
 
             } else {
-                this.setState({ refreshing: false });
+                this.setState({ books: [], refreshing: false });
 
             }
         } else {
             // return false;
-            this.setState({ refreshing: false });
+            this.setState({ books: [], refreshing: false });
         }
     }
 

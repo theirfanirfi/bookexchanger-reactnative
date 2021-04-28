@@ -1,39 +1,90 @@
 import * as React from 'react';
-import { Text, View, Image } from 'react-native';
-const nouserpost = require('../../../assets/graphics/nouserpost.png');
+import { Text, View, Image, FlatList, RefreshControl } from 'react-native';
+const noposts = require('../../../assets/graphics/nouserpost.png');
+import { get } from '../../../apis/index'
+import PostItem from '../../Posts/PostItem'
+import colors from '../../../constants/colors'
 export default class PostSearchTab extends React.Component {
     state = {
         search_term: null,
-        posts: []
+        posts: [],
+        token: '',
+        user: [],
+        extraData: false,
+        that: this,
     }
-    // componentDidMount() {
-    //     const { term } = this.props.route.params
-    //     this.setState({ search_term: term }, () => console.log(this.state.search_term))
-    // }
+    componentDidMount() {
+        const { term } = this.props
+        this.setState({ search_term: term }, () => this.getPosts())
+    }
 
-    // static getDerivedStateFromProps(props, state) {
-    //     console.log(props.route.params.term)
-    //     if (props.route.params.term != state.search_term && props.route.params.term != undefined) {
-    //         return {
-    //             search_term: props.route.params.term
-    //         }
-    //     } else {
-    //         return null;
-    //     }
-    // }
+    static getDerivedStateFromProps(props, state) {
+        if (props.term != state.search_term && props.term != undefined) {
+            console.log(props.term)
+            console.log(!state.extraData)
+            return {
+                search_term: props.term,
+                extraData: true,
+            }
+        } else {
+            return null;
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.term != prevProps.term) {
+            this.getPosts()
+        }
+    }
+
+
+    async getPosts() {
+        this.setState({ refreshing: true });
+        let response = await get(this, `post/search/${this.state.search_term}`)
+        if (response.status) {
+            let res = response.response
+            console.log(res.posts[0])
+            if (res.posts.length > 0) {
+                this.setState({ posts: res.posts, refreshing: false, extraData: false });
+
+            } else {
+                this.setState({ posts: [], refreshing: false, extraData: false });
+
+            }
+        } else {
+            this.setState({ posts: [], refreshing: false, extraData: false });
+
+        }
+    }
 
     render() {
         if (this.state.posts.length > 0) {
             return (
-                <Text>Posts</Text>
+                <View style={{ flex: 1, backgroundColor: colors.screenBackgroundColor }}>
+
+                    <FlatList
+                        refreshControl={<RefreshControl
+                            colors={["#9Bd35A", "#689F38"]}
+                            refreshing={this.state.refreshing}
+                            onRefresh={() => this.getPosts()} />
+                        }
+                        extraData={this.state.extraData}
+                        data={this.state.posts}
+                        keyExtractor={(item) => { return item.id }}
+                        renderItem={({ item }) => <PostItem
+                            key={item.id}
+                            context={this}
+                            post={item}
+                            navigation={this.props.navigation} />}
+
+                    />
+                </View>
             );
         } else {
             return (
-                <View style={{ flex: 1, flexDirection: 'column', backgroundColor: 'white', justifyContent: 'center' }}>
-                    <Image source={nouserpost} style={{ width: 200, height: 210, alignSelf: 'center', }} />
-                    <Text style={{ alignSelf: 'center', fontWeight: 'bold' }} >
-                        No Post found
-                        </Text>
+                <View style={{ justifyContent: 'center', backgroundColor: 'white', flex: 1 }}>
+                    <Image source={noposts} style={{ width: 200, height: 200, alignSelf: 'center' }} />
+                    <Text style={{ alignSelf: 'center' }}>No Posts</Text>
                 </View>
             )
         }
