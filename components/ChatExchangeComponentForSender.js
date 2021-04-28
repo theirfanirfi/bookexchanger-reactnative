@@ -61,7 +61,7 @@ export default function ChatExchangeComponentForSender(props) {
                         </View>
 
                     </View>
-                    <Text>You Will get</Text>
+                    <Text>You Will Get</Text>
 
                 </Col>
                 <Col style={{ justifyContent: 'center' }}>
@@ -80,7 +80,7 @@ export default function ChatExchangeComponentForSender(props) {
 
                     </View>
 
-                    <Text>You Will Send</Text>
+                    <Text>You Will Share</Text>
 
                 </Col>
                 {/* <View>

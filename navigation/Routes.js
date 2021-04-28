@@ -36,12 +36,6 @@ import HeaderRight from '../components/header/HeaderRight';
 import AppSearchHeader from '../components/header/AppSearchHeader';
 import Chats from '../screens/Chats';
 
-//bottomTabNav icons
-const HOME_TAB_ICON = require('../assets/icons/home.png')
-const CHAT_TAB_ICON = require('../assets/icons/chat.png')
-const STACK_TAB_ICON = require('../assets/icons/stack.png')
-const NOTIFICATION_TAB_ICON = require('../assets/icons/notification.png')
-const SEARCH_ICON = require('../assets/icons/explore.png')
 
 import { Icon, Input } from 'react-native-elements'
 import BooksSearchAPI from '../screens/BooksSearchAPI';
@@ -114,7 +108,7 @@ function BottomNavigation() {
         tabBarIcon: ({ color }) => <Icon name="pencil" type='evilicon' color={color} size={28} />,
       }} />
 
-      <Tab.Screen name="Lists" component={ListNavigator} options={{
+      <Tab.Screen name="Stacks" component={ListNavigator} options={{
         tabBarIcon: ({ color }) => <Icon name="file-tray-stacked-outline" type='ionicon' color={color} size={25} />,
       }} />
 
@@ -152,7 +146,7 @@ function searchNavigator(navigator) {
 
 function CreatePostNavigator(navigator) {
   return (
-    <Stack.Navigator initialRouteName="create" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="create" screenOptions={headerOptions(navigator)}>
       <Stack.Screen name="create" component={CreatePost} />
     </Stack.Navigator>
   )
@@ -229,6 +223,7 @@ function singlePostNavigator(navigator) {
   return (
     <Stack.Navigator initialRouteName="post" screenOptions={{ headerStyle: { backgroundColor: '#41cece' }, headerTitle: 'Post', headerTintColor: 'white' }}>
       <Stack.Screen name="post" component={SinglePost} />
+
     </Stack.Navigator>
   )
 }

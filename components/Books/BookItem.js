@@ -149,12 +149,12 @@ export default class BookItem extends React.Component {
                                 <>
                                     <Col style={{ flexDirection: 'row', width: '40%' }}>
                                         <Icon name="location-outline" type="ionicon" color="#96A787" size={14} />
-                                        <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12 }}>{book.distance_in_km.toFixed(2)} Kms away</Text>
+                                        <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12 }}>{book.distance_in_km > 0 ? book.distance_in_km.toFixed(2) : book.distance_in_km} Kms away</Text>
                                     </Col>
                                     <Col style={{ flexDirection: 'row' }}>
 
                                         <Icon name="person" type="ionicon" color="#96A787" size={14} />
-                                        <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12, marginLeft: 3 }}>Today</Text>
+                                        <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12, marginLeft: 3 }}>{book.created_at.substr(0, 10)}</Text>
 
                                     </Col>
                                 </>

@@ -13,7 +13,8 @@ export default class CommentsComponent extends React.Component {
         user: [],
         postt: [],
         comments: [],
-        visible: false
+        visible: false,
+        post_id: null,
     }
 
     commentCallBack(context, comment) {
@@ -23,10 +24,9 @@ export default class CommentsComponent extends React.Component {
         console.log(context.state.comments)
     }
 
-    async componentDidMount() {
-        this.setState({ postt: this.props.postt });
-
-        let response = await get(this, `comment/${this.state.postt.post_id}/`)
+    getComments = async () => {
+        let response = await get(this, `comment/${this.state.post_id}/`)
+        console.log('POST ID: ' + this.state.post_id)
         console.log(response);
 
         if (response.status) {
@@ -41,11 +41,20 @@ export default class CommentsComponent extends React.Component {
         }
     }
 
+    componentDidMount() {
+        let { postt, post_id } = this.props
+        this.setState({ postt: postt, post_id: post_id });
+
+        setTimeout(() => this.getComments(), 3000);
+
+
+    }
+
     static getDerivedStateFromProps(props, state) {
-        if (state.postt != props.postt && props.postt != undefined) {
-            console.log(props.postt)
+        if (state.post_id != props.post_id && props.post_id != undefined) {
             return {
-                postt: props.postt
+                postt: props.postt,
+                post_id: props.post_id
             }
         }
         return null

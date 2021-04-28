@@ -136,6 +136,10 @@ class CreatePost extends React.Component {
             this.setState({ isLoading: false });
             console.log(response)
             if (response.response.isPostCreated) {
+                this.setState({
+                    post_title: '',
+                    post_description: ''
+                })
                 alert('Post created');
             } else {
                 alert(response.response.message);
@@ -164,13 +168,14 @@ class CreatePost extends React.Component {
                             <Input
                                 placeholder="Title"
                                 onChangeText={(text) => this.setState({ post_title: text })}
-
+                                value={this.state.post_title}
                                 inputContainerStyle={{ borderBottomWidth: 0 }}
                                 style={{
                                     padding: 8,
                                     borderBottomWidth: 0.5,
                                     borderColor: 'lightgray',
-                                    borderRadius: 12
+                                    borderRadius: 12,
+                                    marginTop: 28
                                 }}
                             />
                         </Col>
@@ -211,6 +216,8 @@ class CreatePost extends React.Component {
                                 placeholder="Post content"
                                 inputContainerStyle={{ borderBottomWidth: 0 }}
                                 onChangeText={(text) => this.setState({ post_description: text })}
+                                value={this.state.post_description}
+
                                 style={{
                                     height: 250,
                                     borderRadius: 12,
@@ -225,7 +232,7 @@ class CreatePost extends React.Component {
                     </Row>
 
 
-                    <Row>
+                    <Row style={{ marginTop: 80 }}>
                         <Col size={1}>
 
                             <TouchableOpacity onPress={() => this.RBSheet.open()}>

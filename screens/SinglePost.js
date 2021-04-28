@@ -60,7 +60,7 @@ export default class SinglePost extends React.Component {
                 <Card containerStyle={{ borderWidth: 0.4, borderColor: 'white', margin: 2 }}>
                     <Row>
                         <Col style={{ flexDirection: 'row', marginVertical: 8 }}>
-                            <CircularImage style={null} image={null} size="small" />
+                            <CircularImage style={null} image={post.profile_image} size="small" />
                             <Row style={{ flexDirection: 'column' }}>
                                 <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{post.fullname}</Text>
                                 <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8 }}>{post.created_at}</Text>
@@ -121,7 +121,7 @@ export default class SinglePost extends React.Component {
                 </Card>
 
                 <Card>
-                    <CommentsComponent postt={post} />
+                    <CommentsComponent navigation={this.props.navigation} postt={post} post_id={post.post_id} />
                 </Card>
             </ScrollView >
         );

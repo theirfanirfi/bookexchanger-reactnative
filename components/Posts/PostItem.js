@@ -12,7 +12,6 @@ import CommentComponent from './CommentComponent'
 
 export default function PostItem(props) {
     let post = props.post
-
     const navigateToUserProfile = () => {
         props.navigation.navigate('profile', { screen: 'profile', params: { isMe: false, user_id: post.user_id } })
     }
@@ -25,7 +24,7 @@ export default function PostItem(props) {
                     <Col style={{ flexDirection: 'row', marginVertical: 8 }}>
                         <TouchableOpacity onPress={() => navigateToUserProfile()}>
 
-                            <CircularImage style={null} image={null} size="small" />
+                            <CircularImage style={null} image={post.profile_image} size="small" />
                         </TouchableOpacity>
                         <Row style={{ flexDirection: 'column' }}>
                             <TouchableOpacity onPress={() => navigateToUserProfile()}>

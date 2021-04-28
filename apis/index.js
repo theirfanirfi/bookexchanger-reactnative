@@ -19,10 +19,11 @@ export const encode = value => {
 }
 
 export const getToken = async (context) => {
-    let isLoggedIn = await AsyncStorage.getItem('token').then(item => {
+    let isLoggedIn = await AsyncStorage.getItem('user').then(item => {
         if (item !== null) {
+            let user = JSON.parse(item);
             context.setState({ 'isLoggedIn': true }, () => {
-                context.setState({ 'token': item });
+                context.setState({ 'token': user.token, user: user });
             });
             return true;
         } else {
@@ -32,9 +33,11 @@ export const getToken = async (context) => {
 }
 
 export const getTokenForComponent = async (context) => {
-    let isLoggedIn = await AsyncStorage.getItem('token').then(item => {
+    let isLoggedIn = await AsyncStorage.getItem('user').then(item => {
         if (item !== null) {
-            context.setState({ token: item });
+            let user = JSON.parse(item);
+            context.setState({ 'token': user.token, user: user });
+
             return true;
         } else {
             return false;
@@ -184,6 +187,27 @@ export const generic_request = async (context, req_method, pUrl) => {
                 'Pragma': 'no-cache',
                 'Expires': 0
             }
+        });
+        const responseJson = await response.json()
+        // context.setState({ message: responseJson.message });
+        return {
+            response: responseJson,
+            status: true
+        };
+    } catch (err) {
+        return {
+            status: false,
+            response: err
+        }
+    }
+}
+
+export const auth_request = async (form, pUrl) => {
+    try {
+        const url = `${endpoint}/${pUrl}`
+        const response = await fetch(url, {
+            method: 'POST',
+            body: form,
         });
         const responseJson = await response.json()
         // context.setState({ message: responseJson.message });

@@ -20,13 +20,16 @@ export default class Chats extends React.Component {
         if (response.status) {
             let res = response.response
             if (res.isFound) {
-                this.setState({ participants: res.participants, isRefreshing: false, message: 'No notification for you at the moment' });
+                this.setState({ participants: res.participants, isRefreshing: false, message: 'No chats' });
 
             } else {
                 // return false;
+                this.setState({ isRefreshing: false, message: 'No chats' })
             }
         } else {
             // return false;
+            this.setState({ isRefreshing: false, message: 'No chats' })
+
         }
     }
 

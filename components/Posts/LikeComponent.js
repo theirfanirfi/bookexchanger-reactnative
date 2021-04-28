@@ -24,13 +24,15 @@ export default class LikeComponent extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ postt: this.props.post, isLiked: this.props.isLiked, likesCount: this.props.post.likes_count })
+        this.setState({ postt: this.props.post, isLiked: this.props.isLiked == 1 ? true : false, likesCount: this.props.post.likes_count })
     }
 
     static getDerivedStateFromProps(props, state) {
         if (props.post != state.postt && props.post != undefined) {
             return {
-                postt: props.post
+                postt: props.post,
+                likesCount: props.post.likes_count,
+                isLiked: props.isLiked == 1 ? true : false
             }
         }
 

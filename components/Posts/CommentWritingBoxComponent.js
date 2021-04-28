@@ -21,6 +21,15 @@ export default class CommentWritingBoxComponent extends React.Component {
         })
     }
 
+
+    static getDerivedStateFromProps(props, state) {
+        if (state.postt != props.post && props.post != undefined) {
+            return {
+                postt: props.post
+            }
+        }
+        return null
+    }
     postComment = async () => {
         let form = new FormData();
         form.append("post_id", encode(this.state.postt.post_id.toString()));
@@ -31,6 +40,7 @@ export default class CommentWritingBoxComponent extends React.Component {
             let res = response.response
             if (res.isCreated) {
                 this.setState({ comment: null })
+                console.log(res.comment)
                 this.props.commentCallBack(this.props.context, res.comment);
 
             } else {

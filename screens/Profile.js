@@ -121,7 +121,7 @@ export default class Profile extends React.Component {
             <Grid>
                 <Row size={10} style={{ padding: 18 }}>
                     <Col style={{ flexDirection: 'row' }}>
-                        <CircularImage image={null} style={null} size="large" />
+                        <CircularImage image={this.state.profile.profile_image} style={null} size="large" />
                         <Row style={{ flexDirection: 'column', margin: 20 }}>
 
                             <Text>{this.state.profile.fullname}</Text>

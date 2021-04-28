@@ -24,9 +24,12 @@ export default class Notifications extends React.Component {
 
             } else {
                 // return false;
+                this.setState({ refreshing: false, message: 'No notification for you at the moment' });
             }
         } else {
             // return false;
+            this.setState({ refreshing: false, message: 'No notification for you at the moment' });
+
         }
     }
     componentDidMount() {

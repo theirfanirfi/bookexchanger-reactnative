@@ -73,13 +73,13 @@ class ListsTab extends React.Component {
         return (
             <Row>
                 <Col style={{ width: '70%' }}>
-                    <Input value={this.state.list_title} errorMessage={this.state.list_title_error_message} placeholder="Create New list" onChangeText={(text) => this.setState({ list_title: text })} />
+                    <Input value={this.state.list_title} errorMessage={this.state.list_title_error_message} placeholder="Create New Stack" onChangeText={(text) => this.setState({ list_title: text })} />
                 </Col>
                 <Col>
                     <Button
                         buttonStyle={{ backgroundColor: '#41cece' }}
                         containerStyle={{ margin: 8 }}
-                        title="Create list"
+                        title="Create"
                         onPress={() => this.createList()} />
                 </Col>
             </Row>
