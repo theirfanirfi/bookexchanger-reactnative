@@ -18,6 +18,37 @@ class AddBook extends React.Component {
     }
 
     searchForBooks = async () => {
+        this.setState({ isLoading: true, message: 'search is in progress', page: 1 })
+        // third party apis
+        let BOOKS_REPO_API = `http://openlibrary.org/search.json?q=${this.state.search_keyword}&limit=${this.state.limit}&page=${this.state.page}`
+        fetch(BOOKS_REPO_API).then(res => res.json()).then(res => {
+            let books = res.docs
+            let formated_books = []
+            if (books.length > 0) {
+                books.forEach((book, index) => {
+                    let book_formated = {
+                        book_title: book.title,
+
+                        book_author: book.author_name != undefined && book.author_name.length > 0 ? book.author_name[0] : book.author_name,
+                        book_isbn: book.isbn != undefined && book.isbn.length > 0 ? book.isbn[0] : book.isbn,
+                        book_cover_image: `http://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
+                    };
+                    formated_books.push(book_formated)
+
+                })
+                this.setState({ books: formated_books, isLoading: false })
+
+
+            } else {
+                this.setState({ message: 'No matching books found', isLoading: false })
+
+            }
+
+
+        });
+    }
+
+    searchNextForBooks = async () => {
         this.setState({ isLoading: true, message: 'search is in progress' })
         // third party apis
         let BOOKS_REPO_API = `http://openlibrary.org/search.json?q=${this.state.search_keyword}&limit=${this.state.limit}&page=${this.state.page}`
@@ -52,7 +83,7 @@ class AddBook extends React.Component {
     }
 
     nextPage = async () => {
-        this.setState({ page: this.state.page + 1 }, () => this.searchForBooks());
+        this.setState({ page: this.state.page + 1 }, () => this.searchNextForBooks());
 
     }
 

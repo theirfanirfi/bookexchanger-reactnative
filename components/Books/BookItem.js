@@ -147,7 +147,7 @@ export default class BookItem extends React.Component {
                         <Row>
                             {!isApiCall && !this.props.show_delete_option &&
                                 <>
-                                    <Col style={{ flexDirection: 'row', width: '40%' }}>
+                                    <Col style={{ flexDirection: 'row', width: '45%' }}>
                                         <Icon name="location-outline" type="ionicon" color="#96A787" size={14} />
                                         <Text style={{ color: '#96A787', fontWeight: 'bold', fontSize: 12 }}>{book.distance_in_km > 0 ? book.distance_in_km.toFixed(2) : book.distance_in_km} Kms away</Text>
                                     </Col>

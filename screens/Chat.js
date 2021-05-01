@@ -38,6 +38,18 @@ export default class Chat extends React.Component {
         // intervalId: null,
     }
 
+    getLoggedInUser = async () => {
+        try {
+            const value = await AsyncStorage.getItem('user')
+            if (value !== null) {
+                let user = JSON.parse(value);
+                this.setState({ user: user });
+            }
+        } catch (e) {
+
+        }
+    }
+
 
     approve_exchange_request = async () => {
         let form = new FormData();
@@ -87,6 +99,7 @@ export default class Chat extends React.Component {
 
     async componentDidMount() {
         const { p_id, username, chat_with } = await this.props.route.params
+        await this.getLoggedInUser();
         console.log("user tow: " + chat_with)
         this.props.navigation.setOptions({
             headerTitle: username,
@@ -225,7 +238,7 @@ export default class Chat extends React.Component {
                     onSend={messages => this.onSend(messages)}
                     scrollToBottom={true}
                     user={{
-                        _id: "1"
+                        _id: this.state.user.user_id
                     }}
                 />
             </View>

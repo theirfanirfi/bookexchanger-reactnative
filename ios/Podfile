@@ -16,6 +16,8 @@ target 'Golfrica' do
 
   pod 'RNGoogleSignin', :path => '../node_modules/@react-native-google-signin/google-signin'
 
+  pod 'react-native-twitter-signin', :path => '../node_modules/react-native-twitter-signin'
+
   target 'GolfricaTests' do
     inherit! :complete
     # Pods for testing

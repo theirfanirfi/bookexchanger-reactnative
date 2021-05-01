@@ -11,6 +11,8 @@ import BooksTab from '../components/Profile/BooksTab';
 import StacksTab from '../components/Profile/StacksTab';
 
 import FollowButton from '../components/Profile/FollowButton'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default class Profile extends React.Component {
 
@@ -60,12 +62,29 @@ export default class Profile extends React.Component {
         }
     }
 
+    logout = async () => {
+
+        try {
+            await AsyncStorage.removeItem('user');
+            this.props.navigation.reset({
+                index: 0,
+                routes: [{ name: 'auth', screen: 'login' }]
+            });
+        } catch (e) {
+            // remove error
+            alert('Error occurred. Please try again.')
+        }
+
+    }
+
+
+
     setLogoutButton() {
         this.props.navigation.setOptions({
             headerRight: () => {
                 return (
                     <TouchableOpacity>
-                        <Icon name="log-out-outline" type="ionicon" color="white" size={28} style={{ marginRight: 12 }} />
+                        <Icon onPress={() => this.logout()} name="log-out-outline" type="ionicon" color="white" size={28} style={{ marginRight: 12 }} />
                     </TouchableOpacity>
                 )
             }

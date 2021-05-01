@@ -129,46 +129,45 @@ class BooksTab extends React.Component {
     }
     render() {
 
-        if (this.state.books.length > 0) {
 
-            return (
-                <View style={{ flex: 1, backgroundColor: colors.screenBackgroundColor, zIndex: 2000 }}>
-                    <FlatList
-                        refreshControl={
-                            <RefreshControl
-                                colors={["#9Bd35A", "#689F38"]}
-                                refreshing={this.state.refreshing}
-                                onRefresh={() => this.getBooks()} />
+
+        return (
+            <View style={{ flex: 1, backgroundColor: colors.screenBackgroundColor, zIndex: 2000 }}>
+                <FlatList
+                    refreshControl={
+                        <RefreshControl
+                            colors={["#9Bd35A", "#689F38"]}
+                            refreshing={this.state.refreshing}
+                            onRefresh={() => this.getBooks()} />
+                    }
+                    data={this.state.filtered_books.length > 0 ? this.state.filtered_books : this.state.books}
+                    ListHeaderComponent={this.listHeader}
+                    keyExtractor={(item) => { return item.id }}
+                    renderItem={({ item }) => <BookItem book={item} isApiCall={false} context={this} navigation={this.props.navigation} />}
+
+                />
+                {this.state.books.length == 0 &&
+
+                    <View style={{ justifyContent: 'center', backgroundColor: 'white', flex: 1 }}>
+                        <Image source={nobooks} style={{ width: 200, height: 200, alignSelf: 'center' }} />
+                        <Text style={{ alignSelf: 'center' }}>No books</Text>
+                    </View>
+                }
+
+                <FloatingAction
+                    actions={actions}
+                    color="#41cece"
+                    onPressItem={name => {
+                        switch (name) {
+                            case 'add_book':
+                                this.props.navigation.navigate('addbook');
+                                break;
                         }
-                        data={this.state.filtered_books.length > 0 ? this.state.filtered_books : this.state.books}
-                        ListHeaderComponent={this.listHeader}
-                        keyExtractor={(item) => { return item.id }}
-                        renderItem={({ item }) => <BookItem book={item} isApiCall={false} context={this} navigation={this.props.navigation} />}
-
-                    />
-
-                    <FloatingAction
-                        actions={actions}
-                        color="#41cece"
-                        onPressItem={name => {
-                            switch (name) {
-                                case 'add_book':
-                                    this.props.navigation.navigate('addbook');
-                                    break;
-                            }
-                            console.log(`selected button: ${name}`);
-                        }}
-                    />
-                </View>
-            );
-        } else {
-            return (
-                <View style={{ justifyContent: 'center', backgroundColor: 'white', flex: 1 }}>
-                    <Image source={nobooks} style={{ width: 200, height: 200, alignSelf: 'center' }} />
-                    <Text style={{ alignSelf: 'center' }}>No books</Text>
-                </View>
-            )
-        }
+                        console.log(`selected button: ${name}`);
+                    }}
+                />
+            </View>
+        );
     }
 }
 export default BooksTab;
