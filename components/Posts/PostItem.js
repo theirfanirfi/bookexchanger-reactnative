@@ -81,7 +81,15 @@ export default function PostItem(props) {
                     </Col>
                     <Col>
                         {/* <Text style={{ margin: 6, color: 'gray' }}>{"2020-12-04"}</Text> */}
-                        <CommentComponent navigation={props.navigation} context={props.context} post={post} />
+                        {/* <CommentComponent navigation={props.navigation} context={props.context} post={post} /> */}
+                        <TouchableOpacity
+                            style={{ flexDirection: 'row' }}
+                            onPress={() => props.navigation.navigate('SinglePost', { screen: 'post', params: { post_id: post.post_id } })}>
+                            <Icon name="chatbox-ellipses-outline" type="ionicon" size={23} style={{ alignSelf: 'center', marginLeft: 26, marginBottom: 3 }} />
+                            {post.comments_count > 0 &&
+                                <Text style={{ fontSize: 17 }}> {post.comments_count}</Text>
+                            }
+                        </TouchableOpacity>
 
                     </Col>
 

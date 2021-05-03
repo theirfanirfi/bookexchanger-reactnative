@@ -73,11 +73,13 @@ export default class Chat extends React.Component {
         if (this.intervalId == null) {
             return;
         }
+
+        console.log('part id: ' + this.state.participant_id)
         let response = await get(this, `messages/${this.state.participant_id}/`)
 
         if (response.status) {
             let res = response.response
-
+            console.log('exchange with: ' + res.messages[0].to_exchange_with_user_id)
             if (res.messages.length > 0) {
                 let messages = res.messages
                 await messages.forEach((value, index) => {
@@ -100,7 +102,9 @@ export default class Chat extends React.Component {
     async componentDidMount() {
         const { p_id, username, chat_with } = await this.props.route.params
         await this.getLoggedInUser();
-        console.log("user tow: " + chat_with)
+        console.log("p_id: " + p_id)
+        console.log("chat_with " + chat_with)
+        console.log("user id " + this.state.user.user_id)
         this.props.navigation.setOptions({
             headerTitle: username,
             headerTitleStyle: { fontSize: 16, color: 'white' },
@@ -120,7 +124,7 @@ export default class Chat extends React.Component {
 
         this.intervalId = 0;
         this.setState({ participant_id: p_id, username: username, isLoading: true, chat_with: chat_with }, () => this.getMessages());
-        this.intervalId = setInterval(() => this.getMessages(), 60000);
+        this.intervalId = setInterval(() => this.getMessages(), 30000);
 
         // this.getData()
         // await this.setState({ chat_with_id: chat_with_id });
@@ -204,7 +208,7 @@ export default class Chat extends React.Component {
         if (msg.is_exchange == 1) {
             // let book_to_be_received = JSON.parse(message.currentMessage.book_to_be_received)
             // let book_to_be_sent = JSON.parse(message.currentMessage.book_to_be_sent)
-            if (msg.to_exchange_with_user_id != 1) {
+            if (msg.to_exchange_with_user_id != this.state.user.user_id) {
                 return <ChatExchangeComponentForSender
                     book_to_be_received={message.currentMessage.book_to_be_received}
                     book_to_be_sent={message.currentMessage.book_to_be_sent}
@@ -213,9 +217,10 @@ export default class Chat extends React.Component {
                     is_declined={message.currentMessage.is_exchange_declined}
                     context={this} />
             } else {
+                //for the exchang request receiver, the book to be sent will be book to be received
                 return <ChatBookExchangeComponent
-                    book_to_be_received={message.currentMessage.book_to_be_received}
-                    book_to_be_sent={message.currentMessage.book_to_be_sent}
+                    book_to_be_received={message.currentMessage.book_to_be_sent}
+                    book_to_be_sent={message.currentMessage.book_to_be_received}
                     exchange_id={message.currentMessage.exchange_id}
                     is_approved={message.currentMessage.is_exchange_confirmed}
                     is_declined={message.currentMessage.is_exchange_declined}

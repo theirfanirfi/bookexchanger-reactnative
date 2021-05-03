@@ -116,7 +116,7 @@ export default function ChatBookExchangeComponent(props) {
 
                     </View>
 
-                    <Text>You Will Send</Text>
+                    <Text>You Will Share</Text>
 
                 </Col>
                 {/* <View>

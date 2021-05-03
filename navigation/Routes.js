@@ -112,7 +112,7 @@ function BottomNavigation() {
         tabBarIcon: ({ color }) => <Icon name="file-tray-stacked-outline" type='ionicon' color={color} size={25} />,
       }} />
 
-      <Tab.Screen name="chats" component={ChatsNavigator} options={{
+      <Tab.Screen name="Chats" component={ChatsNavigator} options={{
         tabBarIcon: ({ color }) => <Icon name="comment" type='evilicon' color={color} size={28} />,
       }} />
 
@@ -214,6 +214,8 @@ function profileNavigator(navigator) {
     <Stack.Navigator initialRouteName="profile" screenOptions={{ headerStyle: { backgroundColor: '#41cece' }, headerTitle: 'Profile', headerTintColor: 'white' }}>
       <Stack.Screen name="profile" component={Profile} />
       <Stack.Screen name="Chat" component={Chat} />
+      <Stack.Screen name="listbooksscreen" component={ListBooksScreen} />
+
 
     </Stack.Navigator>
   )
@@ -223,6 +225,15 @@ function singlePostNavigator(navigator) {
   return (
     <Stack.Navigator initialRouteName="post" screenOptions={{ headerStyle: { backgroundColor: '#41cece' }, headerTitle: 'Post', headerTintColor: 'white' }}>
       <Stack.Screen name="post" component={SinglePost} />
+
+    </Stack.Navigator>
+  )
+}
+
+function singleChatNavigator(navigator) {
+  return (
+    <Stack.Navigator initialRouteName="Chat" screenOptions={{ headerStyle: { backgroundColor: '#41cece' }, headerTitle: 'Post', headerTintColor: 'white' }}>
+      <Stack.Screen name="Chat" component={Chat} />
 
     </Stack.Navigator>
   )
@@ -239,6 +250,7 @@ export default function RootNavigator() {
       <Stack.Screen name="location" component={locationNavigator} />
       <Stack.Screen name="profile" component={profileNavigator} />
       <Stack.Screen name="SinglePost" component={singlePostNavigator} />
+      <Stack.Screen name="SingleChat" component={singleChatNavigator} />
     </Stack.Navigator>
   )
 }

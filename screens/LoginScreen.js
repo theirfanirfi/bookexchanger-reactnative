@@ -56,7 +56,6 @@ export default class LoginScreen extends React.Component {
 
     componentDidMount() {
         this.setState({ isLoading: false });
-
     }
 
     storeData = async (value) => {

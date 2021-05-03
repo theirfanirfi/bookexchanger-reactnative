@@ -154,8 +154,8 @@ class CreatePost extends React.Component {
 
     render() {
         return (
-            <>
-                <ScrollView style={{ flex: 1, backgroundColor: colors.screenBackgroundColor, paddingTop: 12, paddingBottom: 18, marginTop: Platform.OS == "ios" ? 40 : 10 }}>
+            <View style={{ flex: 1, height: '100%', flexDirection: 'column' }}>
+                <ScrollView style={{ flex: 1, height: '100%', flexDirection: 'column', backgroundColor: colors.screenBackgroundColor, paddingTop: 12, paddingBottom: 18, marginTop: Platform.OS == "ios" ? 40 : 10 }}>
                     {this.state.isLoading &&
                         <Row>
                             <Col>
@@ -172,8 +172,8 @@ class CreatePost extends React.Component {
                                 inputContainerStyle={{ borderBottomWidth: 0 }}
                                 style={{
                                     padding: 8,
-                                    borderBottomWidth: 0.5,
-                                    borderColor: 'lightgray',
+                                    // borderBottomWidth: 0.5,
+                                    // borderColor: 'lightgray',
                                     borderRadius: 12,
                                     marginTop: 28
                                 }}
@@ -222,8 +222,8 @@ class CreatePost extends React.Component {
                                     height: 250,
                                     borderRadius: 12,
                                     marginVertical: 4,
-                                    borderBottomWidth: 0.5,
-                                    borderColor: 'lightgray',
+                                    // borderBottomWidth: 0.5,
+                                    // borderColor: 'lightgray',
                                     textAlign: 'auto'
                                 }}
                             />
@@ -232,7 +232,7 @@ class CreatePost extends React.Component {
                     </Row>
 
 
-                    <Row style={{ marginTop: 80 }}>
+                    <Row style={{ marginTop: 200 }}>
                         <Col size={1}>
 
                             <TouchableOpacity onPress={() => this.RBSheet.open()}>
@@ -287,7 +287,7 @@ class CreatePost extends React.Component {
                         </TouchableOpacity>
                     </View>
                 </RBSheet>
-            </>
+            </View>
 
 
         );

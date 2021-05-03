@@ -6,14 +6,18 @@ import CircularImage from '../Images/CircularImage';
 import { getMoment, getImage } from '../utils'
 const profile_default_image = require('../../assets/images/default.png');
 import { get, post, put } from '../../apis/index'
-
-
+const book_image_not_available = require('../../assets/graphics/book_not_available.png')
 
 export default function ExchangeNotificationComponent(props) {
     let notification = props.notification
-    console.log(notification)
     let book_to_be_received = JSON.parse(notification.book_to_received)
     let book_to_be_sent = JSON.parse(notification.book_to_send)
+
+    if (notification.is_exchanged_with_me == 1) {
+        book_to_be_received = book_to_be_sent
+        book_to_be_sent = JSON.parse(notification.book_to_received)
+    }
+
     const [declined, setDeclined] = useState(false)
 
 
@@ -25,8 +29,10 @@ export default function ExchangeNotificationComponent(props) {
 
         if (response.status) {
             let res = response.response
+
             if (res.isCreated) {
-                props.navigation.navigate('Chat', { 'p_id': res.p_id, 'username': notification.fullname })
+                console.log(res);
+                props.navigation.navigate('Chat', { p_id: res.participants.p_id, username: notification.fullname, chat_with: notification.user_id })
             } else {
                 alert(res.message);
             }

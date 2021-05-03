@@ -19,8 +19,8 @@ export default function BookExchangeItem(props) {
     const [exchangedRequest, setExchangedRequest] = useState([])
 
     useEffect(() => {
-        console.log("to provide: " + props.book_to_provide_in_exchange)
-        console.log("to get: " + props.book_to_get_in_exchange)
+        // console.log("to provide: " + props.book_to_provide_in_exchange.user_id)
+        // console.log("to get: " + props.book_to_get_in_exchange.user_id)
     })
 
     const makeExchangeRequest = async (book_to_provide_in_exchange) => {
@@ -29,14 +29,14 @@ export default function BookExchangeItem(props) {
         form.append("to_exchange_with_user_id", props.book_to_get_in_exchange.user_id)
         form.append("book_to_be_sent_id", book_to_provide_in_exchange.book_id)
         form.append("book_to_be_received_id", props.book_to_get_in_exchange.book_id)
-        console.log(props.book_to_get_in_exchange)
-        console.log(props.book_to_provide_in_exchange)
+        // console.log(props.book_to_get_in_exchange.user_id)
+        // console.log(props.book_to_provide_in_exchange.user_id)
 
         let response = await post(props.context, 'exchange', form)
         // console.log(response)
         if (response.status) {
             let res = response.response
-            console.log(res)
+            // console.log(res)
             if (res.isCreated) {
                 setExchangedRequestSent(true);
                 setExchangedRequest(res.exchange)
@@ -80,7 +80,7 @@ export default function BookExchangeItem(props) {
         console.log(response)
         if (response.status) {
             let res = response.response
-            console.log(res);
+            // console.log(res);
             if (res.isDeleted) {
                 setExchangedRequestSent(false);
                 setExchangedRequest([])
@@ -94,9 +94,31 @@ export default function BookExchangeItem(props) {
         }
     }
 
+    const initiate_chat = async () => {
+        // this.setState({ refreshing: true, message: 'loading...' });
+        let form = new FormData();
+        form.append("exchange_id", exchangedRequest.exchange_id)
+        let response = await post(props.context, `participant/initiate_chat/${exchangedRequest.exchange_id}`, form)
+
+        if (response.status) {
+            let res = response.response
+            console.log(res);
+            if (res.isCreated) {
+                console.log('Exchange with: ' + exchangedRequest.to_exchange_with_user_id);
+                console.log('PID: ' + res.participants.p_id);
+                props.navigation.navigate('SingleChat', { screen: 'Chat', params: { p_id: res.participants.p_id, username: 'Exchange Request', chat_with: exchangedRequest.to_exchange_with_user_id } })
+                // props.navigation.navigate('Chats', { screen: 'Chat', params: { p_id: res.participants.p_id, username: 'Exchange Request', chat_with: props.book_to_get_in_exchange.user_id } })
+            } else {
+                alert(res.message);
+            }
+        } else {
+            // return false;
+        }
+
+    }
+
 
     let book = props.book_to_provide_in_exchange
-    console.log(book.book_cover_image)
     return (
         <TouchableOpacity style={{ borderWidth: 0.4, borderColor: 'white', marginVertical: 14, padding: 12 }}>
             <Row>
@@ -115,7 +137,7 @@ export default function BookExchangeItem(props) {
                     <Row>
                         <Col style={{ flexDirection: 'row', width: '40%' }}>
                             {exchangedRequestSent &&
-                                <TouchableOpacity style={{ flexDirection: 'column', justifyContent: 'center' }} onPress={() => removeBook()}>
+                                <TouchableOpacity style={{ flexDirection: 'column', justifyContent: 'center' }} onPress={() => initiate_chat()}>
                                     <Icon name="chatbox-ellipses-outline" type="ionicon" color="black" size={20} />
                                     <Text style={{ alignSelf: 'center', fontSize: 10 }}>Initiate Chat</Text>
                                 </TouchableOpacity>
