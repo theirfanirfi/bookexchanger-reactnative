@@ -134,17 +134,38 @@ export default function ChatBookExchangeComponent(props) {
                             <Text style={{ textAlign: 'justify', marginVertical: 8 }}>{message.currentMessage.exchange_message}</Text>
                         </View> */}
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 12 }}>
+                    {approved && !declined &&
+                        <Button
+                            type="solid"
+                            buttonStyle={{ backgroundColor: '#41cece' }}
+                            title={"Approved"}
+                            disabled={true} />
+                    }
 
-                    <Button
-                        type="solid"
-                        buttonStyle={{ backgroundColor: '#41cece' }}
-                        title={approved ? "Withdraw" : "Approve"}
-                        onPress={() => { if (approved) { withdraw_exchange(); } else { approve_exchange(); } }} />
-                    <Button
-                        onPress={() => { if (declined) { withdraw_exchange(); } else { decline_exchange(); } }}
-                        title={declined ? "Withdraw" : "Decline"}
-                        buttonStyle={{ backgroundColor: '#162b34' }}
-                        type="solid" />
+                    {!approved && !declined &&
+                        <>
+                            <Button
+                                type="solid"
+                                buttonStyle={{ backgroundColor: '#41cece' }}
+                                title="Approve"
+                                onPress={() => { approve_exchange(); }} />
+                            <Button
+                                onPress={() => { decline_exchange(); }}
+                                title="Decline"
+                                buttonStyle={{ backgroundColor: '#162b34' }}
+                                type="solid" />
+                        </>
+                    }
+
+                    {!approved && declined &&
+
+                        <Button
+                            onPress={() => { if (declined && !approved) { withdraw_exchange(); } else { decline_exchange(); } }}
+                            title="Declined"
+                            disabled={true}
+                            buttonStyle={{ backgroundColor: '#162b34' }}
+                            type="solid" />
+                    }
                 </View>
             </Card>
         </View>

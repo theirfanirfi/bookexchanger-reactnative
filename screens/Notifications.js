@@ -5,6 +5,7 @@ import { get, post, put, _delete } from '../apis/index'
 import LikeCommentNotificationComponent from '../components/Notifications/LikeCommentNotificationComponent'
 import ExchangeNotificationComponent from '../components/Notifications/ExchangeNotificationComponent'
 import FollowNotificationComponent from '../components/Notifications/FollowNotificationComponent'
+import ExchangeConfirmationNotificationComponent from '../components/Notifications/ExchangeConfirmationNotificationComponent';
 export default class Notifications extends React.Component {
     state = {
         notifications: [],
@@ -12,6 +13,15 @@ export default class Notifications extends React.Component {
         user: [],
         refreshing: false,
         message: 'No notification for you at the moment'
+    }
+
+    exchangeDeclineCallBack = (context, index) => {
+        console.log(index);
+
+        let notifications = context.state.notifications
+        console.log(notifications)
+        notifications.splice(index, 1)
+        context.setState({ notifications: notifications })
     }
 
     async getNotifications() {
@@ -49,15 +59,19 @@ export default class Notifications extends React.Component {
     //     }
     // }
 
-    getNotificationItem = item => {
+    getNotificationItem = (index, item) => {
         if (item.is_like == 1 || item.is_comment == 1) {
             console.log('like')
             return <LikeCommentNotificationComponent notification={item} navigation={this.props.navigation} />
         } else if (item.is_exchange == 1) {
             console.log('exchange')
-            return <ExchangeNotificationComponent context={this} notification={item} navigation={this.props.navigation} />
+            return <ExchangeNotificationComponent index={index} exchangeDeclineCallBack={this.exchangeDeclineCallBack}
+                context={this} notification={item} navigation={this.props.navigation} />
         } else if (item.is_follow == 1) {
 
+        }
+        else if (item.is_exchange_notification == 1) {
+            return <ExchangeConfirmationNotificationComponent context={this} notification={item} navigation={this.props.navigation} />
         }
     }
 
@@ -79,7 +93,7 @@ export default class Notifications extends React.Component {
                     // onEndReached={() => this.nextPage()}
                     onEndReachedThreshold={0.5}
                     keyExtractor={(item) => { return item.notification_id }}
-                    renderItem={({ item }) => this.getNotificationItem(item)}
+                    renderItem={({ index, item }) => this.getNotificationItem(index, item)}
 
                 />
                 {this.state.notifications.length == 0 && <>

@@ -18,8 +18,6 @@ export default class CommentsComponent extends React.Component {
     }
 
     commentCallBack(context, comment) {
-        console.log('Callback comment')
-        console.log(comment)
         let comments = context.state.comments
         comments.push(comment);
         context.setState({ comments: comments })

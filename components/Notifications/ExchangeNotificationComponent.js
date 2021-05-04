@@ -49,8 +49,7 @@ export default function ExchangeNotificationComponent(props) {
             let res = response.response
             console.log(res);
             if (res.isDeclined) {
-                // setApproved(false);
-                setDeclined(true);
+                props.exchangeDeclineCallBack(props.context, props.index)
             } else {
                 // return false;
                 alert('Error occurred, please try again.')
@@ -153,34 +152,64 @@ export default function ExchangeNotificationComponent(props) {
                 </Col>
             </Row>
 
-            <Row style={{ marginTop: 12 }}>
-                <Col style={{ justifyContent: 'center' }}>
-                    <TouchableOpacity onPress={() => initiate_chat()}>
-                        <Icon type="ionicon" name="chatbox-ellipses-outline" />
-                        <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8, alignSelf: 'center' }}>Chat</Text>
-                    </TouchableOpacity>
-                </Col>
-                <Col>
-                    {/* <Text style={{ fontSize: 12, fontFamily: 'Roboto-Medium', margin: 6 }}>{post.post_title}</Text> */}
-
-                </Col>
-                <Col style={{ justifyContent: 'center' }}>
-                    {declined ? (
-                        <TouchableOpacity onPress={() => delete_exchange()}>
-                            <Icon type="ionicon" name="trash-outline" />
-                            <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8, alignSelf: 'center' }}>Delete</Text>
+            {notification.is_exchange_confirmed == 0 && notification.is_exchange_declined == 0 ? (
+                <Row style={{ marginTop: 12 }}>
+                    <Col style={{ justifyContent: 'center' }}>
+                        <TouchableOpacity onPress={() => initiate_chat()}>
+                            <Icon type="ionicon" name="chatbox-ellipses-outline" />
+                            <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8, alignSelf: 'center' }}>Chat</Text>
                         </TouchableOpacity>
-                    ) : (
-                        <TouchableOpacity onPress={() => decline_exchange()}>
-                            <Icon type="ionicon" name="close-outline" />
-                            <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8, alignSelf: 'center' }}>Decline</Text>
+                    </Col>
+                    <Col>
+                        {/* <Text style={{ fontSize: 12, fontFamily: 'Roboto-Medium', margin: 6 }}>{post.post_title}</Text> */}
+
+                    </Col>
+                    <Col style={{ justifyContent: 'center' }}>
+                        {declined ? (
+                            <TouchableOpacity onPress={() => delete_exchange()}>
+                                <Icon type="ionicon" name="trash-outline" />
+                                <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8, alignSelf: 'center' }}>Delete</Text>
+                            </TouchableOpacity>
+                        ) : (
+                            <TouchableOpacity onPress={() => decline_exchange()}>
+                                <Icon type="ionicon" name="close-outline" />
+                                <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8, alignSelf: 'center' }}>Decline</Text>
+                            </TouchableOpacity>
+                        )}
+
+                    </Col>
+
+
+                </Row>
+            ) : (
+                <Row style={{ marginTop: 12 }}>
+                    <Col style={{ justifyContent: 'center' }}>
+                        <TouchableOpacity onPress={() => initiate_chat()}>
+                            <Icon type="ionicon" name="chatbox-ellipses-outline" />
+                            <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8, alignSelf: 'center' }}>View</Text>
                         </TouchableOpacity>
-                    )}
+                    </Col>
+                    <Col>
+                        {/* <Text style={{ fontSize: 12, fontFamily: 'Roboto-Medium', margin: 6 }}>{post.post_title}</Text> */}
 
-                </Col>
+                    </Col>
+                    <Col style={{ justifyContent: 'center' }}>
+                        {notification.is_exchange_confirmed == 1 ? (
+                            <TouchableOpacity>
+                                <Icon type="ionicon" name="checkmark-circle-outline" color="green" />
+                                <Text style={{ fontSize: 11, color: 'green', marginLeft: 8, alignSelf: 'center' }}>Approved</Text>
+                            </TouchableOpacity>
+                        ) : (
+                            <TouchableOpacity>
+                                <Text style={{ fontSize: 11, color: 'red', marginLeft: 8, alignSelf: 'center', }}>Declined</Text>
+                            </TouchableOpacity>
+                        )}
 
+                    </Col>
+                </Row>
 
-            </Row>
+            )
+            }
 
 
         </Card>
