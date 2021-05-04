@@ -3,6 +3,9 @@ import { Text, Image, View } from 'react-native'
 import { Icon, Button, Card } from 'react-native-elements'
 import { Row, Col } from 'react-native-easy-grid'
 import { get, post, put } from '../apis/index'
+import { getImage } from './utils';
+const book_image_not_available = require('../assets/graphics/book_not_available.png')
+
 
 export default function ChatBookExchangeComponent(props) {
     let book_to_be_received = JSON.parse(props.book_to_be_received)
@@ -21,7 +24,6 @@ export default function ChatBookExchangeComponent(props) {
 
         if (props.is_declined == 1) {
             setDeclined(true);
-
         }
     })
 
@@ -89,7 +91,12 @@ export default function ChatBookExchangeComponent(props) {
                     <View style={{ flexDirection: 'row' }}>
 
                         {book_to_be_received.book_cover_image != null &&
-                            <Image source={{ uri: book_to_be_received.book_cover_image }} style={{ width: 80, height: 80 }} />
+                            <Image
+                                // source={{ uri: book_to_be_received.book_cover_image }} 
+                                source={book_to_be_received.book_cover_image != undefined && !book_to_be_received.book_cover_image.includes('undefined') ? { uri: getImage('books', book_to_be_received.book_cover_image) } : book_image_not_available}
+
+
+                                style={{ width: 80, height: 80 }} />
                         }
                         <View style={{ flexDirection: 'column' }}>
                             <Text style={{ fontWeight: 'bold' }}>  {book_to_be_received.book_title}</Text>
@@ -97,7 +104,7 @@ export default function ChatBookExchangeComponent(props) {
                         </View>
 
                     </View>
-                    <Text>You Will get</Text>
+                    <Text>You Will Get</Text>
 
                 </Col>
                 <Col style={{ justifyContent: 'center' }}>
@@ -107,7 +114,11 @@ export default function ChatBookExchangeComponent(props) {
                     <View style={{ flexDirection: 'row' }}>
 
                         {book_to_be_sent.book_cover_image != null &&
-                            <Image source={{ uri: book_to_be_sent.book_cover_image }} style={{ width: 80, height: 80 }} />
+                            <Image
+                                // source={{ uri: book_to_be_sent.book_cover_image }} 
+                                source={book_to_be_sent.book_cover_image != undefined && !book_to_be_sent.book_cover_image.includes('undefined') ? { uri: getImage('books', book_to_be_sent.book_cover_image) } : book_image_not_available}
+
+                                style={{ width: 80, height: 80 }} />
                         }
                         <View style={{ flexDirection: 'column' }}>
                             <Text style={{ fontWeight: 'bold' }}>  {book_to_be_sent.book_title}</Text>

@@ -50,9 +50,6 @@ export default class Notifications extends React.Component {
     // }
 
     getNotificationItem = item => {
-        console.log('item')
-        console.log(item)
-
         if (item.is_like == 1 || item.is_comment == 1) {
             console.log('like')
             return <LikeCommentNotificationComponent notification={item} navigation={this.props.navigation} />

@@ -4,8 +4,7 @@ import { Col, Row } from "react-native-easy-grid";
 import { Card, Icon, Button } from 'react-native-elements'
 import CircularImage from '../Images/CircularImage';
 import { getMoment, getImage } from '../utils'
-const profile_default_image = require('../../assets/images/default.png');
-import { get, post, put } from '../../apis/index'
+import { get, post, _delete } from '../../apis/index'
 const book_image_not_available = require('../../assets/graphics/book_not_available.png')
 
 export default function ExchangeNotificationComponent(props) {
@@ -60,6 +59,21 @@ export default function ExchangeNotificationComponent(props) {
             // return false;
         }
 
+    }
+
+    const delete_exchange = async () => {
+        let response = await _delete(context, `exchange/${notification.exchange_id}/`)
+        if (response.status) {
+            let res = response.response
+            if (res.isDeleted) {
+                alert('Exchange request deleted');
+            } else {
+                // return false;
+                alert('Error occurred, please try again.')
+            }
+        } else {
+            // return false;
+        }
     }
 
     const withdraw_exchange = async () => {
@@ -152,9 +166,9 @@ export default function ExchangeNotificationComponent(props) {
                 </Col>
                 <Col style={{ justifyContent: 'center' }}>
                     {declined ? (
-                        <TouchableOpacity onPress={() => withdraw_exchange()}>
-                            <Icon type="ionicon" name="close-outline" />
-                            <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8, alignSelf: 'center' }}>Withdraw</Text>
+                        <TouchableOpacity onPress={() => delete_exchange()}>
+                            <Icon type="ionicon" name="trash-outline" />
+                            <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8, alignSelf: 'center' }}>Delete</Text>
                         </TouchableOpacity>
                     ) : (
                         <TouchableOpacity onPress={() => decline_exchange()}>

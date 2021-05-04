@@ -39,7 +39,9 @@ export default class CommentWritingBoxComponent extends React.Component {
         if (response.status) {
             let res = response.response
             if (res.isCreated) {
+
                 this.setState({ comment: null })
+                console.log('comment posted')
                 console.log(res.comment)
                 this.props.commentCallBack(this.props.context, res.comment);
 
