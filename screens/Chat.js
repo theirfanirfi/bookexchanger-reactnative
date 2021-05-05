@@ -2,13 +2,12 @@ import React from 'react'
 import { GiftedChat, Message, Bubble, SystemMessage } from 'react-native-gifted-chat'
 import { View, Text, Image, ActivityIndicator, TouchableOpacity } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Row, Col } from 'react-native-easy-grid'
-import base64 from 'react-native-base64';
 import { Icon, Card, Button } from 'react-native-elements'
 import { get, post, put, encode } from '../apis/index'
 import ChatBookExchangeComponent from '../components/ChatExchangeComponent';
 import ThemedListItem from 'react-native-elements/dist/list/ListItem';
 import ChatExchangeComponentForSender from '../components/ChatExchangeComponentForSender';
+import { convertUTCDateToLocalDate } from '../components/utils'
 
 
 
@@ -232,6 +231,38 @@ export default class Chat extends React.Component {
         }
     }
 
+    renderTimee(msg) {
+        let message = msg.currentMessage
+        let d = message.createdAt.replace(" ", "T")
+        let date = new Date(d)
+        let newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+
+        let offset = date.getTimezoneOffset() / 60;
+        let hours = date.getHours();
+
+        newDate.setHours(hours - offset);
+        let strDate = "";
+        let amPm = "pm";
+
+        let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
+
+        if (hours > 12) {
+            strDate = "0" + (hours - 12) + ":" + minutes + " pm"
+        } else {
+            hours < 10 ? strDate = "0" + hours : strDate = hours
+            strDate += ":" + minutes + " am"
+        }
+
+
+        return (
+            <View style={{ margin: 4 }}>
+
+                <Text style={{ color: 'gray', fontSize: 8 }}>{message.createdAt.substr(0, 10)}</Text>
+                <Text style={{ color: 'gray', fontSize: 10 }}>{strDate}</Text>
+            </View>
+        )
+    }
+
     render() {
         return (
             <View style={{ height: '100%', backgroundColor: 'white' }}>
@@ -242,6 +273,7 @@ export default class Chat extends React.Component {
                     renderMessage={this.customMessage}
                     onSend={messages => this.onSend(messages)}
                     scrollToBottom={true}
+                    renderTime={this.renderTimee}
                     user={{
                         _id: this.state.user.user_id
                     }}
