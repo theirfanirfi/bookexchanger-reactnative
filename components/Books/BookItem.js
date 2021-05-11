@@ -99,7 +99,7 @@ export default class BookItem extends React.Component {
             console.log(res);
             if (res.isDeleted) {
                 this.setState({ isAdded: false, addedBook: [] });
-
+                this.props.removeBookCallBack(this.props.context, this.props.index)
                 return true;
             } else {
                 alert(res.message);

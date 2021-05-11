@@ -18,6 +18,13 @@ class BooksTab extends React.Component {
         profile_id: "me"
     }
 
+    removeBookForListAfterDeletion = (context, index) => {
+        console.log(index)
+        let books = context.state.books
+        books.splice(index, 1)
+        context.setState({ books: books });
+    }
+
     async getBooks() {
         this.setState({ refreshing: true });
         let response = await get(this, `book/user_books/${this.state.profile_id}/`)
@@ -72,11 +79,13 @@ class BooksTab extends React.Component {
                         }
                         data={this.state.books}
                         keyExtractor={(item) => { return item.id }}
-                        renderItem={({ item }) => <BookItem
+                        renderItem={({ item, index }) => <BookItem
                             show_delete_option={this.state.profile_id == "me" ? true : false}
                             book={item}
                             isApiCall={false}
                             context={this}
+                            removeBookCallBack={this.removeBookForListAfterDeletion}
+                            index={index}
                             navigation={this.props.navigation} />}
 
                     />
