@@ -11,7 +11,7 @@ const profile_default_image = require('../../assets/images/default.png');
 
 export default function LikeCommentNotificationComponent(props) {
     let notification = props.notification
-
+    // console.log(notification)
     const navigateToUserProfile = () => {
         props.navigation.navigate('profile', { screen: 'profile', params: { isMe: false, user_id: notification.user_id } })
     }
@@ -22,7 +22,7 @@ export default function LikeCommentNotificationComponent(props) {
                     <Col style={{ flexDirection: 'row', marginVertical: 8 }}>
                         <TouchableOpacity onPress={() => navigateToUserProfile()}>
 
-                            <CircularImage style={null} image={null} size="small" />
+                            <CircularImage style={null} image={notification.profile_image} size="small" />
                         </TouchableOpacity>
                         <Row style={{ flexDirection: 'row' }}>
                             <TouchableOpacity onPress={() => navigateToUserProfile()}>

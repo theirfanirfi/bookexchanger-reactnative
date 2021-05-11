@@ -111,15 +111,26 @@ export default class BookItem extends React.Component {
     }
 
     addBookToList = async () => {
-        this.setState({ beingAddedToList: true });
-        let isBookAdded = await this.addBook(0);
-        if (isBookAdded) {
-            this.setState({ beingAddedToList: false });
-            this.props.navigation.navigate('addtolistscreen', { book_id: this.state.addedBook.book_id })
-            // console.log(this.state.addedBook)
-        } else {
-            alert('Error occurred. Please try again')
-        }
+        // this.setState({ beingAddedToList: true });
+        // let isBookAdded = await this.addBook(0);
+        // let book = {"book_title": book.book_title,
+        // "book_description": "some description",
+        // "book_isbn": book.book_isbn,
+        // form.append("book_author", book.book_author)
+        // form.append("book_cover_image", book.book_cover_image)
+        // form.append("book_added_from", "openlibrary")
+        // form.append("is_available_for_exchange", is_available_for_exchange)
+
+        // if (isBookAdded) {
+        this.setState({ beingAddedToList: false });
+        this.props.navigation.navigate('addtolistscreen', { book: this.props.book })
+        //     // console.log(this.state.addedBook)
+        // } else {
+        //     alert('Error occurred. Please try again')
+        // }
+
+        // let book = this.props.book
+        // console.log(book)
     }
     componentDidMount() {
         if (this.props.book.is_available_for_exchange == 1) {

@@ -12,27 +12,35 @@ class Home extends React.Component {
     refreshing: false,
   }
 
-  async getPosts() {
+  getPosts = async () => {
     this.setState({ refreshing: true });
     let response = await get(this, 'post/')
     if (response.status) {
       let res = response.response
-      console.log(res.posts[0])
       if (res.posts.length > 0) {
         this.setState({ posts: res.posts, refreshing: false });
 
       } else {
         // return false;
+        console.log('else 1')
+        this.setState({ refreshing: false });
+
       }
     } else {
       // return false;
+      console.log('else 2')
+
+      this.setState({ refreshing: false });
+
     }
   }
 
   async componentDidMount() {
     this.props.navigation.addListener('focus', async () => {
-      this.setState({ refreshing: true }, () => this.getPosts())
+      this.getPosts()
     })
+
+    this.getPosts()
   }
   render() {
     if (this.state.posts.length > 0) {

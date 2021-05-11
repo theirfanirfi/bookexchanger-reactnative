@@ -14,25 +14,24 @@ export default class AddToListScreen extends React.Component {
         token: 'sometoken',
         user: [],
         lists: [],
-        book_id: 0
+        book: []
     }
 
     async componentDidMount() {
-        const { book_id } = await this.props.route.params
-        console.log('Book id: ' + book_id)
+        const { book } = await this.props.route.params
         let response = await get(this, 'list/')
         if (response.status) {
             let res = response.response
-            this.setState({ lists: res.lists, book_id: book_id });
+            this.setState({ lists: res.lists, book: book });
         } else {
             //alert
         }
     }
 
     static getStateDerivedFromProps(props, state) {
-        if (state.book_id != props.book_id && props.book_id != undefined) {
+        if (state.book != props.book && props.book != undefined) {
             return {
-                book_id: props.book_id
+                book: props.book
             }
         }
         return null;
@@ -58,7 +57,7 @@ export default class AddToListScreen extends React.Component {
                     <FlatList
                         data={this.state.lists}
                         keyExtractor={(item) => { return item.id }}
-                        renderItem={({ item, index }) => <ListItem context={this} book_id={this.state.book_id} isAddToList={true} list={item} index={index} deleteListCallBack={null} />}
+                        renderItem={({ item, index }) => <ListItem context={this} book={this.state.book} isAddToList={true} list={item} index={index} deleteListCallBack={null} />}
                     />
                 )
 

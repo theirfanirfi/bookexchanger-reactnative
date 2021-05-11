@@ -44,7 +44,7 @@ export default function ExchangeConfirmationNotificationComponent(props) {
                     <Col style={{ flexDirection: 'row', marginVertical: 8 }}>
                         <TouchableOpacity onPress={() => navigateToUserProfile()}>
 
-                            <CircularImage style={null} image={null} size="small" />
+                            <CircularImage style={null} image={notification.profile_image} size="small" />
                         </TouchableOpacity>
                         <Row style={{ flexDirection: 'row' }}>
                             <TouchableOpacity onPress={() => navigateToUserProfile()}>

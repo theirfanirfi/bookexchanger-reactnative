@@ -29,16 +29,26 @@ export default function ListItem(props) {
     })
 
     const addToList = async () => {
-        console.log('add ' + props.book_id)
+        console.log(props.book)
+        let book = props.book
         let form = new FormData();
-        if (props.book_id != null) {
-            form.append("book_id", props.book_id)
+        if (book != null) {
+
             form.append("list_id", props.list.list_id)
+
+            form.append("book_title", book.book_title)
+            form.append("book_description", "some description")
+            form.append("book_isbn", book.book_isbn)
+            form.append("book_author", book.book_author)
+            form.append("book_cover_image", book.book_cover_image)
+            form.append("book_added_from", "openlibrary")
+            form.append("is_available_for_exchange", 0)
+
             let response = await post(props.context, 'stack', form)
             console.log(response);
             if (response.status) {
                 let res = response.response
-                if (res.isCreated) {
+                if (!res.isError) {
                     setIsAddedToList(true);
                     setStack(res.stack);
                     alert('Book added to list');
