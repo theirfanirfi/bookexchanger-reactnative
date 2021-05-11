@@ -138,7 +138,9 @@ class CreatePost extends React.Component {
             if (response.response.isPostCreated) {
                 this.setState({
                     post_title: '',
-                    post_description: ''
+                    post_description: '',
+                    featured_image: null,
+                    isImageSelected: false
                 })
                 alert('Post created');
             } else {

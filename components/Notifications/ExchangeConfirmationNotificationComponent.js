@@ -51,7 +51,7 @@ export default function ExchangeConfirmationNotificationComponent(props) {
 
                                 <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{notification.fullname}</Text>
                             </TouchableOpacity>
-                            <Text style={{ margin: 6, fontSize: 16, color: 'gray' }}>{notification.is_exchange_confirmed == 1 ? <>
+                            <Text style={{ margin: 6, fontSize: 16, color: 'gray', textAlign: 'justify' }}>{notification.is_exchange_confirmed == 1 ? <>
                                 confirmed your exchange request</> : <>declined your exchange request</>}</Text>
 
                         </Row>

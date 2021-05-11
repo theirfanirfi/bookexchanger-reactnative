@@ -29,7 +29,7 @@ export default function LikeCommentNotificationComponent(props) {
 
                                 <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{notification.fullname}</Text>
                             </TouchableOpacity>
-                            <Text style={{ margin: 6, fontSize: 16, color: 'gray' }}>has {notification.is_like == 1 ? <>
+                            <Text style={{ margin: 6, fontSize: 16, color: 'gray', textAlign: 'justify' }}>has {notification.is_like == 1 ? <>
                                 <Icon name="heart" color="red" size={16} type="ionicon" />
 
                           liked your post</> : <>commented on your post.</>}</Text>
