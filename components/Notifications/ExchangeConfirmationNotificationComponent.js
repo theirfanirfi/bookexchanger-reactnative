@@ -46,12 +46,12 @@ export default function ExchangeConfirmationNotificationComponent(props) {
 
                             <CircularImage style={null} image={notification.profile_image} size="small" />
                         </TouchableOpacity>
-                        <Row style={{ flexDirection: 'row' }}>
+                        <Row style={{ flexDirection: 'column' }}>
                             <TouchableOpacity onPress={() => navigateToUserProfile()}>
 
                                 <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{notification.fullname}</Text>
                             </TouchableOpacity>
-                            <Text style={{ margin: 6, fontSize: 16, color: 'gray', textAlign: 'justify' }}>{notification.is_exchange_confirmed == 1 ? <>
+                            <Text style={{ margin: 6, fontSize: 16, color: 'gray', textAlign: 'justify' }}> has {notification.is_exchange_confirmed == 1 ? <>
                                 confirmed your exchange request</> : <>declined your exchange request</>}</Text>
 
                         </Row>

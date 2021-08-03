@@ -7,48 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0014AAB5D1AD4F2491870A1F /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B43ED1A67C424909BE8C47F1 /* FontAwesome5_Solid.ttf */; };
 		00E356F31AD99517003FC87E /* GolfricaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* GolfricaTests.m */; };
-		03EB6A4CC8DC4E30B01A1719 /* BerkshireSwash-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F9B0DF1ADDD40B6B469302B /* BerkshireSwash-Regular.ttf */; };
-		07D5C8DF3B2242F8B2790991 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0156EDADBFD843A59B5D6660 /* Roboto-Italic.ttf */; };
-		0EA1C13C4AC646EC90BA38E0 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 53277FADAFA34ECF9A6D27D3 /* FontAwesome.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1DF4110296964F58BF467597 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FD123B583B4D410EB98C8C33 /* Roboto-BlackItalic.ttf */; };
 		2034E40A6E47D43CABF6E367 /* libPods-Golfrica-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73D5ECA07BBB87DFD39E50D8 /* libPods-Golfrica-tvOSTests.a */; };
-		297839D2172A4AFBA1E31DD3 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3636BDE53EF349F08D88A026 /* Roboto-Medium.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* GolfricaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* GolfricaTests.m */; };
-		415D5062A47D4FAAB97423EB /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98D07FD950A4447E9F446C82 /* FontAwesome5_Regular.ttf */; };
-		416E30066AC74D29B4E0BA4F /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 017022A1313E463788576798 /* Roboto-BoldItalic.ttf */; };
-		436688C95E2A48C98B9B55FE /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CC8AEFA8272C4D3D87E260DC /* EvilIcons.ttf */; };
-		52A3B98FF5BC4F75BEC2AE55 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 39D737A1C58A451391B253D5 /* Roboto-Black.ttf */; };
-		565001D11E9145C0BA664D14 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BA65C0B9AF04B8DAF9969E9 /* MaterialIcons.ttf */; };
-		582F40925E744FF7962F7650 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 00D5B46A66B242C3A919A855 /* Ionicons.ttf */; };
-		6C3D49737C114BD68E415CFE /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 878D48459D5C45AAB5B0869D /* Roboto-MediumItalic.ttf */; };
-		6C651169A5324A2BA5C1699B /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6E5A25121589458198443EE6 /* FontAwesome5_Brands.ttf */; };
-		7AB8A64C2EF54D17BAA26D1C /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69556D5EE1724A19B42B2990 /* Entypo.ttf */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		85F22A8AD3FF4210B119260C /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CBE430D31674BF7A5CC4189 /* Foundation.ttf */; };
-		89481F4E28324419BBF4CBD9 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85CCF5BCCF5E4BDEBB7EA213 /* Roboto-LightItalic.ttf */; };
-		8B1FF0DB93ED4A98AF2FCEFF /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B68B20BD75E4D5EA221D85A /* SimpleLineIcons.ttf */; };
 		8F3680DEF3CCB3ABEEFCF532 /* libPods-Golfrica.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 250B620844C40E305AD3C1D5 /* libPods-Golfrica.a */; };
-		914A114C0C0D4454A646CFBF /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34ADC02FCC454503856F337F /* Octicons.ttf */; };
-		9470E8A7F52D4FECA9080D43 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D1F6DC702CDC400A92C2476B /* Roboto-Bold.ttf */; };
-		994C595DF2B54F878C24DFBD /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 268A42D1340541EDA237D360 /* Fontisto.ttf */; };
 		9975FC42627B2D87E2593F06 /* libPods-Golfrica-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B85912C99FAFE71349886ADF /* libPods-Golfrica-tvOS.a */; };
-		9CB28A3A5F264898BA990F71 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7A7E54FAEF742BCA6ECA78E /* AntDesign.ttf */; };
-		A15B72B6B84049388F3E52FE /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 80A356E4F3EF49FE87FB22A0 /* Roboto-Light.ttf */; };
-		A53AEC6117C04A7CA106C6E4 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6292F58A9D204426ADA899AC /* MaterialCommunityIcons.ttf */; };
-		BBF938A2608C4DDCA53EE11D /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C11396DEBA13431E8019C3AC /* Zocial.ttf */; };
-		BDF5254F4B49460B83BEE9D5 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A3866B13F25B44C2B7ECBF24 /* Roboto-Regular.ttf */; };
 		C0DD98331702EFBF3B9049BB /* libPods-Golfrica-GolfricaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74491A43B138261E62F9FA63 /* libPods-Golfrica-GolfricaTests.a */; };
-		D3AC70DBD4B34735A213A169 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88457052793E4756867C6CEE /* Feather.ttf */; };
-		D43CDBA3BA8E434EAF7E8E96 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 93F7C813CD5341CD96FDF1A2 /* Roboto-ThinItalic.ttf */; };
-		D7C859F253884E08A733DF39 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6515406920D546049EDCB54C /* Roboto-Thin.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -304,6 +273,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				2C6B82ADEA23A6111F50A8AB /* [CP] Copy Pods Resources */,
+				00839DBFB4F303F4105AD67A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -326,6 +296,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				FB722DA64421581716E8BA48 /* [CP] Copy Pods Resources */,
+				85FF8AF37D61633FA7776376 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -434,37 +405,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				9CB28A3A5F264898BA990F71 /* AntDesign.ttf in Resources */,
-				7AB8A64C2EF54D17BAA26D1C /* Entypo.ttf in Resources */,
-				436688C95E2A48C98B9B55FE /* EvilIcons.ttf in Resources */,
-				D3AC70DBD4B34735A213A169 /* Feather.ttf in Resources */,
-				0EA1C13C4AC646EC90BA38E0 /* FontAwesome.ttf in Resources */,
-				6C651169A5324A2BA5C1699B /* FontAwesome5_Brands.ttf in Resources */,
-				415D5062A47D4FAAB97423EB /* FontAwesome5_Regular.ttf in Resources */,
-				0014AAB5D1AD4F2491870A1F /* FontAwesome5_Solid.ttf in Resources */,
-				994C595DF2B54F878C24DFBD /* Fontisto.ttf in Resources */,
-				85F22A8AD3FF4210B119260C /* Foundation.ttf in Resources */,
-				582F40925E744FF7962F7650 /* Ionicons.ttf in Resources */,
-				A53AEC6117C04A7CA106C6E4 /* MaterialCommunityIcons.ttf in Resources */,
-				565001D11E9145C0BA664D14 /* MaterialIcons.ttf in Resources */,
-				914A114C0C0D4454A646CFBF /* Octicons.ttf in Resources */,
-				8B1FF0DB93ED4A98AF2FCEFF /* SimpleLineIcons.ttf in Resources */,
-				BBF938A2608C4DDCA53EE11D /* Zocial.ttf in Resources */,
-				03EB6A4CC8DC4E30B01A1719 /* BerkshireSwash-Regular.ttf in Resources */,
-				52A3B98FF5BC4F75BEC2AE55 /* Roboto-Black.ttf in Resources */,
-				1DF4110296964F58BF467597 /* Roboto-BlackItalic.ttf in Resources */,
-				9470E8A7F52D4FECA9080D43 /* Roboto-Bold.ttf in Resources */,
-				416E30066AC74D29B4E0BA4F /* Roboto-BoldItalic.ttf in Resources */,
-				07D5C8DF3B2242F8B2790991 /* Roboto-Italic.ttf in Resources */,
-				A15B72B6B84049388F3E52FE /* Roboto-Light.ttf in Resources */,
-				89481F4E28324419BBF4CBD9 /* Roboto-LightItalic.ttf in Resources */,
-				297839D2172A4AFBA1E31DD3 /* Roboto-Medium.ttf in Resources */,
-				6C3D49737C114BD68E415CFE /* Roboto-MediumItalic.ttf in Resources */,
-				BDF5254F4B49460B83BEE9D5 /* Roboto-Regular.ttf in Resources */,
-				D7C859F253884E08A733DF39 /* Roboto-Thin.ttf in Resources */,
-				D43CDBA3BA8E434EAF7E8E96 /* Roboto-ThinItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,6 +426,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		00839DBFB4F303F4105AD67A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Golfrica-GolfricaTests/Pods-Golfrica-GolfricaTests-frameworks.sh",
+				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Golfrica-GolfricaTests/Pods-Golfrica-GolfricaTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		00AD482184084EBCBAC4853F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -529,6 +489,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Golfrica-GolfricaTests/Pods-Golfrica-GolfricaTests-resources.sh",
+				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
@@ -547,9 +508,11 @@
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
@@ -568,6 +531,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -587,6 +551,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		85FF8AF37D61633FA7776376 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Golfrica/Pods-Golfrica-frameworks.sh",
+				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Golfrica/Pods-Golfrica-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		CE775E01B5109D0A4A26B8EF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -660,9 +644,50 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Golfrica/Pods-Golfrica-resources.sh",
+				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

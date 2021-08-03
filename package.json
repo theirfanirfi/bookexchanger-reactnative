@@ -35,7 +35,7 @@
     "react-native-location-view": "^0.3.0",
     "react-native-map-picker": "^0.0.2",
     "react-native-maps": "^0.27.1",
-    "react-native-modal": "^11.7.0",
+    "react-native-modal": "^12.0.3",
     "react-native-pager-view": "^5.1.2",
     "react-native-paper": "^4.7.1",
     "react-native-raw-bottom-sheet": "^2.2.0",
