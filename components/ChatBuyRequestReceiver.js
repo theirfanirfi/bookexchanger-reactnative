@@ -8,10 +8,9 @@ import { getImage } from './utils';
 const book_image_not_available = require('../assets/graphics/book_not_available.png')
 
 
-export default function ChatBookExchangeComponent(props) {
-    let book_to_be_received = JSON.parse(props.book_to_be_received)
-    let book_to_be_sent = JSON.parse(props.book_to_be_sent)
-    let exchange_id = props.exchange_id
+export default function ChatBuyRequestReceiver(props) {
+    let book = JSON.parse(props.book)
+    let buy_id = props.buy_id
     let context = props.context
 
     const [approved, setApproved] = useState(false);
@@ -28,13 +27,13 @@ export default function ChatBookExchangeComponent(props) {
         }
     })
 
-    const approve_exchange = async () => {
+    const approve_request = async () => {
         let form = new FormData();
-        let response = await get(context, `exchange/approve_exchange/${exchange_id}/`,)
+        let response = await get(context, `buy/approve_request/${buy_id}/`,)
         console.log(response)
 
         if (response.status) {
-            let res = response.response
+            let res = response.response;
             if (res.isConfirmed) {
                 setApproved(true);
                 setDeclined(false);
@@ -44,29 +43,30 @@ export default function ChatBookExchangeComponent(props) {
             }
         } else {
             // return false;
+            alert('Error occurred, please try again.')
         }
     }
 
-    const withdraw_exchange = async () => {
-        let response = await get(context, `exchange/withdraw_exchange/${exchange_id}/`)
-        console.log(response)
-        if (response.status) {
-            let res = response.response
-            if (res.isConfirmed) {
-                setApproved(false);
-                setDeclined(false);
-            } else {
-                // return false;
-                alert('Error occurred, please try again.')
-            }
-        } else {
-            // return false;
-        }
-    }
+    // const withdraw_exchange = async () => {
+    //     let response = await get(context, `exchange/withdraw_exchange/${exchange_id}/`)
+    //     console.log(response)
+    //     if (response.status) {
+    //         let res = response.response
+    //         if (res.isConfirmed) {
+    //             setApproved(false);
+    //             setDeclined(false);
+    //         } else {
+    //             // return false;
+    //             alert('Error occurred, please try again.')
+    //         }
+    //     } else {
+    //         // return false;
+    //     }
+    // }
 
-    const decline_exchange = async () => {
+    const decline_request = async () => {
         let form = new FormData();
-        let response = await get(context, `exchange/decline_exchange/${exchange_id}/`)
+        let response = await get(context, `buy/decline_request/${buy_id}/`);
         console.log(response)
         if (response.status) {
             let res = response.response
@@ -75,10 +75,11 @@ export default function ChatBookExchangeComponent(props) {
                 setDeclined(true);
             } else {
                 // return false;
-                alert('Error occurred, please try again.')
+                alert('Error occurred, please try again.');
             }
         } else {
             // return false;
+            alert('Error occurred, please try again.');
         }
 
     }
@@ -91,44 +92,20 @@ export default function ChatBookExchangeComponent(props) {
 
                     <View style={{ flexDirection: 'row' }}>
 
-                        {book_to_be_received.book_cover_image != null &&
+                        {book.book_cover_image != null &&
                             <Image
                                 // source={{ uri: book_to_be_received.book_cover_image }} 
-                                source={book_to_be_received.book_cover_image != undefined && !book_to_be_received.book_cover_image.includes('undefined') ? { uri: getImage('books', book_to_be_received.book_cover_image) } : book_image_not_available}
-
-
+                                source={book.book_cover_image != undefined && !book.book_cover_image.includes('undefined') ? { uri: getImage('books', book.book_cover_image) } : book_image_not_available}
                                 style={{ width: 80, height: 80 }} />
                         }
                         <View style={{ flexDirection: 'column' }}>
-                            <Text style={{ fontWeight: 'bold' }}>  {book_to_be_received.book_title}</Text>
-                            <Text>  by {book_to_be_received.book_author}</Text>
+                            <Text style={{ fontWeight: 'bold' }}>  {book.book_title}</Text>
+                            <Text>  by {book.book_author}</Text>
+                            <Text>  Price: {book.selling_price}$</Text>
                         </View>
 
                     </View>
-                    <Text>You Will Get</Text>
-
-                </Col>
-                <Col style={{ justifyContent: 'center' }}>
-                    <Icon name="repeat-outline" size={40} type="ionicon" />
-                </Col>
-                <Col>
-                    <View style={{ flexDirection: 'row' }}>
-
-                        {book_to_be_sent.book_cover_image != null &&
-                            <Image
-                                // source={{ uri: book_to_be_sent.book_cover_image }} 
-                                source={book_to_be_sent.book_cover_image != undefined && !book_to_be_sent.book_cover_image.includes('undefined') ? { uri: getImage('books', book_to_be_sent.book_cover_image) } : book_image_not_available}
-
-                                style={{ width: 80, height: 80 }} />
-                        }
-                        <View style={{ flexDirection: 'column' }}>
-                            <Text style={{ fontWeight: 'bold' }}>  {book_to_be_sent.book_title}</Text>
-                            <Text>  by {book_to_be_sent.book_author}</Text>
-                        </View>
-
-                    </View>
-
-                    <Text>You Will Share</Text>
+                    <Text>Book Buying Request Sent</Text>
 
                 </Col>
                 {/* <View>
@@ -149,9 +126,9 @@ export default function ChatBookExchangeComponent(props) {
                                 type="solid"
                                 buttonStyle={{ backgroundColor: '#41cece' }}
                                 title="Approve"
-                                onPress={() => { approve_exchange(); }} />
+                                onPress={() => { approve_request(); }} />
                             <Button
-                                onPress={() => { decline_exchange(); }}
+                                onPress={() => { decline_request(); }}
                                 title="Decline"
                                 buttonStyle={{ backgroundColor: '#162b34' }}
                                 type="solid" />
@@ -161,7 +138,7 @@ export default function ChatBookExchangeComponent(props) {
                     {!approved && declined &&
 
                         <Button
-                            onPress={() => { if (declined && !approved) { withdraw_exchange(); } else { decline_exchange(); } }}
+                            onPress={() => { if (declined && !approved) { } else { decline_request(); } }}
                             title="Declined"
                             disabled={true}
                             buttonStyle={{ backgroundColor: '#162b34' }}

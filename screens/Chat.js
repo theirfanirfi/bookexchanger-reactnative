@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react'
 import { GiftedChat, Message, Bubble, SystemMessage } from 'react-native-gifted-chat'
 import { View, Text, Image, ActivityIndicator, TouchableOpacity } from 'react-native'
@@ -8,6 +9,8 @@ import ChatBookExchangeComponent from '../components/ChatExchangeComponent';
 import ThemedListItem from 'react-native-elements/dist/list/ListItem';
 import ChatExchangeComponentForSender from '../components/ChatExchangeComponentForSender';
 import { convertUTCDateToLocalDate } from '../components/utils'
+import ChatBuyRequestSender from '../components/ChatBuyRequestSender';
+import ChatBuyRequestReceiver from '../components/ChatBuyRequestReceiver';
 
 
 
@@ -78,7 +81,7 @@ export default class Chat extends React.Component {
 
         if (response.status) {
             let res = response.response
-            console.log('exchange with: ' + res.messages[0].to_exchange_with_user_id)
+            // console.log('exchange with: ' + res.messages[0].to_exchange_with_user_id)
             if (res.messages.length > 0) {
                 let messages = res.messages
                 await messages.forEach((value, index) => {
@@ -203,7 +206,8 @@ export default class Chat extends React.Component {
     }
 
     customMessage = (message) => {
-        let msg = message.currentMessage
+        let msg = message.currentMessage;
+        // console.log(msg);
         if (msg.is_exchange == 1) {
             // let book_to_be_received = JSON.parse(message.currentMessage.book_to_be_received)
             // let book_to_be_sent = JSON.parse(message.currentMessage.book_to_be_sent)
@@ -226,7 +230,22 @@ export default class Chat extends React.Component {
                     context={this}
                 />
             }
-        } else {
+        } else if (msg.is_for_sale == 1) {
+            if (msg.sender_id == this.state.user.user_id) {
+                return <ChatBuyRequestSender
+                    book={msg.bbook_buy}
+                    context={this}
+                    buy_id={msg.buy_id}
+                />
+            } else {
+                return <ChatBuyRequestReceiver
+                    book={msg.bbook_buy}
+                    context={this}
+                    buy_id={msg.buy_id}
+                />
+            }
+        }
+        else {
             return <Message {...message} />
         }
     }

@@ -1,5 +1,5 @@
 /* eslint-disable */
-const BASE_URL = 'http://192.168.10.4:5000';
+const BASE_URL = 'http://192.168.10.11:5000';
 // const BASE_URL = "https://bookwonkk.herokuapp.com";
 const endpoint = BASE_URL + '/api';
 
@@ -23,8 +23,8 @@ export const getToken = async (context) => {
     let isLoggedIn = await AsyncStorage.getItem('user').then(item => {
         if (item !== null) {
             let user = JSON.parse(item);
-      context.setState({isLoggedIn: true}, () => {
-                context.setState({'token': user.token, user: user});
+            context.setState({ isLoggedIn: true }, () => {
+                context.setState({ 'token': user.token, user: user });
             });
             return true;
         } else {
@@ -37,7 +37,7 @@ export const getTokenForComponent = async (context) => {
     let isLoggedIn = await AsyncStorage.getItem('user').then(item => {
         if (item !== null) {
             let user = JSON.parse(item);
-            context.setState({'token': user.token, user: user});
+            context.setState({ 'token': user.token, user: user });
 
             return true;
         } else {

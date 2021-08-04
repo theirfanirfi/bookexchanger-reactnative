@@ -217,6 +217,33 @@ export default class BookItem extends React.Component {
             this.setState({ isAdded: true });
         }
     }
+
+
+    makeBuyRequest = async () => {
+        let form = new FormData();
+        let book = this.props.book;
+        form.append("book_id", book.book_id);
+        form.append("book_holder_id", book.user_id)
+
+        let response = await post(this, 'buy', form);
+        // console.log(response)
+        if (response.status) {
+            let res = response.response;
+            // console.log(res)
+            if (res.isCreated) {
+                console.log(res);
+                alert('Buy request sent');
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+
+
     render() {
         let book = this.props.book;
         let isApiCall = this.props.isApiCall;
@@ -351,22 +378,32 @@ export default class BookItem extends React.Component {
                                             </Col>
                                         </Row>
                                     ) : (
-                                        <Row>
-                                            <Col>
+                                        <Row style={{ marginTop: 12 }}>
+                                            <Col style={{ justifyContent: 'center' }}>
                                                 {/* <BookExchangeComponent book={book} /> */}
-                                                <TouchableOpacity
-                                                    onPress={() =>
-                                                        this.props.navigation.navigate(
-                                                            'bookexchangesearchapi',
-                                                            { book: book },
-                                                        )
-                                                    }>
-                                                    <Icon
-                                                        name="repeat-outline"
-                                                        type="ionicon"
-                                                        size={26}
-                                                    />
-                                                </TouchableOpacity>
+                                                {book.is_for_sale == 1 ? (
+                                                    <Button
+                                                        onPress={() => this.makeBuyRequest()}
+                                                        containerStyle={{ width: 100, right: 40, marginTop: 30 }}
+                                                        titleStyle={{ fontSize: 11 }}
+                                                        type="outline"
+                                                        title={`Buy at $${book.selling_price}`} />
+
+                                                ) : (
+                                                    <TouchableOpacity
+                                                        onPress={() =>
+                                                            this.props.navigation.navigate(
+                                                                'bookexchangesearchapi',
+                                                                { book: book },
+                                                            )
+                                                        }>
+                                                        <Icon
+                                                            name="repeat-outline"
+                                                            type="ionicon"
+                                                            size={26}
+                                                        />
+                                                    </TouchableOpacity>
+                                                )}
                                             </Col>
                                         </Row>
                                     )}

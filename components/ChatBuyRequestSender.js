@@ -9,10 +9,9 @@ import { getImage } from './utils';
 const book_image_not_available = require('../assets/graphics/book_not_available.png')
 
 
-export default function ChatExchangeComponentForSender(props) {
-    let book_to_be_received = JSON.parse(props.book_to_be_received)
-    let book_to_be_sent = JSON.parse(props.book_to_be_sent)
-    let exchange_id = props.exchange_id
+export default function ChatBuyRequestSender(props) {
+    let book = JSON.parse(props.book)
+    let buy_id = props.buy_id
     let context = props.context
 
     const [approved, setApproved] = useState(false);
@@ -31,8 +30,8 @@ export default function ChatExchangeComponentForSender(props) {
         }
     })
 
-    const delete_exchange = async () => {
-        let response = await _delete(context, `exchange/${exchange_id}/`)
+    const delete_buy_request = async () => {
+        let response = await _delete(context, `buy/${buy_id}/`)
         if (response.status) {
             let res = response.response
             if (res.isDeleted) {
@@ -57,44 +56,23 @@ export default function ChatExchangeComponentForSender(props) {
 
                     <View style={{ flexDirection: 'row' }}>
 
-                        {book_to_be_received.book_cover_image != null &&
+                        {book.book_cover_image != null &&
                             <Image
                                 // source={{ uri: book_to_be_received.book_cover_image }} 
-                                source={book_to_be_received.book_cover_image != undefined && !book_to_be_received.book_cover_image.includes('undefined') ? { uri: getImage('books', book_to_be_received.book_cover_image) } : book_image_not_available}
+                                source={book.book_cover_image != undefined && !book.book_cover_image.includes('undefined') ? { uri: getImage('books', book.book_cover_image) } : book_image_not_available}
                                 style={{ width: 80, height: 80 }} />
                         }
                         <View style={{ flexDirection: 'column' }}>
-                            <Text style={{ fontWeight: 'bold' }}>  {book_to_be_received.book_title}</Text>
-                            <Text>  by {book_to_be_received.book_author}</Text>
+                            <Text style={{ fontWeight: 'bold' }}>  {book.book_title}</Text>
+                            <Text>  by {book.book_author}</Text>
+                            <Text>  Price: {book.selling_price}$</Text>
                         </View>
 
                     </View>
-                    <Text>You Will Get</Text>
+                    <Text>Book Buying Request Sent</Text>
 
                 </Col>
-                <Col style={{ justifyContent: 'center' }}>
-                    <Icon name="repeat-outline" size={40} type="ionicon" />
-                </Col>
-                <Col>
-                    <View style={{ flexDirection: 'row' }}>
 
-                        {book_to_be_sent.book_cover_image != null &&
-                            <Image
-                                // source={{ uri: book_to_be_sent.book_cover_image }} 
-                                source={book_to_be_sent.book_cover_image != undefined && !book_to_be_sent.book_cover_image.includes('undefined') ? { uri: getImage('books', book_to_be_sent.book_cover_image) } : book_image_not_available}
-
-                                style={{ width: 80, height: 80 }} />
-                        }
-                        <View style={{ flexDirection: 'column' }}>
-                            <Text style={{ fontWeight: 'bold' }}>  {book_to_be_sent.book_title}</Text>
-                            <Text>  by {book_to_be_sent.book_author}</Text>
-                        </View>
-
-                    </View>
-
-                    <Text>You Will Share</Text>
-
-                </Col>
                 {/* <View>
                             <Text style={{ textAlign: 'justify', marginVertical: 8 }}>{message.currentMessage.exchange_message}</Text>
                         </View> */}
@@ -119,7 +97,11 @@ export default function ChatExchangeComponentForSender(props) {
                         title={deleted ? "Deleted" : "Delete"}
                         buttonStyle={{ backgroundColor: '#162b34' }}
                         disabled={deleted || approved ? true : false}
-                        onPress={() => { if (!deleted) { delete_exchange(); } }}
+                        onPress={() => {
+                            if (!deleted) {
+                                delete_buy_request();
+                            }
+                        }}
                         type="solid" />
                 </View>
             </Card>
