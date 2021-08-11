@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as React from 'react';
 import { Text, Image, View, FlatList, RefreshControl } from 'react-native';
 const nonotification = require('../assets/graphics/notnotification.png');
@@ -6,6 +7,7 @@ import LikeCommentNotificationComponent from '../components/Notifications/LikeCo
 import ExchangeNotificationComponent from '../components/Notifications/ExchangeNotificationComponent'
 import FollowNotificationComponent from '../components/Notifications/FollowNotificationComponent'
 import ExchangeConfirmationNotificationComponent from '../components/Notifications/ExchangeConfirmationNotificationComponent';
+import BuyBookNotificationComponent from '../components/Notifications/BuyBookNotificationComponent';
 export default class Notifications extends React.Component {
     state = {
         notifications: [],
@@ -19,16 +21,17 @@ export default class Notifications extends React.Component {
         console.log(index);
 
         let notifications = context.state.notifications
-        console.log(notifications)
+        // console.log(notifications)
         notifications.splice(index, 1)
-        context.setState({ notifications: notifications })
+        context.setState({ notifications: notifications });
     }
 
     async getNotifications() {
         this.setState({ refreshing: true, message: 'loading...' });
-        let response = await get(this, 'notification/')
+        let response = await get(this, 'notification/');
         if (response.status) {
-            let res = response.response
+            let res = response.response;
+            console.log(res);
             if (res.notifications.length > 0) {
                 this.setState({ notifications: res.notifications, refreshing: false, message: 'No notification for you at the moment' });
 
@@ -69,6 +72,9 @@ export default class Notifications extends React.Component {
                 context={this} notification={item} navigation={this.props.navigation} />
         } else if (item.is_follow == 1) {
 
+        } else if (item.is_for_sale == 1) {
+            return <BuyBookNotificationComponent index={index} exchangeDeclineCallBack={this.exchangeDeclineCallBack}
+                context={this} notification={item} navigation={this.props.navigation} />
         }
         else if (item.is_exchange_notification == 1) {
             return <ExchangeConfirmationNotificationComponent context={this} notification={item} navigation={this.props.navigation} />

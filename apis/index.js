@@ -1,5 +1,5 @@
 /* eslint-disable */
-const BASE_URL = 'http://192.168.10.11:5000';
+const BASE_URL = 'http://192.168.10.7:5000';
 // const BASE_URL = "https://bookwonkk.herokuapp.com";
 const endpoint = BASE_URL + '/api';
 

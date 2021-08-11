@@ -207,6 +207,7 @@ export default class Chat extends React.Component {
 
     customMessage = (message) => {
         let msg = message.currentMessage;
+        console.log(msg);
         // console.log(msg);
         if (msg.is_exchange == 1) {
             // let book_to_be_received = JSON.parse(message.currentMessage.book_to_be_received)
@@ -235,12 +236,16 @@ export default class Chat extends React.Component {
                 return <ChatBuyRequestSender
                     book={msg.bbook_buy}
                     context={this}
+                    is_approved={message.currentMessage.is_accepted}
+                    is_declined={message.currentMessage.is_rejected}
                     buy_id={msg.buy_id}
                 />
             } else {
                 return <ChatBuyRequestReceiver
                     book={msg.bbook_buy}
                     context={this}
+                    is_approved={message.currentMessage.is_accepted}
+                    is_declined={message.currentMessage.is_rejected}
                     buy_id={msg.buy_id}
                 />
             }
