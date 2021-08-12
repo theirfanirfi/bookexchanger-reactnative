@@ -10,6 +10,7 @@ const book_image_not_available = require('../../assets/graphics/book_not_availab
 
 export default function BuyBookNotificationComponent(props) {
     let notification = props.notification
+    console.log(notification.is_buy_confirmed)
     let book = JSON.parse(notification.buybook)
 
     const [declined, setDeclined] = useState(false);
@@ -25,7 +26,7 @@ export default function BuyBookNotificationComponent(props) {
             let res = response.response
 
             if (res.isCreated) {
-                console.log(res);
+                // console.log(res);
                 props.navigation.navigate('Chat', { p_id: res.participants.p_id, username: notification.fullname, chat_with: notification.user_id })
             } else {
                 alert(res.message);
@@ -104,11 +105,21 @@ export default function BuyBookNotificationComponent(props) {
 
                                 <Text style={{ margin: 6, fontSize: 16, fontFamily: 'Roboto-Medium', }}>{notification.fullname}</Text>
                             </TouchableOpacity>
-                            <Text style={{ margin: 6, fontSize: 16, color: 'gray', textAlign: 'justify', }}>wants to buy your book</Text>
+                            {notification.am_i_book_holder == 1 ? (
+                                <Text style={{ margin: 6, fontSize: 16, color: 'gray', textAlign: 'justify', }}>wants to buy your book</Text>
+                            ) : (
+                                <>
+                                    {notification.is_buy_confirmed == "1" &&
+                                        <Text style={{ margin: 6, fontSize: 16, color: 'gray', textAlign: 'justify', }}>Approved your book buy request.</Text>
+                                    }
+
+                                    {notification.is_buy_declined == 1 &&
+                                        <Text style={{ margin: 6, fontSize: 16, color: 'gray', textAlign: 'justify', }}>Declined your book buy request.</Text>
+                                    }
+                                </>
+                            )}
+
                             <Text style={{ fontSize: 11, color: 'gray', marginLeft: 8 }}>{notification.created_at}</Text>
-
-
-
                         </Col>
 
                     </Row>
