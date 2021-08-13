@@ -41,6 +41,7 @@ import { Icon, Input } from 'react-native-elements'
 import BooksSearchAPI from '../screens/BooksSearchAPI';
 import SinglePost from '../screens/SinglePost';
 import LoginScreen from '../screens/LoginScreen';
+import EditPost from '../screens/EditPost';
 
 function headerOptions(navigator) {
   return (
@@ -251,6 +252,7 @@ export default function RootNavigator() {
       <Stack.Screen name="profile" component={profileNavigator} />
       <Stack.Screen name="SinglePost" component={singlePostNavigator} />
       <Stack.Screen name="SingleChat" component={singleChatNavigator} />
+      <Stack.Screen name="editpost" component={EditPost} />
     </Stack.Navigator>
   )
 }

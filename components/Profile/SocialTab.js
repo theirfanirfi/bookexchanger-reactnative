@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as React from 'react';
 import { Text, View, FlatList, RefreshControl, Image } from 'react-native';
 import colors from '../../constants/colors'
@@ -62,7 +63,7 @@ export default class SocialTab extends React.Component {
                         }
                         data={this.state.posts}
                         keyExtractor={(item) => { return item.id }}
-                        renderItem={({ item }) => <PostItem key={item.id} context={this} post={item} navigation={this.props.navigation} />}
+                        renderItem={({ item }) => <PostItem actions={true} key={item.id} context={this} post={item} navigation={this.props.navigation} />}
 
                     />
                 </View>

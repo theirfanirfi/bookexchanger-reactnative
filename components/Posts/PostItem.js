@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { Image, Text, TouchableOpacity } from 'react-native'
 import { Col, Row } from "react-native-easy-grid";
@@ -12,6 +13,7 @@ import CommentComponent from './CommentComponent'
 
 export default function PostItem(props) {
     let post = props.post
+    let actions = props.actions ? true : false
     const navigateToUserProfile = () => {
         props.navigation.navigate('profile', { screen: 'profile', params: { isMe: false, user_id: post.user_id } })
     }
@@ -37,6 +39,15 @@ export default function PostItem(props) {
 
 
                     </Col>
+
+                    {actions &&
+                        <Col style={{ flexDirection: 'column', justifyContent: 'center' }}>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('editpost', { post_id: post.post_id })}>
+                                <Text style={{ alignSelf: 'flex-end' }}>Edit</Text>
+                            </TouchableOpacity>
+                            <Text style={{ alignSelf: 'flex-end' }}>Delete</Text>
+                        </Col>
+                    }
 
                 </Row>
 
