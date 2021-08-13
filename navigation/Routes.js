@@ -216,6 +216,7 @@ function profileNavigator(navigator) {
       <Stack.Screen name="profile" component={Profile} />
       <Stack.Screen name="Chat" component={Chat} />
       <Stack.Screen name="listbooksscreen" component={ListBooksScreen} />
+      <Stack.Screen name="editpost" component={EditPost} />
 
 
     </Stack.Navigator>
@@ -252,7 +253,7 @@ export default function RootNavigator() {
       <Stack.Screen name="profile" component={profileNavigator} />
       <Stack.Screen name="SinglePost" component={singlePostNavigator} />
       <Stack.Screen name="SingleChat" component={singleChatNavigator} />
-      <Stack.Screen name="editpost" component={EditPost} />
+      {/* <Stack.Screen name="editpost" component={EditPost} /> */}
     </Stack.Navigator>
   )
 }
