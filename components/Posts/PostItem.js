@@ -8,6 +8,7 @@ import { getMoment, getImage } from '../utils'
 const profile_default_image = require('../../assets/images/default.png');
 import LikeComponent from './LikeComponent'
 import CommentComponent from './CommentComponent'
+import { get } from '../../apis/index'
 
 
 
@@ -16,6 +17,14 @@ export default function PostItem(props) {
     let actions = props.actions ? true : false
     const navigateToUserProfile = () => {
         props.navigation.navigate('profile', { screen: 'profile', params: { isMe: false, user_id: post.user_id } })
+    }
+    const delete_post = async () => {
+        const del_post = await get(props.context, `post/delete_post/${post.post_id}/`);
+        if (del_post.response.isDeleted) {
+            alert('Post Deleted');
+        } else {
+            alert('Error occurred. Please try again.');
+        }
     }
 
     return (
@@ -45,7 +54,9 @@ export default function PostItem(props) {
                             <TouchableOpacity onPress={() => props.navigation.navigate('editpost', { post_id: post.post_id })}>
                                 <Text style={{ alignSelf: 'flex-end' }}>Edit</Text>
                             </TouchableOpacity>
-                            <Text style={{ alignSelf: 'flex-end' }}>Delete</Text>
+                            <TouchableOpacity onPress={() => delete_post()}>
+                                <Text style={{ alignSelf: 'flex-end' }}>Delete</Text>
+                            </TouchableOpacity>
                         </Col>
                     }
 
