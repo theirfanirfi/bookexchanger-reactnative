@@ -13,6 +13,7 @@ import StacksTab from '../components/Profile/StacksTab';
 import FollowButton from '../components/Profile/FollowButton'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import BackgroundService from 'react-native-background-actions';
 
 export default class Profile extends React.Component {
 
@@ -66,6 +67,7 @@ export default class Profile extends React.Component {
 
         try {
             await AsyncStorage.removeItem('user');
+            await BackgroundService.stop();
             this.props.navigation.reset({
                 index: 0,
                 routes: [{ name: 'auth', screen: 'login' }]
