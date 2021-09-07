@@ -10,8 +10,9 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import base64 from 'react-native-base64';
 import { postWithImages } from '../apis/index'
 import { RichEditor, RichToolbar } from 'react-native-pell-rich-editor'
-// const richText = React.createRef();
+
 class CreatePost extends React.Component {
+
 
     constructor(props) {
         super(props);
@@ -27,10 +28,11 @@ class CreatePost extends React.Component {
         isImageSelected: false,
         featured_image: null,
         post_title: "",
-        post_description: "",
+        post_description: "Hello <b>World</b>",
         token: 'sometoken',
         user: [],
         isLoading: false,
+        isrichtextLoaded: true,
     }
 
 
@@ -107,7 +109,7 @@ class CreatePost extends React.Component {
     async launchCamera() {
         let granted = await this.requestCameraPermission();
         // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync(writeOnly);
-        //    console.log(status);
+        // console.log(status);
         if (!granted) {
             alert('Permissions were denied.');
         } else {
@@ -167,6 +169,7 @@ class CreatePost extends React.Component {
     }
 
     render() {
+        let richtext = React.createRef();
         return (
             <View style={{ flex: 1, height: '100%', flexDirection: 'column' }}>
                 <ScrollView style={{ flex: 1, height: '100%', flexDirection: 'column', backgroundColor: colors.screenBackgroundColor, paddingTop: 12, paddingBottom: 18, marginTop: Platform.OS == "ios" ? 40 : 10 }}>
@@ -242,29 +245,20 @@ class CreatePost extends React.Component {
                                 }}
                             /> */}
 
-                            <RichToolbar
-                                editor={this.richtext}
-                            // actions={[
-                            //     actions.setBold,
-                            //     actions.setItalic,
-                            //     actions.insertBulletsList,
-                            //     actions.insertOrderedList,
-                            //     actions.insertImage,
-                            //     'customAction',
-                            // ]}
-                            // iconMap={{
-                            //     customAction: customIcon,
-                            // }}
-                            // customAction={this.handleCustomAction}
-                            />
-
                             <RichEditor
-                                ref={(r) => this.richtext = r}
-                                onChange={(text) => this.setState({ post_description: text })}
-                                initialContentHTML={'Hello <b>World</b> <p>this is a new paragraph</p> <p>this is another new paragraph</p>'}
-                            // editorInitializedCallback={}
+                                initialHeight={280}
+                                ref={(r) => { richtext = r }}
+                                onKeyUp={(text) => this.setState({ post_description: this.state.post_description + text.key })}
+                                initialContentHTML={'Hello <b>World</b>'}
+                                editorInitializedCallback={() => this.setState({ isrichtextLoaded: true })}
                             />
-
+                            {this.state.isrichtextLoaded === true
+                                ? <RichToolbar
+                                    getEditor={() => richtext}
+                                // editor={richtext} 
+                                />
+                                : null
+                            }
 
 
 

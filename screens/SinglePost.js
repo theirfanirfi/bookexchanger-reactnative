@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity, Text, View, Image, Platform } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, Text, View, Image, Platform, Dimensions } from 'react-native';
 import colors from '../constants/colors'
 import { Col, Row } from "react-native-easy-grid";
 import CircularImage from '../components/Images/CircularImage'
@@ -10,7 +10,16 @@ import CommentsComponent from '../components/Posts/CommentsComponent'
 const profile_image = require('../assets/images/default.png');
 import { get } from '../apis/index'
 import { getImage } from '../components/utils'
+import WebView from 'react-native-webview';
 
+import AutoHeightWebView from 'react-native-autoheight-webview';
+
+const webViewScript = `
+  setTimeout(function() { 
+    window.postMessage(document.documentElement.scrollHeight); 
+  }, 500);
+  true; // note: this is required, or you'll sometimes get silent failures
+`;
 
 export default class SinglePost extends React.Component {
     state = {
@@ -89,13 +98,43 @@ export default class SinglePost extends React.Component {
 
 
                     <Row>
-                        <Col>
-                            <Text style={{
+                        <Col style={{ minHeight: 400, }}>
+                            {/* <Text style={{
                                 textAlign: 'justify', fontSize: 14,
                                 color: 'gray',
                                 fontFamily: 'Roboto-Regular', margin: 6
-                            }}>{post.post_description}</Text>
+                            }}>{post.post_description}</Text> */}
 
+                            {/* <WebView style={{ minHeight: 100, width: '100%', }}
+                                    source={{
+                                        html: `<style> * {font-size:44px;}  </style> ${post.post_description}`
+                                    }} /> */}
+
+                            <AutoHeightWebView
+                                style={{ width: Dimensions.get('window').width - 15, marginTop: 35, minHeight: 250, maxHeight: 350 }}
+                                customScript={webViewScript}
+                                customStyle={` * {
+        font-family: 'Times New Roman';
+      }
+      p {
+        font-size: 16px;
+      }
+    `}
+                                onSizeUpdated={size => console.log(size.height)}
+                                files={[{
+                                    href: 'cssfileaddress',
+                                    type: 'text/css',
+                                    rel: 'stylesheet'
+                                }]}
+                                source={{
+                                    html: `${post.post_description}`
+                                }}
+                                scalesPageToFit={true}
+                                viewportContent={'width=device-width, user-scalable=no'}
+                            /*
+                            other react-native-webview props
+                            */
+                            />
                         </Col>
                     </Row>
 

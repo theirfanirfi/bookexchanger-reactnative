@@ -8,6 +8,7 @@ import { getMoment, getImage } from '../utils'
 const profile_default_image = require('../../assets/images/default.png');
 import LikeComponent from './LikeComponent'
 import CommentComponent from './CommentComponent'
+import WebView from 'react-native-webview';
 import { get } from '../../apis/index'
 
 
@@ -80,12 +81,15 @@ export default function PostItem(props) {
 
                 <Row>
                     <Col>
-                        <Text style={{
+                        {/* <Text style={{
                             textAlign: 'justify', fontSize: 14,
                             color: 'gray',
                             fontFamily: 'Roboto-Regular', margin: 6
-                        }}>{post.post_description.length > 100 ? post.post_description.substr(0, 100) + '...' : post.post_description}</Text>
-
+                        }}>{post.post_description.length > 100 ? post.post_description.substr(0, 100) + '...' : post.post_description}</Text> */}
+                        <WebView style={{ height: 100, width: '100%', }} source={{
+                            html: `<style> *{font-size:44px;}  </style> 
+                        ${post.post_description.length > 100 ? post.post_description.substr(0, 100) + '...' : post.post_description} `
+                        }} />
                     </Col>
                 </Row>
 
