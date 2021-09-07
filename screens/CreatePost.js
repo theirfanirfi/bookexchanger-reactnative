@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as React from 'react';
 import { View, ScrollView, TouchableOpacity, Text, Image, Platform, ActivityIndicator, PermissionsAndroid } from 'react-native';
 import colors from '../constants/colors'
@@ -8,9 +9,20 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import RBSheet from "react-native-raw-bottom-sheet";
 import base64 from 'react-native-base64';
 import { postWithImages } from '../apis/index'
-
-
+import { RichEditor, RichToolbar } from 'react-native-pell-rich-editor'
+// const richText = React.createRef();
 class CreatePost extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.richtext = React.createRef();
+    }
+
+    componentDidMount() {
+        this.richtext = React.createRef();
+
+    }
+
     state = {
         isImageSelected: false,
         featured_image: null,
@@ -213,7 +225,7 @@ class CreatePost extends React.Component {
 
                     <Row>
                         <Col>
-                            <Input
+                            {/* <Input
                                 multiline={true}
                                 placeholder="Post content"
                                 inputContainerStyle={{ borderBottomWidth: 0 }}
@@ -228,7 +240,36 @@ class CreatePost extends React.Component {
                                     // borderColor: 'lightgray',
                                     textAlign: 'auto'
                                 }}
+                            /> */}
+
+                            <RichToolbar
+                                editor={this.richtext}
+                            // actions={[
+                            //     actions.setBold,
+                            //     actions.setItalic,
+                            //     actions.insertBulletsList,
+                            //     actions.insertOrderedList,
+                            //     actions.insertImage,
+                            //     'customAction',
+                            // ]}
+                            // iconMap={{
+                            //     customAction: customIcon,
+                            // }}
+                            // customAction={this.handleCustomAction}
                             />
+
+                            <RichEditor
+                                ref={(r) => this.richtext = r}
+                                onChange={(text) => this.setState({ post_description: text })}
+                                initialContentHTML={'Hello <b>World</b> <p>this is a new paragraph</p> <p>this is another new paragraph</p>'}
+                            // editorInitializedCallback={}
+                            />
+
+
+
+
+
+
 
                         </Col>
                     </Row>

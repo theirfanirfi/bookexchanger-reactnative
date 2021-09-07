@@ -18,7 +18,8 @@ import Profile from '../screens/Profile';
 import AddToListScreen from '../screens/AddToListScreen'
 import ListBooksScreen from '../screens/ListBooksScreen'
 
-import SplashScreen from '../screens/SplashScreen'
+import SplashScreen from '../screens/SplashScreen';
+import CustomPushNotificationHTMLView from '../screens/CustomPushNotificationHTMLView';
 
 
 
@@ -241,6 +242,15 @@ function singleChatNavigator(navigator) {
   )
 }
 
+function customPushNavigator(navigator) {
+  return (
+    <Stack.Navigator initialRouteName="CustomPushNotification" screenOptions={{ headerStyle: { backgroundColor: '#41cece' }, headerTitle: 'Notification', headerTintColor: 'white' }}>
+      <Stack.Screen name="CustomPushNotification" component={CustomPushNotificationHTMLView} options={{ headerStyle: { backgroundColor: '#41cece' }, headerTitle: 'Notification', headerTintColor: 'white' }} />
+
+    </Stack.Navigator>
+  )
+}
+
 export default function RootNavigator() {
   return (
     <Stack.Navigator initialRouteName="splash" screenOptions={{ headerShown: false }}>
@@ -253,7 +263,7 @@ export default function RootNavigator() {
       <Stack.Screen name="profile" component={profileNavigator} />
       <Stack.Screen name="SinglePost" component={singlePostNavigator} />
       <Stack.Screen name="SingleChat" component={singleChatNavigator} />
-      {/* <Stack.Screen name="editpost" component={EditPost} /> */}
+      <Stack.Screen name="CustomPush" component={customPushNavigator} />
     </Stack.Navigator>
   )
 }

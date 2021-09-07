@@ -45,6 +45,18 @@ export default class PushNotificationComponent extends Component {
     get_notifications_request = async () => {
         const notification = await get(this, 'notification/get_notifications/')
         let notifications = notification.response
+        console.log(notifications)
+
+        if (notifications.isPushNotificationsFound) {
+            let custom_push_notifications = notifications.push_notifications
+            console.log(custom_push_notifications);
+
+            custom_push_notifications.forEach(notify => {
+                this.notify('BookWonk', notify.notification_title, notify, true);
+            })
+        }
+
+
         if (notifications.isFound) {
             console.log('called')
 
@@ -54,25 +66,25 @@ export default class PushNotificationComponent extends Component {
                 // console.log(not)
                 if (notify.is_for_sale == 1) {
                     if (notify.is_buy_confirmed == 1) {
-                        this.notify('BookWonk', 'Your book buying request has been approved', notify);
+                        this.notify('BookWonk', 'Your book buying request has been approved', notify, false);
                     } else if (notify.is_buy_declined == 1) {
-                        this.notify('BookWonk', 'Your book buying request has been declined', notify);
+                        this.notify('BookWonk', 'Your book buying request has been declined', notify, false);
                     } else {
-                        this.notify('BookWonk', 'You have a book buying request.', notify);
+                        this.notify('BookWonk', 'You have a book buying request.', notify, false);
                     }
                 } else if (notify.is_exchange == 1 || notify.is_exchange_notification == 1) {
                     if (notify.is_exchange_confirmed == 1) {
-                        this.notify('BookWonk', 'Your book exchange request has been confirmed.', notify);
+                        this.notify('BookWonk', 'Your book exchange request has been confirmed.', notify, false);
                     } else if (notify.is_exchange_declined == 1) {
-                        this.notify('BookWonk', 'Your book exchanged request has been declined', notify);
+                        this.notify('BookWonk', 'Your book exchanged request has been declined', notify, false);
                     } else {
-                        this.notify('BookWonk', 'You have a book exchange request.', notify);
+                        this.notify('BookWonk', 'You have a book exchange request.', notify, false);
                     }
                 } else if (notify.is_like == 1) {
                     console.log(notify);
-                    this.notify('BookWonk', 'You have a like on your post', notify);
+                    this.notify('BookWonk', 'You have a like on your post', notify, false);
                 } else if (notify.is_comment == 1) {
-                    this.notify('BookWonk', 'You have a comment on your post', notify);
+                    this.notify('BookWonk', 'You have a comment on your post', notify, false);
 
                 } else {
                     console.log('notification: ', notify)
@@ -129,7 +141,12 @@ export default class PushNotificationComponent extends Component {
 
     notificationOnClick = async (notification) => {
         let notify = notification.data
-        console.log("onNotification: ", notification);
+
+        if (notification.isCustom) {
+            // this.props.navigation.navigate('CustomPushNotification', { notification: notify });
+            this.props.navigation.navigate('CustomPush', { screen: 'CustomPushNotification', params: { notification: notify } })
+        }
+
         if (notify.is_like == 1 || notify.is_comment == 1) {
             this.props.navigation.navigate('SinglePost', { screen: 'post', params: { post_id: notify.post_id } })
         } else if (notify.is_exchange == 1) {
@@ -214,7 +231,7 @@ export default class PushNotificationComponent extends Component {
 
 
 
-    notify = (n_title, n_message, notification) => {
+    notify = (n_title, n_message, notification, isCustom) => {
         console.log("notification called");
         // console.log(PushNotification);
         PushNotification.localNotification({
@@ -224,7 +241,8 @@ export default class PushNotificationComponent extends Component {
             message: n_message, // (required)
             // repeatType: "minute",
             // repeatTime: 1,
-            data: notification
+            data: notification,
+            isCustom: isCustom
         });
     }
 
