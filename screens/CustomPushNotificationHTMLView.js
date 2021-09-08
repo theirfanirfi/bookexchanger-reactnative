@@ -1,11 +1,10 @@
 /* eslint-disable prettier/prettier */
 import * as React from 'react';
-import { View, FlatList, RefreshControl, Dimensions } from 'react-native';
+import { View } from 'react-native';
 
-import RenderHtml from 'react-native-render-html';
 import colors from '../constants/colors';
-import { WebView } from 'react-native-webview'
-// const { width } = useWindowDimensions();
+import { WebView } from 'react-native-webview';
+
 class CustomPushNotificationHTMLView extends React.Component {
     state = {
         notification: [],

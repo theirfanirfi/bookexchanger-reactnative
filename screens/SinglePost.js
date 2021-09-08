@@ -120,6 +120,7 @@ export default class SinglePost extends React.Component {
         font-size: 16px;
       }
     `}
+                                // injectedJavaScript={customScript}
                                 onSizeUpdated={size => console.log(size.height)}
                                 files={[{
                                     href: 'cssfileaddress',
